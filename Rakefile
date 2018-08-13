@@ -1,5 +1,5 @@
 task default: %w[generate]
 
 task :generate do
-    `xcodegen`
+    `xcodegen && pod install`
 end
