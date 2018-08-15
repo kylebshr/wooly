@@ -1,6 +1,8 @@
 name: Wooly
 options:
   bundleIdPrefix: com.kylebashour
+settings:
+  SWIFT_VERSION: 4.2
 targets:
   Wooly:
     type: application
