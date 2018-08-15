@@ -1,4 +1,5 @@
 import UIKit
+import Mammut
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
