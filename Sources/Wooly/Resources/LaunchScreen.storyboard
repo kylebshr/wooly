@@ -46,10 +46,10 @@
     </scenes>
     <resources>
         <namedColor name="Background">
-            <color red="0.16078431372549021" green="0.16078431372549021" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.11764705882352941" green="0.15686274509803921" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="Bar Color">
-            <color red="0.12549019607843137" green="0.12549019607843137" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.090196078431372548" green="0.13333333333333333" blue="0.20784313725490197" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>
