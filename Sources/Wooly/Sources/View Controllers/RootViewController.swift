@@ -4,20 +4,16 @@ class RootViewController: UIViewController {
 
     private var viewController: UIViewController? {
         didSet {
-            oldValue?.willMove(toParentViewController: nil)
-            oldValue?.view.removeFromSuperview()
-            oldValue?.removeFromParentViewController()
+            oldValue?.remove()
             if let viewController = viewController {
-                addChildViewController(viewController)
-                view.addSubview(viewController.view)
-                viewController.didMove(toParentViewController: self)
+                add(child: viewController)
             }
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewController = UINavigationController(rootViewController: WelcomeViewController())
+        viewController = OnboardingViewController()
     }
 
     override var childViewControllerForStatusBarStyle: UIViewController? {
