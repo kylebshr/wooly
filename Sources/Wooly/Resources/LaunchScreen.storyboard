@@ -13,9 +13,10 @@
         <scene sceneID="g33-au-kfN">
             <objects>
                 <navigationController id="kWT-Vj-Rfi" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4ge-az-Lgt">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="4ge-az-Lgt">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.16078431369999999" green="0.16078431369999999" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </navigationBar>
                     <connections>
                         <segue destination="2oW-Ic-zxR" kind="relationship" relationship="rootViewController" id="SzJ-5Q-IJv"/>
@@ -32,7 +33,7 @@
                     <view key="view" contentMode="scaleToFill" id="yI3-ZH-Syi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.16078431369999999" green="0.16078431369999999" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="djT-g6-Y88"/>
                     </view>
                     <navigationItem key="navigationItem" id="iYG-Hg-HQh"/>
