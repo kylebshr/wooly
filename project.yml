@@ -2,6 +2,7 @@ name: Wooly
 options:
   bundleIdPrefix: com.kylebashour
 settings:
+  DEVELOPMENT_TEAM: ZEAD23GG77
   SWIFT_VERSION: 4.2
 targets:
   Wooly:
