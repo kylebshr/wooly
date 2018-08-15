@@ -4,13 +4,13 @@ class RootViewController: UIViewController {
 
     private var viewController: UIViewController? {
         didSet {
-            oldValue?.willMove(toParent: nil)
+            oldValue?.willMove(toParentViewController: nil)
             oldValue?.view.removeFromSuperview()
-            oldValue?.removeFromParent()
+            oldValue?.removeFromParentViewController()
             if let viewController = viewController {
-                addChild(viewController)
+                addChildViewController(viewController)
                 view.addSubview(viewController.view)
-                viewController.didMove(toParent: self)
+                viewController.didMove(toParentViewController: self)
             }
         }
     }
@@ -20,7 +20,7 @@ class RootViewController: UIViewController {
         viewController = UINavigationController(rootViewController: WelcomeViewController())
     }
 
-    override var childForStatusBarStyle: UIViewController? {
+    override var childViewControllerForStatusBarStyle: UIViewController? {
         return viewController
     }
 }
