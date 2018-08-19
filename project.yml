@@ -17,6 +17,6 @@ targets:
     platform: iOS
     deploymentTarget: 11.0
     sources: Sources/Mammut
-    dependencies:
-      - carthage: Realm
-      - carthage: RealmSwift
+    #dependencies:
+      #- carthage: Realm
+      #- carthage: RealmSwift
