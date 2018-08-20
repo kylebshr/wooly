@@ -59,6 +59,10 @@ class OnboardingViewController: UIViewController {
 
 extension OnboardingViewController: Authenticator {
     func didAuthenticate(with token: String?) {
-        print(token)
+        if let token = token {
+            print("Authenticated with: \(token)")
+        } else {
+            print("Failed to get token")
+        }
     }
 }
