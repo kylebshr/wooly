@@ -7,7 +7,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Properties
 
     private let window = UIWindow()
-    private let network = Network(baseURL: "https://mastodon.social/api/v1")
     
     // MARK: - UIApplicationDelegate
 
@@ -19,18 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.rootViewController = RootViewController()
         window.makeKeyAndVisible()
         
-        let app = App(clientName: "wooly-ios")
-        let request = Request(model: app, method: .post)
-
-        network.perform(request: request, endpoint: "apps") { (result: Result<Client, NetworkError>) in
-            switch result {
-            case .success(let client):
-                print(client)
-            case .error(let error):
-                print(error)
-            }
-        }
-        
         return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return OAuth2.handle(url: url)
     }
 }

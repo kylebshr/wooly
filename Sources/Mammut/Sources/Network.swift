@@ -6,10 +6,10 @@ public struct App: Codable {
     var scopes: String
     var website: URL?
     
-    public init(clientName: String, redirectUris: String = "urn:ietf:wg:oauth:2.0:oob",
+    public init(clientName: String, redirectURI: String = "urn:ietf:wg:oauth:2.0:oob",
          scopes: String = "read write follow", website: URL? = nil) {
         self.clientName = clientName
-        self.redirectUris = redirectUris
+        self.redirectUris = redirectURI
         self.scopes = scopes
         self.website = website
     }
@@ -17,7 +17,7 @@ public struct App: Codable {
 
 public struct Client: Codable {
     var id: String
-    var clientId: String
+    public var clientId: String
     var clientSecret: String
 }
 
@@ -41,8 +41,8 @@ public struct Request<Model: Codable> {
     }
 }
 
-public struct NetworkError: Error {
-
+public struct NetworkError: Codable, Error {
+    let error: String
 }
 
 extension URL: ExpressibleByStringLiteral {
@@ -70,7 +70,7 @@ public struct Network {
     
     public func perform<T: Codable, U: Codable>(request: Request<T>, endpoint: String, completion: @escaping ClientCompletion<U>) {
         guard let data = try? encoder.encode(request.model) else {
-            return completion(.error(NetworkError()))
+            return completion(.error(NetworkError(error: "Malformed request")))
         }
         
         let url = baseURL.appendingPathComponent(endpoint)
@@ -83,8 +83,10 @@ public struct Network {
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let data = data, let model = try? self.decoder.decode(U.self, from: data) {
                 completion(.success(model))
+            } else if let data = data, let model = try? self.decoder.decode(NetworkError.self, from: data) {
+                completion(.error(model))
             } else {
-                completion(.error(NetworkError()))
+                completion(.error(NetworkError(error: "Unknown error")))
             }
         }
         
