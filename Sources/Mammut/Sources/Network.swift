@@ -15,6 +15,15 @@ public struct App: Codable {
     }
 }
 
+public struct TimelineOptions: Codable {
+    let limit: Int = 25
+    public init() {}
+}
+
+public struct Status: Codable {
+    public let content: String
+}
+
 public struct RefreshToken: Codable {
     let clientId: String
     let clientSecret: String
@@ -101,8 +110,13 @@ public struct Network {
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = request.method.rawValue
+        
         urlRequest.httpBody = data
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue("Bearer ", forHTTPHeaderField: "Authorization")
+//        urlRequest.setValue("*/*", forHTTPHeaderField: "Accept")
+//        urlRequest.setValue("curl/7.54.0", forHTTPHeaderField: "User-Agent")
+//        urlRequest.setValue("mastodon.social", forHTTPHeaderField: "Host")
         
         fetch(urlRequest, completion: completion)
     }

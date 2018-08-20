@@ -25,6 +25,8 @@ class WelcomeViewController: UIViewController {
     
     @objc
     func onboard() {
+        return loadTimeline()
+        
         let app = App(clientName: "wooly-ios", redirectURI: OAuth2.redirectURI)
         let request = Request(model: app, method: .post)
         
@@ -65,6 +67,27 @@ class WelcomeViewController: UIViewController {
         oauthNetwork.perform(request: request, endpoint: "oauth/token") { (result: Result<String, NetworkError>) in
             
         }
+    }
+    
+    func loadTimeline() {
+        let options = TimelineOptions()
+        let request = Request(model: options, method: .get)
+        network.perform(request: request, endpoint: "timelines/home") { (result: Result<[Status], NetworkError>) in
+            switch result {
+            case .success(let timeline):
+                for status in timeline {
+                    print(status.content.withoutHtmlTags)
+                }
+            case .error(let error):
+                print(error)
+            }
+        }
+    }
+}
+
+extension String {
+    var withoutHtmlTags: String {
+        return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
 }
 
