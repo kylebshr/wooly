@@ -1,4 +1,5 @@
 name: Wooly
+deploymentTarget: 11.0
 options:
   bundleIdPrefix: com.kylebashour
 settings:
@@ -8,14 +9,20 @@ targets:
   Wooly:
     type: application
     platform: iOS
-    deploymentTarget: 11.0
     sources: 
       - Sources/Wooly
     dependencies:
       - target: Mammut
+  WoolyTests:
+    type: bundle.unit-test
+    platform: iOS
+    scheme: {}
+    sources:
+      - Tests/WoolyTests
+    settings:
+      TEST_HOST: $(BUILT_PRODUCTS_DIR)/Wooly.app/Wooly
   Mammut:
     type: framework
     platform: iOS
-    deploymentTarget: 11.0
     sources: 
       - Sources/Mammut
