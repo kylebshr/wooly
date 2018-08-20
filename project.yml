@@ -9,6 +9,9 @@ targets:
   Wooly:
     type: application
     platform: iOS
+    scheme:
+      testTargets:
+        - WoolyTests
     sources: 
       - Sources/Wooly
     dependencies:
