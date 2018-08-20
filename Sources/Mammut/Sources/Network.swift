@@ -15,10 +15,25 @@ public struct App: Codable {
     }
 }
 
+public struct RefreshToken: Codable {
+    let clientId: String
+    let clientSecret: String
+    let code: String
+    let redirectUri: String
+    let grantType = "authorization_code"
+    
+    public init(client: Client, refreshToken: String, redirectURI: String) {
+        self.clientId = client.clientId
+        self.clientSecret = client.clientSecret
+        self.code = refreshToken
+        self.redirectUri = redirectURI
+    }
+}
+
 public struct Client: Codable {
-    var id: String
+    public var id: String
     public var clientId: String
-    var clientSecret: String
+    public var clientSecret: String
 }
 
 public enum Result<T: Codable, U: Error> {
@@ -68,6 +83,15 @@ public struct Network {
         self.baseURL = baseURL
     }
     
+    public func performRequest<U>(with endpoint: String, parameters: [String: String] = [:], completion: @escaping ClientCompletion<U>) {
+        let url = baseURL.appendingPathComponent(endpoint)
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        components.queryItems = parameters.map { URLQueryItem(name: $0, value: $1) }
+        var request = URLRequest(url: components.url!)
+        request.httpMethod = "POST"
+        fetch(request, completion: completion)
+    }
+    
     public func perform<T: Codable, U: Codable>(request: Request<T>, endpoint: String, completion: @escaping ClientCompletion<U>) {
         guard let data = try? encoder.encode(request.model) else {
             return completion(.error(NetworkError(error: "Malformed request")))
@@ -80,8 +104,12 @@ public struct Network {
         urlRequest.httpBody = data
         urlRequest.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         
+        fetch(urlRequest, completion: completion)
+    }
+    
+    private func fetch<T: Codable>(_ urlRequest: URLRequest, completion: @escaping ClientCompletion<T>) {
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            if let data = data, let model = try? self.decoder.decode(U.self, from: data) {
+            if let data = data, let model = try? self.decoder.decode(T.self, from: data) {
                 completion(.success(model))
             } else if let data = data, let model = try? self.decoder.decode(NetworkError.self, from: data) {
                 completion(.error(model))
