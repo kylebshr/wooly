@@ -29,3 +29,5 @@ targets:
     platform: iOS
     sources: 
       - Sources/Mammut
+    dependencies:
+      - carthage: Siesta
