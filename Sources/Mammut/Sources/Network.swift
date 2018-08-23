@@ -20,10 +20,6 @@ public struct TimelineOptions: Codable {
     public init() {}
 }
 
-public struct Status: Codable {
-    public let content: String
-}
-
 public struct RefreshToken: Codable {
     let clientId: String
     let clientSecret: String
