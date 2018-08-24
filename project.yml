@@ -22,6 +22,8 @@ targets:
     scheme: {}
     sources:
       - Tests/WoolyTests
+    dependencies:
+      - target: Wooly
     settings:
       TEST_HOST: $(BUILT_PRODUCTS_DIR)/Wooly.app/Wooly
   Mammut:
@@ -31,3 +33,20 @@ targets:
       - Sources/Mammut
     dependencies:
       - carthage: Siesta
+  Keychain:
+    type: framework
+    platform: iOS
+    testTargets:
+        - KeychainTests
+    sources: 
+      - Sources/Keychain
+  KeychainTests:
+    type: bundle.unit-test
+    platform: iOS
+    scheme: {}
+    sources:
+      - Tests/KeychainTests
+    dependencies:
+      - target: Keychain
+    settings:
+      TEST_HOST: $(BUILT_PRODUCTS_DIR)/Wooly.app/Wooly
