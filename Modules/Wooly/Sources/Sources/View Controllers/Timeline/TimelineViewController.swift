@@ -31,14 +31,10 @@ class TimelineViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
-        service.home.removeObservers(ownedBy: self)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let logoutButton = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(self.logOut))
+        let logoutButton = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(self.logOutTapped))
         navigationItem.leftBarButtonItem = logoutButton
 
         tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
@@ -47,7 +43,7 @@ class TimelineViewController: UIViewController {
 
 
     @objc
-    private func logOut() {
-//        delegate?.logOut()
+    private func logOutTapped() {
+        logOut()
     }
 }

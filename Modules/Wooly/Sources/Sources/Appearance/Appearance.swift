@@ -1,4 +1,5 @@
 import UIKit
+import Mammut
 
 enum Appearance {
     static func apply() {
@@ -15,5 +16,8 @@ enum Appearance {
         let tabBar = UITabBar.appearance(whenContainedInInstancesOf: [LoggedInViewController.self])
         tabBar.barStyle = .black
         tabBar.barTintColor = .barColor
+
+        HandshakeService.configuration.barTintColor = .barColor
+        HandshakeService.configuration.controlTintColor = .white
     }
 }

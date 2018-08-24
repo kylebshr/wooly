@@ -9,6 +9,13 @@ public protocol Authenticator {
 public typealias AuthenticatorViewController = UIViewController & Authenticator
 
 public enum HandshakeService {
+    public struct Configuration {
+        public var barTintColor: UIColor?
+        public var controlTintColor: UIColor?
+    }
+
+    public static var configuration = Configuration()
+
     private static let redirectURI = "com.kylebashour.Wooly://oath2"
 
     private static var currentClient: Client?
@@ -19,11 +26,8 @@ public enum HandshakeService {
         var token: String?
 
         defer {
-            currentViewController?.dismiss(animated: true) {
-                guard let client = currentClient else {
-                    return
-                }
-
+            currentViewController?.dismiss(animated: true)
+            if let client = currentClient {
                 currentViewController?.didAuthenticate(client: client, with: token)
             }
         }
@@ -59,6 +63,10 @@ public enum HandshakeService {
         var components = URLComponents(string: "https://\(instance)/oauth/authorize")!
         components.queryItems = parameters
         let safariViewController = SFSafariViewController(url: components.url!)
+        safariViewController.preferredBarTintColor = configuration.barTintColor
+        safariViewController.preferredControlTintColor = configuration.controlTintColor
+        safariViewController.dismissButtonStyle = .cancel
+        safariViewController.modalPresentationStyle = .overFullScreen
         viewController.present(safariViewController, animated: true, completion: nil)
     }
 
