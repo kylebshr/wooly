@@ -82,6 +82,10 @@ public class MastodonService: Service {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
 
+        configure(whenURLMatches: { $0.absoluteString.contains("oauth/token") }) {
+            $0.pipeline[.model].add(JSONResponseTransformer())
+        }
+
         configureTransformer("timelines/*") {
             try decoder.decode([Status].self, from: $0.content)
         }

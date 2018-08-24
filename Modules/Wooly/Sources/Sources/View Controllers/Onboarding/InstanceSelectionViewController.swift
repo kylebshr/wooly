@@ -10,6 +10,8 @@ class InstanceSelectionViewController: UIViewController, Authenticator {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .background
+
         let instanceViewController = InstanceViewController { [weak self] instance in
             self?.didSelect(instance: instance)
         }
@@ -47,6 +49,10 @@ private class InstanceViewController: UITableViewController {
     init(instanceHandler: @escaping InstanceHandler) {
         self.instanceHandler = instanceHandler
         super.init(style: .plain)
+        tableView.separatorInset = .zero
+        tableView.separatorColor = .separator
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = .background
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -54,8 +60,8 @@ private class InstanceViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = knownInstances[indexPath.row]
+        let cell = InstanceCell()
+        cell.set(instance: knownInstances[indexPath.row])
         return cell
     }
 
@@ -64,6 +70,7 @@ private class InstanceViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         instanceHandler(knownInstances[indexPath.row])
     }
 }

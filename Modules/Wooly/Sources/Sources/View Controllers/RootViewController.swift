@@ -76,7 +76,8 @@ class RootViewController: UIViewController, OnboardingViewControllerDelegate, Lo
     func logOut() {
         guard let instance = UserDefaults.standard.currentInstance else { return }
         set(refreshToken: nil, forInstance: instance)
-        UserDefaults.standard.set(nil, forKey: currentInstanceKey)
+        UserDefaults.standard.set(nil, forKey: instance)
+        UserDefaults.standard.currentInstance = nil
     }
 
     private func handleInstanceChange() {
