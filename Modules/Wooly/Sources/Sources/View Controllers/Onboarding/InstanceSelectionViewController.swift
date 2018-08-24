@@ -3,6 +3,8 @@ import Mammut
 
 class InstanceSelectionViewController: UIViewController, Authenticator {
 
+    weak var delegate: OnboardingViewControllerDelegate?
+
     private var selectedInstance: String?
 
     override func viewDidLoad() {
@@ -18,13 +20,17 @@ class InstanceSelectionViewController: UIViewController, Authenticator {
     private func didSelect(instance: String) {
         selectedInstance = instance
         HandshakeService.authenticate(on: instance, from: self) { success in
-            print("Successful handshake? \(success)")
+            guard success else {
+                return print("Failed to register app")
+            }
         }
     }
 
-    func didAuthenticate(with token: String?) {
+    func didAuthenticate(client: Client, with token: String?) {
         if let token = token, let selectedInstance = selectedInstance {
-            print("BOOM")
+            delegate?.didAuthenticate(client: client, forInstance: selectedInstance, withToken: token)
+        } else {
+            print("Failed to authenticate user")
         }
     }
 }

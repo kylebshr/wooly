@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Client: Codable {
-    public var id: String
-    public var clientId: String
-    public var clientSecret: String
+    public let id: String
+    public let clientId: String
+    public let clientSecret: String
 }

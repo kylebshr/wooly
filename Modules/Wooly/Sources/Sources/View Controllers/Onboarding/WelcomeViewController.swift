@@ -91,12 +91,12 @@ extension String {
     }
 }
 
-extension WelcomeViewController: Authenticator {
-    func didAuthenticate(with token: String?) {
-        if let token = token {
-            fetchAuthToken(using: token)
-        } else {
-            print("Failed to get token")
-        }
-    }
-}
+//extension WelcomeViewController: Authenticator {
+//    func didAuthenticate(with token: String?) {
+//        if let token = token {
+//            fetchAuthToken(using: token)
+//        } else {
+//            print("Failed to get token")
+//        }
+//    }
+//}

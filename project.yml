@@ -18,6 +18,7 @@ targets:
     name: Wooly
     dependencies:
       - target: Mammut
+      - target: Keychain
   WoolyTests:
     type: bundle.unit-test
     platform: iOS
@@ -37,6 +38,7 @@ targets:
         name: Mammut
     dependencies:
       - carthage: Siesta
+      - target: Keychain
   Keychain:
     type: framework
     platform: iOS

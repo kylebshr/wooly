@@ -3,7 +3,7 @@ import Siesta
 import SafariServices
 
 public protocol Authenticator {
-    func didAuthenticate(with token: String?)
+    func didAuthenticate(client: Client, with token: String?)
 }
 
 public typealias AuthenticatorViewController = UIViewController & Authenticator
@@ -11,6 +11,7 @@ public typealias AuthenticatorViewController = UIViewController & Authenticator
 public enum HandshakeService {
     private static let redirectURI = "com.kylebashour.Wooly://oath2"
 
+    private static var currentClient: Client?
     private static var currentService: Service?
     private static weak var currentViewController: AuthenticatorViewController?
 
@@ -19,7 +20,11 @@ public enum HandshakeService {
 
         defer {
             currentViewController?.dismiss(animated: true) {
-                self.currentViewController?.didAuthenticate(with: token)
+                guard let client = currentClient else {
+                    return
+                }
+
+                currentViewController?.didAuthenticate(client: client, with: token)
             }
         }
 
@@ -66,6 +71,7 @@ public enum HandshakeService {
                 return completion(false)
             }
 
+            self.currentClient = client
             performOauth(client: client, for: instance, from: viewController)
             completion(true)
         } .onFailure {
