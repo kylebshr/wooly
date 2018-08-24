@@ -35,18 +35,12 @@ public struct RefreshToken: Codable {
     }
 }
 
-public struct Client: Codable {
-    public var id: String
-    public var clientId: String
-    public var clientSecret: String
-}
-
 public enum Result<T: Codable, U: Error> {
     case success(T)
     case error(U)
 }
 
-public struct Request<Model: Codable> {
+public struct Requestt<Model: Codable> {
     public enum Method: String {
         case get = "GET"
         case post = "POST"
@@ -97,7 +91,7 @@ public struct Network {
         fetch(request, completion: completion)
     }
     
-    public func perform<T: Codable, U: Codable>(request: Request<T>, endpoint: String, completion: @escaping ClientCompletion<U>) {
+    public func perform<T: Codable, U: Codable>(request: Requestt<T>, endpoint: String, completion: @escaping ClientCompletion<U>) {
         guard let data = try? encoder.encode(request.model) else {
             return completion(.error(NetworkError(error: "Malformed request")))
         }

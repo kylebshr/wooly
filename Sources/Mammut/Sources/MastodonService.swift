@@ -1,11 +1,21 @@
+import Foundation
+import Keychain
 import Siesta
 
 class MastodonService: Service {
+    enum InitializationError: Error {
+        case invalidInstanceURL
+    }
 
+    private let authKeychain: Keychain
     private let refreshToken: String
 
     private var authenticationToken: String? {
-        didSet {
+        get {
+            return (try? authKeychain.password()) ?? nil
+        }
+        set {
+            try? authKeychain.set(password: newValue)
             invalidateConfiguration()
             wipeResources()
         }
@@ -14,9 +24,12 @@ class MastodonService: Service {
     /// Create a new service
     ///
     /// - Parameter instanceURL: The URL of the Mastodon instance (i.e., `mastodon.social`)
-    init(instanceURL: URLConvertible, refreshToken: String) {
+    init(instanceURL: String, refreshToken: String) throws {
         self.refreshToken = refreshToken
-
+        let instanceURL = try URL(string: instanceURL) ?? {
+            throw InitializationError.invalidInstanceURL
+        }()
+        self.authKeychain = Keychain(service: instanceURL.absoluteString, account: "auth-token")
 
         super.init(baseURL: instanceURL.url?.appendingPathComponent("api/v1"))
 
@@ -32,7 +45,6 @@ class MastodonService: Service {
     }
 
     private func configureTransformers() {
-
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
 

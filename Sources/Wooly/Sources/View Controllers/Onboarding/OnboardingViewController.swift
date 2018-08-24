@@ -4,7 +4,7 @@ class OnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let welcomeViewController = WelcomeViewController()
+        let welcomeViewController = InstanceSelectionViewController()
         let navigationController = UINavigationController(rootViewController: welcomeViewController)
         add(child: navigationController)
     }
