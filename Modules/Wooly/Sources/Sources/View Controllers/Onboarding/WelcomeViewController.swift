@@ -1,7 +1,7 @@
 import UIKit
 import Mammut
 
-class InstanceSelectionViewController: UIViewController, Authenticator {
+class WelcomeViewController: UIViewController, Authenticator {
 
     weak var delegate: OnboardingViewControllerDelegate?
 

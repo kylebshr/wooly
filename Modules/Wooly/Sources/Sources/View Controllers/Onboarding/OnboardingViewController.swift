@@ -11,7 +11,7 @@ class OnboardingViewController: UIViewController {
         didSet { welcomeViewController.delegate = delegate }
     }
 
-    private let welcomeViewController = InstanceSelectionViewController()
+    private let welcomeViewController = WelcomeViewController()
 
     init(delegate: OnboardingViewControllerDelegate) {
         super.init(nibName: nil, bundle: nil)
