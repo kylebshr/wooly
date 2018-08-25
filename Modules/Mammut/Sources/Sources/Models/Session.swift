@@ -1,5 +1,5 @@
 public struct Session: Codable {
-    let instanceURL: String
+    public let instanceURL: String
     let refreshToken: String
     let client: Client
 

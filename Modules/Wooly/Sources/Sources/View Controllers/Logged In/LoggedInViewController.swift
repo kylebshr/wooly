@@ -1,18 +1,11 @@
 import UIKit
 import Mammut
 
-protocol LoggedInViewControllerDelegate: AnyObject {
-    func logOut()
-}
-
 class LoggedInViewController: UIViewController {
 
     private let childTabBarController = UITabBarController()
 
-    weak var delegate: LoggedInViewControllerDelegate?
-
-    init(service: MastodonService, delegate: LoggedInViewControllerDelegate) {
-        self.delegate = delegate
+    init(service: MastodonService) {
         super.init(nibName: nil, bundle: nil)
 
         childTabBarController.viewControllers = [

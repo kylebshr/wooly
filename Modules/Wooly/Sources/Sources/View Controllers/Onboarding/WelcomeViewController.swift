@@ -2,9 +2,6 @@ import UIKit
 import Mammut
 
 class WelcomeViewController: UIViewController, Authenticator {
-
-    weak var delegate: OnboardingViewControllerDelegate?
-
     private var selectedInstance: String?
 
     override func viewDidLoad() {
@@ -30,7 +27,8 @@ class WelcomeViewController: UIViewController, Authenticator {
 
     func didAuthenticate(client: Client, with token: String?) {
         if let token = token, let selectedInstance = selectedInstance {
-            delegate?.didAuthenticate(client: client, forInstance: selectedInstance, withToken: token)
+            let session = Session(instanceURL: selectedInstance, refreshToken: token, client: client)
+            SessionController.shared.logIn(with: session)
         } else {
             print("Failed to authenticate user")
         }
