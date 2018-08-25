@@ -2,7 +2,7 @@ import UIKit
 import Mammut
 
 class WelcomeViewController: UIViewController, Authenticator {
-    private var selectedInstance: String?
+    private var selectedInstance: Instance?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,7 +16,7 @@ class WelcomeViewController: UIViewController, Authenticator {
         add(child: instanceViewController)
     }
 
-    private func didSelect(instance: String) {
+    private func didSelect(instance: Instance) {
         selectedInstance = instance
         HandshakeService.authenticate(on: instance, from: self) { success in
             guard success else {
@@ -27,7 +27,7 @@ class WelcomeViewController: UIViewController, Authenticator {
 
     func didAuthenticate(client: Client, with token: String?) {
         if let token = token, let selectedInstance = selectedInstance {
-            let session = Session(instanceURL: selectedInstance, refreshToken: token, client: client)
+            let session = Session(instance: selectedInstance, client: client, refreshToken: token)
             SessionController.shared.logIn(with: session)
         } else {
             print("Failed to authenticate user")
@@ -36,12 +36,12 @@ class WelcomeViewController: UIViewController, Authenticator {
 }
 
 private class InstanceViewController: UITableViewController {
-    typealias InstanceHandler = (String) -> Void
+    typealias InstanceHandler = (Instance) -> Void
 
     private var instanceHandler: InstanceHandler
 
     private let knownInstances = [
-        "mastodon.social"
+        try! Instance(name: "mastodon.social")
     ]
 
     init(instanceHandler: @escaping InstanceHandler) {
@@ -59,7 +59,7 @@ private class InstanceViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = InstanceCell()
-        cell.set(instance: knownInstances[indexPath.row])
+        cell.set(instance: knownInstances[indexPath.row].name)
         return cell
     }
 

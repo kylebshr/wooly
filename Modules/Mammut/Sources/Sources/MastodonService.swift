@@ -7,10 +7,8 @@ public class MastodonService: Service {
         case invalidInstanceURL
     }
 
-    private let instanceURL: URL
-    private let client: Client
+    private let session: Session
     private let authKeychain: Keychain<String>
-    private let refreshToken: String
 
     private var authenticationToken: String? {
         get {
@@ -25,9 +23,9 @@ public class MastodonService: Service {
 
     private var authenticationData: [String: Any] {
         return [
-            "client_id": client.clientId,
-            "client_secret": client.clientSecret,
-            "code": refreshToken,
+            "client_id": session.client.clientId,
+            "client_secret": session.client.clientSecret,
+            "code": session.refreshToken,
             "redirect_uri": "com.kylebashour.Wooly://oath2",
             "grant_type": "authorization_code"
         ]
@@ -41,14 +39,10 @@ public class MastodonService: Service {
     ///
     /// - Parameter instanceURL: The URL of the Mastodon instance (i.e., `mastodon.social`)
     public init(session: Session) throws {
-        self.client = session.client
-        self.refreshToken = session.refreshToken
-        self.instanceURL = try URL(string: "https://\(session.instanceURL)") ?? {
-            throw InitializationError.invalidInstanceURL
-        }()
-        self.authKeychain = Keychain(service: instanceURL.absoluteString, account: "auth-token")
+        self.session = session
+        self.authKeychain = Keychain(service: session.instance.name, account: "auth-token")
 
-        super.init(baseURL: instanceURL.url?.appendingPathComponent("api/v1"), standardTransformers: [.text, .image])
+        super.init(baseURL: session.instance.url.appendingPathComponent("api/v1"), standardTransformers: [.text, .image])
 
         configureHeaders()
         configureTransformers()
@@ -92,7 +86,7 @@ public class MastodonService: Service {
     }
 
     private func createAuthToken() -> Request {
-        return resource(baseURL: instanceURL, path: "oauth/token")
+        return resource(baseURL: session.instance.url, path: "oauth/token")
             .request(.post, json: authenticationData)
             .onSuccess {
                 if let token = $0.jsonDict["access_token"] as? String {

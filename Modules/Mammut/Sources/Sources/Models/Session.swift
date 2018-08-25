@@ -1,11 +1,11 @@
 public struct Session: Codable {
-    public let instanceURL: String
-    let refreshToken: String
+    public let instance: Instance
     let client: Client
+    let refreshToken: String
 
-    public init(instanceURL: String, refreshToken: String, client: Client) {
-        self.instanceURL = instanceURL
-        self.refreshToken = refreshToken
+    public init(instance: Instance, client: Client, refreshToken: String) {
+        self.instance = instance
         self.client = client
+        self.refreshToken = refreshToken
     }
 }

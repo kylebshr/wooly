@@ -41,8 +41,8 @@ public enum HandshakeService {
         return true
     }
 
-    private static func service(for instance: String) -> Service {
-        let service = Service(baseURL: "https://\(instance)/api/v1", standardTransformers: [])
+    private static func service(for instance: Instance) -> Service {
+        let service = Service(baseURL: instance.url, standardTransformers: [])
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         service.configureTransformer("apps") {
@@ -51,7 +51,7 @@ public enum HandshakeService {
         return service
     }
 
-    static func performOauth(client: Client, for instance: String, from viewController: AuthenticatorViewController) {
+    static func performOauth(client: Client, for instance: Instance, from viewController: AuthenticatorViewController) {
         self.currentViewController = viewController
         let parameters = [
             URLQueryItem(name: "scope", value: "read write follow"),
@@ -60,7 +60,7 @@ public enum HandshakeService {
             URLQueryItem(name: "client_id", value: client.clientId)
         ]
 
-        var components = URLComponents(string: "https://\(instance)/oauth/authorize")!
+        var components = URLComponents(url: instance.url.appendingPathComponent("oauth/authorize"), resolvingAgainstBaseURL: true)!
         components.queryItems = parameters
         let safariViewController = SFSafariViewController(url: components.url!)
         safariViewController.preferredBarTintColor = configuration.barTintColor
@@ -70,7 +70,7 @@ public enum HandshakeService {
         viewController.present(safariViewController, animated: true, completion: nil)
     }
 
-    public static func authenticate(on instance: String, from viewController: AuthenticatorViewController,
+    public static func authenticate(on instance: Instance, from viewController: AuthenticatorViewController,
                                     completion: @escaping (Bool) -> Void) {
         let app = App(clientName: "Wooly", redirectURI: redirectURI)
         currentService = service(for: instance)

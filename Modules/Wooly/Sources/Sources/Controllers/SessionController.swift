@@ -56,8 +56,8 @@ class SessionController {
     }
 
     func logIn(with session: Session) {
-        keychain(for: session.instanceURL).value = session
-        UserDefaults.standard.currentInstance = session.instanceURL
+        keychain(for: session.instance.name).value = session
+        UserDefaults.standard.currentInstance = session.instance.name
     }
 
     func logOut() {
