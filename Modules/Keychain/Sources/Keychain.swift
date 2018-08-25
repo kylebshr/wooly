@@ -1,17 +1,6 @@
 import Foundation
 import Security
 
-private struct SecurityConstant {
-    static let `class` = kSecClass as String
-    static let account = kSecAttrAccount as String
-    static let data = kSecValueData as String
-    static let genericPassword = kSecClassGenericPassword as String
-    static let service = kSecAttrService as String
-    static let matchLimit = kSecMatchLimit as String
-    static let shouldReturnData = kSecReturnData as String
-    static let matchOnlyOne = kSecMatchLimitOne as String
-}
-
 public struct Keychain<T: Any> {
     public struct KeychainError: Error {
         public let status: OSStatus
@@ -44,11 +33,11 @@ public struct Keychain<T: Any> {
         self.account = account
     }
 
-    private func makeQuery() -> [String: Any] {
+    private func makeQuery() -> [CFString: Any] {
         return [
-            SecurityConstant.class: SecurityConstant.genericPassword,
-            SecurityConstant.service: service,
-            SecurityConstant.account: account,
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: service,
+            kSecAttrAccount: account,
         ]
     }
 
@@ -64,7 +53,7 @@ public struct Keychain<T: Any> {
     }
 
     func update(value: T) throws {
-        let attributes = [SecurityConstant.data: data(from: value)] as CFDictionary
+        let attributes = [kSecValueData: data(from: value)] as CFDictionary
         let status = SecItemUpdate(makeQuery() as CFDictionary, attributes)
         try handle(status: status)
     }
@@ -79,15 +68,15 @@ public struct Keychain<T: Any> {
 
     func add(value: T) throws {
         var query = makeQuery()
-        query[SecurityConstant.data] = data(from: value)
+        query[kSecValueData] = data(from: value)
         let status = SecItemAdd(query as CFDictionary, nil)
         try handle(status: status)
     }
 
     func loadValue() throws -> T? {
         var query = makeQuery()
-        query[SecurityConstant.shouldReturnData] = kCFBooleanTrue
-        query[SecurityConstant.matchLimit] = SecurityConstant.matchOnlyOne
+        query[kSecReturnData] = kCFBooleanTrue
+        query[kSecMatchLimit] = kSecMatchLimitOne
 
         var result: AnyObject?
         let status: OSStatus = SecItemCopyMatching(query as CFDictionary, &result)
