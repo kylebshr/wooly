@@ -1,22 +1,18 @@
 import UIKit
 import Mammut
 
-class LoggedInViewController: UIViewController {
+class LoggedInViewController: ViewController {
 
     private let childTabBarController = UITabBarController()
 
     init(service: MastodonService) {
-        super.init(nibName: nil, bundle: nil)
+        super.init()
 
         childTabBarController.viewControllers = [
             TimelineViewController(service: service)
         ].map { UINavigationController(rootViewController: $0) }
 
         add(child: childTabBarController)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     override var childViewControllerForStatusBarStyle: UIViewController? {

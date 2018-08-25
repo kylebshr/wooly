@@ -1,7 +1,7 @@
 import UIKit
 import Mammut
 
-class OnboardingViewController: UIViewController {
+class OnboardingViewController: ViewController {
 
     private let welcomeViewController = WelcomeViewController()
 

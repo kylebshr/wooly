@@ -2,7 +2,7 @@ import UIKit
 import Keychain
 import Mammut
 
-class RootViewController: UIViewController {
+class RootViewController: ViewController {
     private var viewController: UIViewController? {
         didSet {
             oldValue?.remove()

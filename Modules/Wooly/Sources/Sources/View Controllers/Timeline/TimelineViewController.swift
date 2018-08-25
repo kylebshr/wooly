@@ -2,45 +2,57 @@ import UIKit
 import Siesta
 import Mammut
 
-class TimelineViewController: UIViewController {
+class TimelineViewController: ViewController {
 
     private var timeline: [Status] = [] {
         didSet {
-            print(timeline)
+            tableViewController.timeline = timeline
         }
     }
 
     private let service: MastodonService
 
-    init(service: MastodonService) {
-        self.service = service
+    private let tableViewController = TimelineTableViewController()
+    private let indicatorViewController = ActivityIndicatorViewController()
 
-        super.init(nibName: nil, bundle: nil)
-
-        service.home.addObserver(owner: self) { [weak self] resource, event in
-            if let error = resource.latestError {
-                print(error)
+    private var showLoading: Bool = false {
+        didSet {
+            if oldValue != showLoading {
+                showLoading ? add(child: indicatorViewController) : indicatorViewController.remove()
             }
-            self?.timeline = resource.typedContent() ?? []
         }
-
-        service.home.loadIfNeeded()
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    init(service: MastodonService) {
+        self.service = service
+        super.init()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        add(child: tableViewController)
 
         let logoutButton = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(self.logOutTapped))
         navigationItem.leftBarButtonItem = logoutButton
 
         tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
         view.backgroundColor = .background
+
+        service.home.addObserver(owner: self) { [weak self] resource, event in
+            self?.updateTimeline(with: resource)
+        }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        service.home.loadIfNeeded()
+    }
+
+    private func updateTimeline(with resource: Resource) {
+        timeline = resource.typedContent() ?? []
+        showLoading = resource.isLoading && timeline.isEmpty
+    }
 
     @objc
     private func logOutTapped() {

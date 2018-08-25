@@ -71,7 +71,7 @@ public enum HandshakeService {
 
     public static func authenticate(on instance: Instance, from viewController: AuthenticatorViewController,
                                     completion: @escaping (Bool) -> Void) {
-        self.currentViewController = viewController
+        currentViewController = viewController
 
         let app = App(clientName: "Wooly", redirectURI: redirectURI)
         currentService = service(for: instance)

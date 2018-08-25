@@ -1,7 +1,7 @@
 import UIKit
 import Mammut
 
-class WelcomeViewController: UIViewController, Authenticator {
+class WelcomeViewController: ViewController, Authenticator {
     private var selectedInstance: Instance?
 
     override func viewDidLoad() {
