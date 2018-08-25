@@ -54,7 +54,8 @@ class TimelineStatusCell: UITableViewCell {
         contentStack.leadingAnchor.pin(to: avatarView.trailingAnchor, constant: .standard)
         contentStack.pinEdges(.top, to: avatarView)
         contentStack.pinEdges(.right, to: contentView, insets: .standard)
-        contentStack.bottomAnchor.pin(to: contentView.bottomAnchor, constant: -.standard)
+        contentStack.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standard, priority: .defaultHigh)
+        contentStack.bottomAnchor.pin(to: contentView.bottomAnchor, constant: -.standard, priority: UILayoutPriority(10))
 
         contentView.backgroundColor = .background
     }

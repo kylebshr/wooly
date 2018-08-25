@@ -11,7 +11,10 @@ extension Status {
             .characterEncoding: String.Encoding.utf8.rawValue
         ]
 
-        let htmlString = try? NSAttributedString(data: data, options: options, documentAttributes: nil)
-        return htmlString?.string
+        guard let htmlString = try? NSAttributedString(data: data, options: options, documentAttributes: nil) else {
+            return nil
+        }
+
+        return String(htmlString.string.dropLast())
     }
 }
