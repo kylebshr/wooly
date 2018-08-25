@@ -6,4 +6,8 @@ extension UIEdgeInsets {
     }
 
     static let standard = UIEdgeInsets(all: .standard)
+
+    static func * (_ lhs: UIEdgeInsets, _ rhs: CGFloat) -> UIEdgeInsets {
+        return UIEdgeInsets(top: lhs.top * rhs, left: lhs.left * rhs, bottom: lhs.bottom * rhs, right: lhs.right * rhs)
+    }
 }

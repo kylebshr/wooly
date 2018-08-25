@@ -1,7 +1,7 @@
 import UIKit
 import Mammut
 
-class TimelineTableViewController: UITableViewController {
+class TimelineTableViewController: TableViewController {
     var timeline: [Status] = [] {
         didSet {
             tableView.reloadData()
@@ -12,11 +12,18 @@ class TimelineTableViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.register(TimelineStatusCell.self)
-        tableView.backgroundColor = .clear
-        tableView.separatorInset = .zero
-        tableView.separatorColor = .separator
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 20
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        transitionCoordinator?.animate(alongsideTransition: { [weak self] _ in
+            self?.tableView.indexPathsForSelectedRows?.forEach { [weak self] in
+                self?.tableView.deselectRow(at: $0, animated: false)
+            }
+        }, completion: nil)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -27,5 +34,9 @@ class TimelineTableViewController: UITableViewController {
         let cell: TimelineStatusCell = tableView.dequeue(for: indexPath)
         cell.status = timeline[indexPath.row]
         return cell
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigationController?.pushViewController(StatusDetailViewController(), animated: true)
     }
 }

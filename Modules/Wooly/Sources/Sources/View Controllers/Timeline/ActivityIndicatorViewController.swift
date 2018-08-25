@@ -6,7 +6,6 @@ class ActivityIndicatorViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .background
         view.addSubview(indicator)
         indicator.pinCenter(to: view)
     }

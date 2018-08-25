@@ -35,9 +35,9 @@ class TimelineViewController: ViewController {
 
         let logoutButton = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(self.logOutTapped))
         navigationItem.leftBarButtonItem = logoutButton
+        navigationItem.title = "Home"
 
         tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
-        view.backgroundColor = .background
 
         service.home.addObserver(owner: self) { [weak self] resource, event in
             self?.updateTimeline(with: resource)
@@ -46,6 +46,7 @@ class TimelineViewController: ViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         service.home.loadIfNeeded()
     }
 

@@ -6,4 +6,5 @@ extension UIColor {
     static let separator = UIColor(named: "Separator")!
     static let text = UIColor(named: "Text")!
     static let textSecondary = UIColor(named: "Text Secondary")!
+    static let cellHighlight = UIColor(named: "Cell Highlight")!
 }

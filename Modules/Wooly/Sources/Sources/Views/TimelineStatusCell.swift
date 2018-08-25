@@ -2,7 +2,7 @@ import UIKit
 import Mammut
 import PINRemoteImage
 
-class TimelineStatusCell: UITableViewCell {
+class TimelineStatusCell: TableViewCell {
     var status: Status? {
         didSet {
             avatarView.pin_setImage(from: status?.account.avatar)
@@ -56,11 +56,5 @@ class TimelineStatusCell: UITableViewCell {
         contentStack.pinEdges(.right, to: contentView, insets: .standard)
         contentStack.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standard, priority: .defaultHigh)
         contentStack.bottomAnchor.pin(to: contentView.bottomAnchor, constant: -.standard, priority: UILayoutPriority(10))
-
-        contentView.backgroundColor = .background
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

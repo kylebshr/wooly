@@ -1,25 +1,21 @@
 import UIKit
+import Mammut
 
-class InstanceCell: UITableViewCell {
+class InstanceCell: TableViewCell {
     private let label = UILabel()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .background
+
+        accessoryType = .disclosureIndicator
+
         contentView.addSubview(label)
-        label.textColor = .white
+        label.textColor = .text
+        label.font = .preferredFont(forTextStyle: .body)
+        label.pinEdges(to: contentView, insets: .standard * 2)
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        label.frame = layoutMarginsGuide.layoutFrame
-    }
-
-    func set(instance: String) {
-        label.text = instance
+    func set(instance: Instance) {
+        label.text = instance.name
     }
 }
