@@ -1,37 +1,54 @@
 import Foundation
 import Security
 
-public struct Keychain<T: Any> {
-    public struct KeychainError: Error {
-        public let status: OSStatus
-        public let message: String?
+/// Represents an error thrown by Keychain
+struct KeychainError: Error {
 
-        init(status: OSStatus, message: CFString?) {
-            self.status = status
-            if let message = message {
-                self.message = String(message)
-            } else {
-                self.message = nil
-            }
+    /// The status code of the error
+    let status: OSStatus
+
+    static func unhandledError(status: OSStatus) -> KeychainError {
+        return KeychainError(status: status)
+    }
+
+    var localizedDescription: String {
+        if let message = SecCopyErrorMessageString(status, nil) {
+            return message as String
+        } else {
+            return "Unknown keychain error \(status)"
         }
+    }
+}
 
-        public var localizedDescription: String {
-            let error = "Keychain Error \(status)"
-            if let message = self.message {
-                return "\(error): \(message)"
-            } else {
-                return error
+/// Wraps the system keychain for easy storage of any type
+public class Keychain<T: Any> {
+
+    private let service: String
+    private let account: String
+
+    /// Get or set a new value
+    public var value: T? {
+        get {
+            return try? loadValue()
+        }
+        set {
+            try? removeValue()
+            if let value = newValue {
+                try? add(value: value)
             }
         }
     }
 
-    let service: String
-    let account: String
-
+    /// Create a new Keychain
+    ///
+    /// - parameter service: The service the object is associated with
+    /// - parameter account: The account the object is associated with
     public init(service: String, account: String) {
         self.service = service
         self.account = account
     }
+
+    // MARK: - Private methods
 
     private func makeQuery() -> [CFString: Any] {
         return [
@@ -41,28 +58,26 @@ public struct Keychain<T: Any> {
         ]
     }
 
-    private func handle(status: OSStatus) throws {
-        if status != errSecSuccess {
-            throw KeychainError(status: status, message: SecCopyErrorMessageString(status, nil))
-        }
-    }
-
     private func data(from value: T) -> Data {
         var value = value
-        return Data(bytes: &value, count: MemoryLayout.size(ofValue: self))
+        return Data(bytes: &value, count: MemoryLayout.size(ofValue: value))
     }
+
+    // MARK: - Internal methods
 
     func update(value: T) throws {
         let attributes = [kSecValueData: data(from: value)] as CFDictionary
         let status = SecItemUpdate(makeQuery() as CFDictionary, attributes)
-        try handle(status: status)
+        guard status == errSecSuccess else {
+            throw KeychainError.unhandledError(status: status)
+        }
     }
 
 
     func removeValue() throws {
         let status = SecItemDelete(makeQuery() as CFDictionary)
-        if status != errSecItemNotFound {
-            try handle(status: status)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            throw KeychainError.unhandledError(status: status)
         }
     }
 
@@ -70,10 +85,12 @@ public struct Keychain<T: Any> {
         var query = makeQuery()
         query[kSecValueData] = data(from: value)
         let status = SecItemAdd(query as CFDictionary, nil)
-        try handle(status: status)
+        guard status == errSecSuccess else {
+            throw KeychainError.unhandledError(status: status)
+        }
     }
 
-    func loadValue() throws -> T? {
+    func loadValue() throws -> T {
         var query = makeQuery()
         query[kSecReturnData] = kCFBooleanTrue
         query[kSecMatchLimit] = kSecMatchLimitOne
@@ -81,28 +98,19 @@ public struct Keychain<T: Any> {
         var result: AnyObject?
         let status: OSStatus = SecItemCopyMatching(query as CFDictionary, &result)
 
-        if status != errSecItemNotFound {
-            try handle(status: status)
+        guard status == errSecSuccess else {
+            throw KeychainError.unhandledError(status: status)
         }
 
-        return result
+        let value: T? = result
             .flatMap { $0 as? Data }
             .flatMap { $0.withUnsafeBytes { $0.pointee } }
-    }
 
-    public func set(value: T?) throws {
-        guard let value = value else {
-            return try removeValue()
-        }
-
-        if try loadValue() == nil {
-            try add(value: value)
+        if let value = value {
+            return value
         } else {
-            try update(value: value)
+            try removeValue()
+            throw KeychainError.unhandledError(status: -1)
         }
-    }
-
-    public func value() throws -> T? {
-        return try loadValue()
     }
 }

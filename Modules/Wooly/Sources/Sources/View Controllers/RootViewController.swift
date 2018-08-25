@@ -11,11 +11,11 @@ func logOut() {
 }
 
 private func refreshToken(forInstance instance: String) -> String? {
-    return (try? Keychain<String>(service: instance, account: "auth-token").value()) ?? nil
+    return Keychain<String>(service: instance, account: "auth-token").value
 }
 
 private func set(refreshToken: String?, forInstance instance: String) {
-    try? Keychain<String>(service: instance, account: "auth-token").set(value: refreshToken)
+    Keychain<String>(service: instance, account: "auth-token").value = refreshToken
 }
 
 private extension UserDefaults {

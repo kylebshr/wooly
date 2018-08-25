@@ -14,10 +14,10 @@ public class MastodonService: Service {
 
     private var authenticationToken: String? {
         get {
-            return (try? authKeychain.value()) ?? nil
+            return authKeychain.value
         }
         set {
-            try? authKeychain.set(value: newValue)
+            authKeychain.value = newValue
             invalidateConfiguration()
             wipeResources()
         }
