@@ -7,12 +7,12 @@ extension UIFont {
     }
 
     static var customCallout: UIFont {
-        let font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        let font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
     }
 
     static var customDetail: UIFont {
-        let font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        let font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
     }
 }
