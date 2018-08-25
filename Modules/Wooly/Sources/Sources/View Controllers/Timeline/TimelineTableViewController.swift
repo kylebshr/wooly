@@ -12,8 +12,11 @@ class TimelineTableViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.register(TimelineStatusCell.self)
+        tableView.backgroundColor = .clear
+        tableView.separatorInset = .zero
+        tableView.separatorColor = .separator
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 80
+        tableView.estimatedRowHeight = 20
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

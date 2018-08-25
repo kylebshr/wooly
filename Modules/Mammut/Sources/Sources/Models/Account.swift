@@ -7,7 +7,7 @@ public struct Account: Codable {
     public let displayName: String
     public let note: String
     public let url: String
-    public let avatar: String
+    public let avatar: URL
     public let avatarStatic: String
     public let header: String
     public let headerStatic: String

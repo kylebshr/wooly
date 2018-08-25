@@ -19,6 +19,8 @@ targets:
     dependencies:
       - target: Mammut
       - target: Keychain
+      - carthage: PINCache
+      - carthage: PINRemoteImage
   WoolyTests:
     type: bundle.unit-test
     platform: iOS

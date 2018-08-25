@@ -14,7 +14,7 @@ class RootViewController: ViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        viewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
         SessionController.shared.observe(from: self) { [weak self] _ in
             self?.updateViewController()
         }

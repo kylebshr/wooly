@@ -1,1 +1,3 @@
 github "bustoutsolutions/siesta" "1.4.0"
+github "pinterest/PINCache" "2.3"
+github "pinterest/PINRemoteImage" "2.1.4"
