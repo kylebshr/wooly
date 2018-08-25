@@ -42,7 +42,7 @@ public enum HandshakeService {
     }
 
     private static func service(for instance: Instance) -> Service {
-        let service = Service(baseURL: instance.url, standardTransformers: [])
+        let service = Service(baseURL: instance.url.appendingPathComponent("api/v1"), standardTransformers: [])
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         service.configureTransformer("apps") {
@@ -51,8 +51,7 @@ public enum HandshakeService {
         return service
     }
 
-    static func performOauth(client: Client, for instance: Instance, from viewController: AuthenticatorViewController) {
-        self.currentViewController = viewController
+    static func performOauth(client: Client, for instance: Instance) {
         let parameters = [
             URLQueryItem(name: "scope", value: "read write follow"),
             URLQueryItem(name: "response_type", value: "code"),
@@ -67,11 +66,13 @@ public enum HandshakeService {
         safariViewController.preferredControlTintColor = configuration.controlTintColor
         safariViewController.dismissButtonStyle = .cancel
         safariViewController.modalPresentationStyle = .overFullScreen
-        viewController.present(safariViewController, animated: true, completion: nil)
+        currentViewController?.present(safariViewController, animated: true, completion: nil)
     }
 
     public static func authenticate(on instance: Instance, from viewController: AuthenticatorViewController,
                                     completion: @escaping (Bool) -> Void) {
+        self.currentViewController = viewController
+
         let app = App(clientName: "Wooly", redirectURI: redirectURI)
         currentService = service(for: instance)
         currentService?.resource("apps").request(.post, json: app.dictionary ?? [:]).onSuccess { entity in
@@ -79,11 +80,11 @@ public enum HandshakeService {
                 return completion(false)
             }
 
-            self.currentClient = client
-            performOauth(client: client, for: instance, from: viewController)
+            currentClient = client
+            performOauth(client: client, for: instance)
             completion(true)
         } .onFailure {
-            print($0)
+            print($0.entity)
         }
     }
 }
