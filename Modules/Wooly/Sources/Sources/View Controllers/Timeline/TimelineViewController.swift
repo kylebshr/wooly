@@ -50,6 +50,9 @@ class TimelineViewController: ViewController {
     }
 
     private func updateTimeline(with resource: Resource) {
+        if let error = resource.latestError {
+            fatalError("\(error)")
+        }
         timeline = resource.typedContent() ?? []
         showLoading = resource.isLoading && timeline.isEmpty
     }

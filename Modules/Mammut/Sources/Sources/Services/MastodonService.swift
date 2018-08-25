@@ -77,6 +77,7 @@ public class MastodonService: Service {
     private func configureTransformers() {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .formatted(.mastodonFormatter)
 
         configure(whenURLMatches: { $0.absoluteString.contains("oauth/token") }) {
             $0.pipeline[.model].add(JSONResponseTransformer())
