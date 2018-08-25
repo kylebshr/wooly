@@ -1,7 +1,7 @@
 import UIKit
 import Mammut
 
-private class InstanceViewController: TableViewController {
+class InstanceViewController: TableViewController {
     typealias InstanceHandler = (Instance) -> Void
 
     private var instanceHandler: InstanceHandler
