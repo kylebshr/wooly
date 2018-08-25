@@ -61,6 +61,6 @@ class TimelineViewController: ViewController {
 
     @objc
     private func logOutTapped() {
-        SessionController.shared.logOut()
+        SessionController.logOut()
     }
 }

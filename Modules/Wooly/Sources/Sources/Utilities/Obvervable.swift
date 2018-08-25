@@ -1,0 +1,51 @@
+struct AnyWeak: Hashable {
+    let hashValue: Int
+
+    weak var object: AnyObject?
+
+    init<T: AnyObject>(_ object: T) where T: Hashable {
+        self.object = object
+        self.hashValue = object.hashValue
+    }
+
+    static func == (lhs: AnyWeak, rhs: AnyWeak) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+}
+
+class Observable<T> {
+    private var observers: [AnyWeak: (T) -> Void] = [:]
+
+    var current: T {
+        didSet { notify() }
+    }
+
+    func add<U: AnyObject>(_ observer: U, handler: @escaping (T) -> Void) where U: Hashable {
+        handler(current)
+        observers[AnyWeak(observer)] = handler
+    }
+
+    func remove<U: AnyObject>(_ observer: U) where U: Hashable {
+        observers[AnyWeak(observer)] = nil
+    }
+
+    init(initial: T) {
+        self.current = initial
+    }
+
+    private func notify() {
+        var discard: [AnyWeak] = []
+
+        for observer in observers {
+            guard observer.key.object != nil else {
+                discard.append(observer.key)
+                continue
+            }
+            observer.value(current)
+        }
+
+        for object in discard {
+            observers[object] = nil
+        }
+    }
+}

@@ -16,13 +16,12 @@ private extension UserDefaults {
     }
 }
 
-class SessionController {
+class SessionController: Observable<Session?> {
     static let shared = SessionController()
 
     private var observation: NSKeyValueObservation?
-    private var observers: [AnyHashable: (Session?) -> Void] = [:]
 
-    var current: Session? {
+    private static var session: Session? {
         guard let instance = UserDefaults.standard.currentInstance else {
             return nil
         }
@@ -30,20 +29,10 @@ class SessionController {
         return keychain(for: instance).value
     }
 
-    func observe(from observer: AnyHashable, handler: @escaping (Session?) -> Void) {
-        handler(current)
-        observers[observer] = handler
-    }
-
-    func disregard(_ observer: AnyHashable) {
-        observers[observer] = nil
-    }
-
     private init() {
-        observation = UserDefaults.standard.observe(\UserDefaults.currentInstance, options: [.new]) {
-            [weak self] _, _ in
-            guard let this = self else { return }
-            this.observers.values.forEach { $0(this.current) }
+        super.init(initial: SessionController.session)
+        observation = UserDefaults.standard.observe(\UserDefaults.currentInstance, options: [.new]) { [weak self] _, _ in
+            self?.current = SessionController.session
         }
     }
 
@@ -51,19 +40,18 @@ class SessionController {
         observation?.invalidate()
     }
 
-    private func keychain(for instance: String) -> Keychain<Session> {
-        return .init(service: instance, account: sessionStorageKey)
+    private static func keychain(for instance: String) -> Keychain<Session> {
+        return Keychain(service: instance, account: sessionStorageKey)
     }
 
-    func logIn(with session: Session) {
+    static func logIn(with session: Session) {
         keychain(for: session.instance.name).value = session
         UserDefaults.standard.currentInstance = session.instance.name
     }
 
-    func logOut() {
-        guard let session = current else { return }
+    static func logOut() {
+        defer { UserDefaults.standard.currentInstance = nil }
+        guard let session = session else { return }
         keychain(for: session.instance.name).value = nil
-        UserDefaults.standard.currentInstance = nil
-
     }
 }
