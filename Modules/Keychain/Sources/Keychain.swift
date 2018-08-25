@@ -12,13 +12,7 @@ private struct SecurityConstant {
     static let matchOnlyOne = kSecMatchLimitOne as String
 }
 
-private extension String {
-    var keychainEncoded: Data? {
-        return data(using: .utf8, allowLossyConversion: false)
-    }
-}
-
-public struct Keychain {
+public struct Keychain<T: Any> {
     public struct KeychainError: Error {
         public let status: OSStatus
         public let message: String?
@@ -64,28 +58,33 @@ public struct Keychain {
         }
     }
 
-    func update(password: String) throws {
-        let attributes = [SecurityConstant.data: password.keychainEncoded] as CFDictionary
+    private func data(from value: T) -> Data {
+        var value = value
+        return Data(bytes: &value, count: MemoryLayout.size(ofValue: self))
+    }
+
+    func update(value: T) throws {
+        let attributes = [SecurityConstant.data: data(from: value)] as CFDictionary
         let status = SecItemUpdate(makeQuery() as CFDictionary, attributes)
         try handle(status: status)
     }
 
 
-    func removePassword() throws {
+    func removeValue() throws {
         let status = SecItemDelete(makeQuery() as CFDictionary)
         if status != errSecItemNotFound {
             try handle(status: status)
         }
     }
 
-    func add(password: String) throws {
+    func add(value: T) throws {
         var query = makeQuery()
-        query[SecurityConstant.data] = password.keychainEncoded
+        query[SecurityConstant.data] = data(from: value)
         let status = SecItemAdd(query as CFDictionary, nil)
         try handle(status: status)
     }
 
-    func loadPassword() throws -> String? {
+    func loadValue() throws -> T? {
         var query = makeQuery()
         query[SecurityConstant.shouldReturnData] = kCFBooleanTrue
         query[SecurityConstant.matchLimit] = SecurityConstant.matchOnlyOne
@@ -97,26 +96,24 @@ public struct Keychain {
             try handle(status: status)
         }
 
-        if let result = result as? Data {
-            return String.init(data: result, encoding: .utf8)
+        return result
+            .flatMap { $0 as? Data }
+            .flatMap { $0.withUnsafeBytes { $0.pointee } }
+    }
+
+    public func set(value: T?) throws {
+        guard let value = value else {
+            return try removeValue()
+        }
+
+        if try loadValue() == nil {
+            try add(value: value)
         } else {
-            return nil
+            try update(value: value)
         }
     }
 
-    public func set(password: String?) throws {
-        guard let password = password else {
-            return try removePassword()
-        }
-
-        if try loadPassword() == nil {
-            try add(password: password)
-        } else {
-            try update(password: password)
-        }
-    }
-
-    public func password() throws -> String? {
-        return try loadPassword()
+    public func value() throws -> T? {
+        return try loadValue()
     }
 }

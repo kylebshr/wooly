@@ -9,15 +9,15 @@ public class MastodonService: Service {
 
     private let instanceURL: URL
     private let client: Client
-    private let authKeychain: Keychain
+    private let authKeychain: Keychain<String>
     private let refreshToken: String
 
     private var authenticationToken: String? {
         get {
-            return (try? authKeychain.password()) ?? nil
+            return (try? authKeychain.value()) ?? nil
         }
         set {
-            try? authKeychain.set(password: newValue)
+            try? authKeychain.set(value: newValue)
             invalidateConfiguration()
             wipeResources()
         }
