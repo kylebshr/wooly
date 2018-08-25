@@ -21,7 +21,7 @@ struct KeychainError: Error {
 }
 
 /// Wraps the system keychain for easy storage of any type
-public class Keychain<T: Any> {
+public class Keychain<T: Storable> {
 
     private let service: String
     private let account: String
@@ -58,15 +58,14 @@ public class Keychain<T: Any> {
         ]
     }
 
-    private func data(from value: T) -> Data {
-        var value = value
-        return Data(bytes: &value, count: MemoryLayout.size(ofValue: value))
+    private func data(from value: T) throws -> Data {
+        return try JSONEncoder().encode(value)
     }
 
     // MARK: - Internal methods
 
     func update(value: T) throws {
-        let attributes = [kSecValueData: data(from: value)] as CFDictionary
+        let attributes = [kSecValueData: try data(from: value)] as CFDictionary
         let status = SecItemUpdate(makeQuery() as CFDictionary, attributes)
         guard status == errSecSuccess else {
             throw KeychainError.unhandledError(status: status)
@@ -83,7 +82,7 @@ public class Keychain<T: Any> {
 
     func add(value: T) throws {
         var query = makeQuery()
-        query[kSecValueData] = data(from: value)
+        query[kSecValueData] = try data(from: value)
         let status = SecItemAdd(query as CFDictionary, nil)
         guard status == errSecSuccess else {
             throw KeychainError.unhandledError(status: status)
@@ -104,7 +103,7 @@ public class Keychain<T: Any> {
 
         let value: T? = result
             .flatMap { $0 as? Data }
-            .flatMap { $0.withUnsafeBytes { $0.pointee } }
+            .flatMap { try? JSONDecoder().decode(T.self, from: $0) }
 
         if let value = value {
             return value

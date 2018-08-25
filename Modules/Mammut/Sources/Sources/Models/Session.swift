@@ -1,4 +1,6 @@
-public struct Session: Codable {
+import Keychain
+
+public struct Session: Storable {
     public let instance: Instance
     let client: Client
     let refreshToken: String

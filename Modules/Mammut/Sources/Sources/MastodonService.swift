@@ -8,14 +8,16 @@ public class MastodonService: Service {
     }
 
     private let session: Session
-    private let authKeychain: Keychain<String>
+    private let authKeychain: Keychain<StorableBox<String>>
 
     private var authenticationToken: String? {
         get {
-            return authKeychain.value
+            return authKeychain.value?.value
         }
         set {
-            authKeychain.value = newValue
+            if let value = newValue {
+                authKeychain.value = StorableBox(value)
+            }
             invalidateConfiguration()
             wipeResources()
         }

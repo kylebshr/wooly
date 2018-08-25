@@ -61,6 +61,9 @@ class SessionController {
     }
 
     func logOut() {
+        guard let session = current else { return }
+        keychain(for: session.instance.name).value = nil
+        UserDefaults.standard.currentInstance = nil
 
     }
 }

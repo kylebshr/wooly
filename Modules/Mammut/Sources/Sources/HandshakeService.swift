@@ -84,7 +84,7 @@ public enum HandshakeService {
             performOauth(client: client, for: instance)
             completion(true)
         } .onFailure {
-            print($0.entity)
+            print($0)
         }
     }
 }
