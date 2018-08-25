@@ -12,7 +12,7 @@ class InstanceCell: TableViewCell {
         contentView.addSubview(label)
         label.textColor = .text
         label.font = .preferredFont(forTextStyle: .body)
-        label.pinEdges(to: contentView, insets: .standard * 2)
+        label.pinEdges(to: contentView, insets: .standardEdges)
     }
 
     func set(instance: Instance) {

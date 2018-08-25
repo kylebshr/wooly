@@ -5,9 +5,11 @@ extension UIEdgeInsets {
         self.init(top: value, left: value, bottom: value, right: value)
     }
 
-    static let standard = UIEdgeInsets(all: .standard)
-
-    static func * (_ lhs: UIEdgeInsets, _ rhs: CGFloat) -> UIEdgeInsets {
-        return UIEdgeInsets(top: lhs.top * rhs, left: lhs.left * rhs, bottom: lhs.bottom * rhs, right: lhs.right * rhs)
+    init(vertical: CGFloat, horizontal: CGFloat) {
+        self.init(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
     }
+
+    static let standardEdges = UIEdgeInsets(vertical: .standardVerticalEdge, horizontal: .standardHorizontalEdge)
+
+    static let standardSpacing = UIEdgeInsets(all: .standardSpacing)
 }

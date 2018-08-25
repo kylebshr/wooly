@@ -4,14 +4,24 @@ import Mammut
 class WelcomeViewController: ViewController, Authenticator {
     private var selectedInstance: Instance?
 
+    private lazy var instanceViewController = InstanceViewController { [weak self] instance in
+        self?.didSelect(instance: instance)
+    }
+
+    private var instanceView: UIView {
+        return instanceViewController.view
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let instanceViewController = InstanceViewController { [weak self] instance in
-            self?.didSelect(instance: instance)
-        }
-
         add(child: instanceViewController)
+
+        instanceView.layer.borderColor = UIColor.separator.cgColor
+        instanceView.layer.borderWidth = 1 / UIScreen.main.scale
+        instanceView.layer.cornerRadius = .standardSpacing
+        instanceView.pinEdges([.left, .right, .bottom], to: view.safeAreaLayoutGuide, insets: .standardEdges)
+        instanceView.heightAnchor.pin(to: 300)
     }
 
     private func didSelect(instance: Instance) {

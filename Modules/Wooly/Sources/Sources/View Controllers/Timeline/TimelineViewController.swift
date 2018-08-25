@@ -32,6 +32,7 @@ class TimelineViewController: ViewController {
         super.viewDidLoad()
 
         add(child: tableViewController)
+        tableViewController.view.pinEdges(to: view)
 
         let logoutButton = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(self.logOutTapped))
         navigationItem.leftBarButtonItem = logoutButton

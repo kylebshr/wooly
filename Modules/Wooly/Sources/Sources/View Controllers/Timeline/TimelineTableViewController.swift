@@ -13,7 +13,7 @@ class TimelineTableViewController: TableViewController {
 
         tableView.register(TimelineStatusCell.self)
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 20
+        tableView.estimatedRowHeight = 140
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -32,7 +32,7 @@ class TimelineTableViewController: TableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TimelineStatusCell = tableView.dequeue(for: indexPath)
-        cell.status = timeline[indexPath.row]
+        cell.display(status: timeline[indexPath.row])
         return cell
     }
 
