@@ -2,7 +2,16 @@
 import XCTest
 
 class KeychainTests: XCTestCase {
-    private let keychain = Keychain<String>(service: "this_is_a_test_service", account: "this_is_a_test_account")
+
+    struct TestModel: Storable, Equatable {
+        let value: String
+
+        init(_ value: String = #function) {
+            self.value = value
+        }
+    }
+
+    private let keychain = Keychain<TestModel>(service: "this_is_a_test_service", account: "this_is_a_test_account")
 
     override func tearDown() {
         super.tearDown()
@@ -10,12 +19,12 @@ class KeychainTests: XCTestCase {
     }
 
     func testSettingValue() {
-        keychain.value = #function
-        XCTAssertEqual(keychain.value, #function)
+        keychain.value = TestModel()
+        XCTAssertEqual(keychain.value, TestModel())
     }
 
     func testRemovingValue() {
-        keychain.value = #function
+        keychain.value = TestModel()
         keychain.value = nil
         XCTAssertEqual(keychain.value, nil)
     }
@@ -25,26 +34,26 @@ class KeychainTests: XCTestCase {
     }
 
     func testRemoveWithValue() {
-        keychain.value = #function
+        keychain.value = TestModel()
         try XCTAssertNoThrow(keychain.removeValue())
     }
 
     func testAddWithNoValue() {
-        try XCTAssertNoThrow(keychain.add(value: #function))
+        try XCTAssertNoThrow(keychain.add(value: TestModel()))
     }
 
     func testAddWithValue() {
-        keychain.value = #function
-        try XCTAssertThrowsError(keychain.add(value: #function))
+        keychain.value = TestModel()
+        try XCTAssertThrowsError(keychain.add(value: TestModel()))
     }
 
     func testUpdateWithNoValue() {
-        try XCTAssertThrowsError(keychain.update(value: #function))
+        try XCTAssertThrowsError(keychain.update(value: TestModel()))
     }
 
     func testUpdateWithValue() {
-        keychain.value = #function
-        try XCTAssertNoThrow(keychain.update(value: #function))
+        keychain.value = TestModel()
+        try XCTAssertNoThrow(keychain.update(value: TestModel()))
     }
 
     func testLoadNoValue() {
@@ -52,7 +61,7 @@ class KeychainTests: XCTestCase {
     }
 
     func testLoadValue() {
-        keychain.value = #function
+        keychain.value = TestModel()
         try XCTAssertNoThrow(keychain.loadValue())
     }
 }

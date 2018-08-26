@@ -1,4 +1,5 @@
 import UIKit
+import Keychain
 
 private let themeKey = "currentTheme"
 
@@ -11,8 +12,8 @@ class ThemeController: Observable<Theme> {
     static let shared = ThemeController()
 
     private init() {
-        let initial: Theme = UserDefaults.standard.codable(forKey: themeKey) ?? .light
-        super.init(initial: initial)
+        let initial: StorableBox<Theme>? = UserDefaults.standard.storable(forKey: themeKey)
+        super.init(initial: initial?.value ?? .light)
     }
 
     func toggleTheme() {
@@ -22,5 +23,8 @@ class ThemeController: Observable<Theme> {
             case .light: self.current = .dark
             }
         }
+
+        let storableTheme = StorableBox<Theme>(current)
+        UserDefaults.standard.set(storable: storableTheme, forKey: themeKey)
     }
 }
