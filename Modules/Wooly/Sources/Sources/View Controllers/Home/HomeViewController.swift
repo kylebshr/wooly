@@ -35,7 +35,11 @@ class HomeViewController: ViewController {
 
         add(child: tableViewController)
         tableViewController.view.pinEdges(to: view)
-
+        tableViewController.refresh = { [weak self] sender in
+            self?.service.home.load().onCompletion { _ in
+                sender()
+            }
+        }
         service.home.addObserver(owner: self) { [weak self] resource, event in
             self?.updateTimeline(with: resource)
         }
@@ -48,10 +52,12 @@ class HomeViewController: ViewController {
     }
 
     private func updateTimeline(with resource: Resource) {
-        if let error = resource.latestError {
-            fatalError("\(error)")
-        }
+        tableViewController.refreshControl?.endRefreshing()
         timeline = resource.typedContent() ?? []
         showLoading = resource.isLoading && timeline.isEmpty
+
+        if let error = resource.latestError {
+            print(error)
+        }
     }
 }
