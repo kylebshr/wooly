@@ -2,11 +2,14 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Notifications Tab.pdf"
+      "filename" : "Home Tab.pdf"
     }
   ],
   "info" : {
     "version" : 1,
     "author" : "xcode"
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

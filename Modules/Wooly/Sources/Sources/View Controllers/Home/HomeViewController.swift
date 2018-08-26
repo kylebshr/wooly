@@ -6,7 +6,7 @@ class HomeViewController: ViewController {
 
     private var timeline: [Status] = [] {
         didSet {
-            tableViewController.timeline = timeline
+            tableViewController.timeline = timeline + timeline + timeline
         }
     }
 
@@ -27,7 +27,7 @@ class HomeViewController: ViewController {
         self.service = service
         super.init()
         title = "Home"
-        tabBarItem = UITabBarItem(title: title, image: #imageLiteral(resourceName: "Home Tab"), selectedImage: #imageLiteral(resourceName: "Home Tab Selected"))
+        tabBarItem = UITabBarItem(title: title, image: #imageLiteral(resourceName: "Home Tab"), selectedImage: #imageLiteral(resourceName: "Home Tab Selected"), landscapeImage: #imageLiteral(resourceName: "Home Tab Landscape"))
     }
 
     override func viewDidLoad() {
