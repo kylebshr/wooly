@@ -2,30 +2,42 @@ import UIKit
 import Mammut
 
 enum Appearance {
-
     static var scrollIndicatorStyle: UIScrollViewIndicatorStyle {
-        return .white
+        switch ThemeController.shared.current {
+        case .dark: return .white
+        case .light: return .black
+        }
+    }
+
+    static var barStyle: UIBarStyle {
+        switch ThemeController.shared.current {
+        case .dark: return .black
+        case .light: return .default
+        }
     }
 
     static func apply() {
         let onboardingNavigationBar = UINavigationBar.appearance(whenContainedInInstancesOf: [OnboardingViewController.self])
         onboardingNavigationBar.setBackgroundImage(UIImage(), for: .default)
         onboardingNavigationBar.shadowImage = UIImage()
-        onboardingNavigationBar.barStyle = .black
+        onboardingNavigationBar.barStyle = barStyle
         onboardingNavigationBar.barTintColor = .clear
 
         let loggedInNavigationBar = UINavigationBar.appearance(whenContainedInInstancesOf: [LoggedInViewController.self])
-        loggedInNavigationBar.barStyle = .black
+        loggedInNavigationBar.barStyle = barStyle
         loggedInNavigationBar.barTintColor = .barColor
 
         let tabBar = UITabBar.appearance(whenContainedInInstancesOf: [LoggedInViewController.self])
-        tabBar.barStyle = .black
+        tabBar.barStyle = barStyle
         tabBar.barTintColor = .barColor
 
         let scrollView = UIScrollView.appearance()
         scrollView.indicatorStyle = scrollIndicatorStyle
 
+        let activityIndicator = UIActivityIndicatorView.appearance()
+        activityIndicator.color = .textSecondary
+
         HandshakeService.configuration.barTintColor = .barColor
-        HandshakeService.configuration.controlTintColor = .white
+        HandshakeService.configuration.controlTintColor = .tintColor
     }
 }

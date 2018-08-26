@@ -6,11 +6,15 @@ class TableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
-        backgroundColor = .background
-        contentView.backgroundColor = .background
+
         contentView.addSubview(selectedView)
         selectedView.pinEdges(to: self)
-        selectedView.backgroundColor = .cellHighlight
+
+        ThemeController.shared.add(self) { [weak self] _ in
+            self?.backgroundColor = .background
+            self?.contentView.backgroundColor = .background
+            self?.selectedView.backgroundColor = .highlight
+        }
     }
 
     @available(*, unavailable)

@@ -18,7 +18,6 @@ class TimelineStatusCell: TableViewCell {
         avatarView.pinSize(to: 50)
 
         contentLabel.numberOfLines = 0
-        contentLabel.textColor = .text
         contentLabel.font = .customBody
 
         let contentStack = UIStackView()
@@ -34,6 +33,10 @@ class TimelineStatusCell: TableViewCell {
         contentStack.pinEdges(.right, to: contentView, insets: .standardSpacing)
         contentStack.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardSpacing, priority: .almostRequired)
         contentStack.bottomAnchor.pin(to: contentView.bottomAnchor, constant: -.standardSpacing, priority: .extraLow)
+
+        ThemeController.shared.add(self) { [weak self] _ in
+            self?.contentLabel.textColor = .text
+        }
     }
 
     func display(status: Status) {

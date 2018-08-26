@@ -14,7 +14,7 @@ struct AnyWeak: Hashable {
 }
 
 class Observable<T> {
-    private var observers: [AnyWeak: (T) -> Void] = [:]
+    private var observers: [AnyWeak: [(T) -> Void]] = [:]
 
     var current: T {
         didSet { notify() }
@@ -22,7 +22,10 @@ class Observable<T> {
 
     func add<U: AnyObject>(_ observer: U, handler: @escaping (T) -> Void) where U: Hashable {
         handler(current)
-        observers[AnyWeak(observer)] = handler
+        let key = AnyWeak(observer)
+        var handlers = observers[key] ?? []
+        handlers.append(handler)
+        observers[key] = handlers
     }
 
     func remove<U: AnyObject>(_ observer: U) where U: Hashable {
@@ -41,7 +44,10 @@ class Observable<T> {
                 discard.append(observer.key)
                 continue
             }
-            observer.value(current)
+
+            for handler in observer.value {
+                handler(current)
+            }
         }
 
         for object in discard {

@@ -12,9 +12,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        Appearance.apply()
+        ThemeController.shared.add(self) { [weak self] _ in
+            Appearance.apply()
 
-        window.tintColor = .white
+            guard let this = self else { return }
+
+            this.window.tintColor = .tintColor
+            for view in this.window.subviews {
+                view.removeFromSuperview()
+                this.window.addSubview(view)
+            }
+        }
+
         window.rootViewController = RootViewController()
         window.makeKeyAndVisible()
         

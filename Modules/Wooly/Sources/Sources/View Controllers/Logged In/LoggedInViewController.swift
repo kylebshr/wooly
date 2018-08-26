@@ -10,7 +10,7 @@ class LoggedInViewController: ViewController {
 
         childTabBarController.viewControllers = [
             TimelineViewController(service: service)
-        ].map { UINavigationController(rootViewController: $0) }
+        ].map { NavigationController(rootViewController: $0) }
 
         add(child: childTabBarController)
     }

@@ -6,9 +6,12 @@ class TableViewController: UITableViewController {
 
         clearsSelectionOnViewWillAppear = false
         tableView.separatorInset = .zero
-        tableView.separatorColor = .separator
-        tableView.backgroundColor = .background
         tableView.tableFooterView = UIView()
+
+        ThemeController.shared.add(self) { [weak self] _ in
+            self?.tableView.separatorColor = .separator
+            self?.tableView.backgroundColor = .background
+        }
     }
 
     @available(*, unavailable)

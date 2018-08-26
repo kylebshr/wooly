@@ -3,7 +3,10 @@ import UIKit
 class ViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
-        view.backgroundColor = .background
+
+        ThemeController.shared.add(self) { [weak self] _ in
+            self?.view.backgroundColor = .background
+        }
     }
 
     @available(*, unavailable)

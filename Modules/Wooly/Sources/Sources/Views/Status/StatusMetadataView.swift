@@ -21,19 +21,22 @@ class StatusMetadataView: UIStackView {
         paddingView.backgroundColor = .clear
 
         nameLabel.font = .customCallout
-        nameLabel.textColor = .text
         nameLabel.set(hugging: .defaultHigh, for: .horizontal)
 
         handleLabel.font = .customDetail
-        handleLabel.textColor = .textSecondary
         handleLabel.set(hugging: .medium, for: .horizontal)
 
         interpunctView.font = .customDetail
-        interpunctView.textColor = .textSecondary
 
         timestampLabel.font = .customDetail
-        timestampLabel.textColor = .textSecondary
         timestampLabel.set(hugging: .required, for: .horizontal)
+
+        ThemeController.shared.add(self) { [weak self] _ in
+            self?.nameLabel.textColor = .text
+            self?.handleLabel.textColor = .textSecondary
+            self?.interpunctView.textColor = .textSecondary
+            self?.timestampLabel.textColor = .textSecondary
+        }
     }
 
     required init(coder: NSCoder) {
