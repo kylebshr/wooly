@@ -30,6 +30,7 @@ enum Appearance {
         let tabBar = UITabBar.appearance(whenContainedInInstancesOf: [MainViewController.self])
         tabBar.barStyle = barStyle
         tabBar.barTintColor = .barColor
+        tabBar.unselectedItemTintColor = .textSecondary
 
         let scrollView = UIScrollView.appearance()
         scrollView.indicatorStyle = scrollIndicatorStyle
