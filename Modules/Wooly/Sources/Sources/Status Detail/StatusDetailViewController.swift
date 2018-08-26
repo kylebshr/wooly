@@ -1,6 +1,6 @@
 import UIKit
 
-class StatusDetailViewController: ViewController {
+class StatusDetailViewController: UnimplementedViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Toot"
