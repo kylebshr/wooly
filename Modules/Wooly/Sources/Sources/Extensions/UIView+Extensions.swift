@@ -2,23 +2,23 @@ import UIKit
 
 extension UIView {
     func setHuggingAndCompression(to priority: UILayoutPriority) {
-        set(hugging: priority, for: .horizontal)
-        set(hugging: priority, for: .vertical)
-        set(compression: priority, for: .horizontal)
-        set(compression: priority, for: .vertical)
+        set(contentHugging: priority, for: .horizontal)
+        set(contentHugging: priority, for: .vertical)
+        set(compressionResistance: priority, for: .horizontal)
+        set(compressionResistance: priority, for: .vertical)
     }
 
 
     func setHuggingAndCompression(to priority: UILayoutPriority, for axis: UILayoutConstraintAxis) {
-        set(hugging: priority, for: axis)
-        set(compression: priority, for: axis)
+        set(contentHugging: priority, for: axis)
+        set(compressionResistance: priority, for: axis)
     }
 
-    func set(hugging: UILayoutPriority, for axis: UILayoutConstraintAxis) {
-        setContentHuggingPriority(hugging, for: axis)
+    func set(contentHugging: UILayoutPriority, for axis: UILayoutConstraintAxis) {
+        setContentHuggingPriority(contentHugging, for: axis)
     }
 
-    func set(compression: UILayoutPriority, for axis: UILayoutConstraintAxis) {
-        setContentCompressionResistancePriority(compression, for: axis)
+    func set(compressionResistance: UILayoutPriority, for axis: UILayoutConstraintAxis) {
+        setContentCompressionResistancePriority(compressionResistance, for: axis)
     }
 }

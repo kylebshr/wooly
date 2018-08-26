@@ -17,16 +17,16 @@ class StatusMetadataView: UIView {
         timestampLabel.trailingAnchor.pin(lessThan: trailingAnchor)
 
         nameLabel.font = .customCallout
-        nameLabel.set(compression: .required, for: .vertical)
-        nameLabel.set(hugging: .defaultHigh, for: .horizontal)
+        nameLabel.set(compressionResistance: .required, for: .vertical)
+        nameLabel.set(compressionResistance: .defaultHigh, for: .horizontal)
 
         handleLabel.font = .customDetail
-        handleLabel.set(hugging: .medium, for: .horizontal)
+        handleLabel.set(compressionResistance: .medium, for: .horizontal)
 
         interpunctView.font = .customDetail
 
         timestampLabel.font = .customDetail
-        timestampLabel.set(hugging: .required, for: .horizontal)
+        timestampLabel.set(compressionResistance: .required, for: .horizontal)
 
         ThemeController.shared.add(self) { [weak self] _ in
             self?.nameLabel.textColor = .text
