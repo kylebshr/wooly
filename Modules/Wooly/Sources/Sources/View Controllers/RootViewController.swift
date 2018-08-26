@@ -12,11 +12,6 @@ class RootViewController: ViewController {
         }
     }
 
-    override init() {
-        super.init()
-        viewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
