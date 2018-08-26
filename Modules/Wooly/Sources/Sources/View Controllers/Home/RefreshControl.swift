@@ -2,16 +2,24 @@ import UIKit
 
 class RefreshControl: UIControl {
 
-    var isRefreshing: Bool = false {
+    var isAnimating: Bool = false {
         didSet {
-            guard isRefreshing != oldValue else { return }
-            arrow.isHidden = isRefreshing
-            if isRefreshing {
+            guard isAnimating != oldValue else { return }
+            arrow.isHidden = isAnimating
+            if isAnimating {
                 indicator.startAnimating()
                 haptics.impactOccurred()
             } else {
                 indicator.stopAnimating()
             }
+        }
+    }
+
+    var isRefreshing: Bool = false {
+        didSet {
+            guard isRefreshing, isRefreshing != oldValue else { return }
+            sendActions(for: .valueChanged)
+            sendActions(for: .primaryActionTriggered)
         }
     }
 

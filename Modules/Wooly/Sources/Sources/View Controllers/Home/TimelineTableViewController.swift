@@ -27,19 +27,19 @@ class TimelineTableViewController: TableViewController {
     }
 
     @objc private func refreshChanged(_ sender: UIRefreshControl) {
+        print("refreshChanged")
         refresh? { [weak self] in
             self?.endRefreshing()
         }
     }
 
     private func endRefreshing() {
-        if !tableView.isDragging {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.tableView.contentInset.top = 0
-            }, completion: { _ in
-                self.customRefreshControl.isRefreshing = false
-            })
-        }
+        UIView.animate(withDuration: 0.2, animations: {
+            self.tableView.contentInset.top = 0
+        }, completion: { _ in
+            self.customRefreshControl.isAnimating = false
+            self.customRefreshControl.isRefreshing = false
+        })
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,32 +59,28 @@ class TimelineTableViewController: TableViewController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let verticalOffset = -scrollView.adjustedContentOffset.y
 
-        if verticalOffset >= customRefreshControl.bounds.height {
-            customRefreshControl.isRefreshing = true
+        if verticalOffset >= customRefreshControl.bounds.height && scrollView.isTracking {
+            customRefreshControl.isAnimating = true
         } else if verticalOffset > 0 {
             customRefreshControl.prepareForRefresh()
         }
     }
 
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if customRefreshControl.isRefreshing && scrollView.adjustedContentOffset.y < 0 {
+        if customRefreshControl.isAnimating && scrollView.adjustedContentOffset.y < 0 {
             self.tableView.contentInset.top = self.customRefreshControl.bounds.height
         } else {
             self.tableView.contentInset.top = 0
         }
 
-        if !decelerate {
-            if customRefreshControl.isRefreshing {
-                customRefreshControl.sendActions(for: .valueChanged)
-                customRefreshControl.sendActions(for: .primaryActionTriggered)
-            }
+        if !decelerate, customRefreshControl.isAnimating  {
+            customRefreshControl.isRefreshing = true
         }
     }
 
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if customRefreshControl.isRefreshing {
-            customRefreshControl.sendActions(for: .valueChanged)
-            customRefreshControl.sendActions(for: .primaryActionTriggered)
+        if customRefreshControl.isAnimating {
+            customRefreshControl.isRefreshing = true
         }
     }
 }
