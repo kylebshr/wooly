@@ -36,9 +36,6 @@ class HomeViewController: ViewController {
         add(child: tableViewController)
         tableViewController.view.pinEdges(to: view)
 
-        let logoutButton = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(self.logOutTapped))
-        navigationItem.leftBarButtonItem = logoutButton
-
         service.home.addObserver(owner: self) { [weak self] resource, event in
             self?.updateTimeline(with: resource)
         }
@@ -56,10 +53,5 @@ class HomeViewController: ViewController {
         }
         timeline = resource.typedContent() ?? []
         showLoading = resource.isLoading && timeline.isEmpty
-    }
-
-    @objc
-    private func logOutTapped() {
-        SessionController.logOut()
     }
 }
