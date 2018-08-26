@@ -1,6 +1,6 @@
 import UIKit
 
-class NotificationsViewController: ViewController {
+class NotificationsViewController: UnimplementedViewController {
 
     override init() {
         super.init()

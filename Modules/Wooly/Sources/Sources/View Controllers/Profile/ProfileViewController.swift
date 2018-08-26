@@ -1,6 +1,6 @@
 import UIKit
 
-class ProfileViewController: ViewController {
+class ProfileViewController: UnimplementedViewController {
 
     override init() {
         super.init()

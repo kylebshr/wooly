@@ -1,6 +1,6 @@
 import UIKit
 
-class ExploreViewController: ViewController {
+class ExploreViewController: UnimplementedViewController {
 
     override init() {
         super.init()
