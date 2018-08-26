@@ -12,4 +12,9 @@ class ViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    @objc
+    func dismissAnimated() {
+        dismiss(animated: true, completion: nil)
+    }
 }

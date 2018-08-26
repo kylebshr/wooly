@@ -36,8 +36,8 @@ class HomeViewController: ViewController {
         add(child: tableViewController)
         tableViewController.view.pinEdges(to: view)
 
-        let compose = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = compose
+        let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(compose))
+        navigationItem.rightBarButtonItem = composeButton
 
         tableViewController.refresh = { [weak self] completion in
             self?.service.home.load().onCompletion { _ in
@@ -64,5 +64,11 @@ class HomeViewController: ViewController {
         if let error = resource.latestError {
             print(error)
         }
+    }
+
+    @objc private func compose() {
+        let compose = ComposeViewController()
+        let navigation = NavigationController(rootViewController: compose)
+        present(navigation, animated: true, completion: nil)
     }
 }
