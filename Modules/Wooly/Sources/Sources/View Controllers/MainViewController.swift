@@ -1,7 +1,7 @@
 import UIKit
 import Mammut
 
-class LoggedInViewController: ViewController {
+class MainViewController: ViewController {
 
     private let childTabBarController = UITabBarController()
 
@@ -9,7 +9,10 @@ class LoggedInViewController: ViewController {
         super.init()
 
         childTabBarController.viewControllers = [
-            TimelineViewController(service: service)
+            HomeViewController(service: service),
+            NotificationsViewController(),
+            ExploreViewController(),
+            ProfileViewController()
         ].map { NavigationController(rootViewController: $0) }
 
         add(child: childTabBarController)

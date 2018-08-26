@@ -2,7 +2,7 @@ import UIKit
 import Siesta
 import Mammut
 
-class TimelineViewController: ViewController {
+class HomeViewController: ViewController {
 
     private var timeline: [Status] = [] {
         didSet {
@@ -13,7 +13,7 @@ class TimelineViewController: ViewController {
     private let service: MastodonService
 
     private let tableViewController = TimelineTableViewController()
-    private let indicatorViewController = ActivityIndicatorViewController()
+    private let indicatorViewController = BlockingActivityViewController()
 
     private var showLoading: Bool = false {
         didSet {
@@ -26,6 +26,8 @@ class TimelineViewController: ViewController {
     init(service: MastodonService) {
         self.service = service
         super.init()
+        title = "Home"
+        tabBarItem = UITabBarItem(title: title, image: #imageLiteral(resourceName: "Home Tab"), selectedImage: #imageLiteral(resourceName: "Home Tab Selected"))
     }
 
     override func viewDidLoad() {
@@ -36,9 +38,6 @@ class TimelineViewController: ViewController {
 
         let logoutButton = UIBarButtonItem(title: "Log Out", style: .done, target: self, action: #selector(self.logOutTapped))
         navigationItem.leftBarButtonItem = logoutButton
-        navigationItem.title = "Home"
-
-        tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
 
         service.home.addObserver(owner: self) { [weak self] resource, event in
             self?.updateTimeline(with: resource)

@@ -24,22 +24,17 @@ class TableViewController: UITableViewController {
 
         let selectedRows = tableView.indexPathsForSelectedRows ?? []
 
-        let deselect = { [weak self] in
-            selectedRows.forEach { self?.tableView.deselectRow(at: $0, animated: animated) }
-        }
-
-        let reselect = { [weak self] (context: UIViewControllerTransitionCoordinatorContext) in
-            if context.isCancelled {
-                selectedRows.forEach { self?.tableView.selectRow(at: $0, animated: false, scrollPosition: .none) }
-            }
-        }
-
         guard let coordinator = transitionCoordinator else {
-            return deselect()
+            for row in selectedRows { tableView.deselectRow(at: row, animated: animated) }
+            return
         }
 
-        coordinator.animate(alongsideTransition: { _ in
-            deselect()
-        }, completion: reselect)
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            for row in selectedRows { self?.tableView.deselectRow(at: row, animated: false) }
+        }, completion: { [weak self] context in
+            if context.isCancelled {
+                for row in selectedRows { self?.tableView.selectRow(at: row, animated: false, scrollPosition: .none) }
+            }
+        })
     }
 }

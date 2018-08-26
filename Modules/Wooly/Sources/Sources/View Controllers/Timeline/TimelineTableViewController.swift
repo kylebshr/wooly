@@ -16,16 +16,6 @@ class TimelineTableViewController: TableViewController {
         tableView.estimatedRowHeight = 140
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        transitionCoordinator?.animate(alongsideTransition: { [weak self] _ in
-            self?.tableView.indexPathsForSelectedRows?.forEach { [weak self] in
-                self?.tableView.deselectRow(at: $0, animated: false)
-            }
-        }, completion: nil)
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return timeline.count
     }

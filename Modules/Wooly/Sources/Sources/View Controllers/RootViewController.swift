@@ -12,9 +12,14 @@ class RootViewController: ViewController {
         }
     }
 
+    override init() {
+        super.init()
+        viewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
+
         SessionController.shared.add(self) { [weak self] _ in
             self?.updateViewController()
         }
@@ -26,7 +31,7 @@ class RootViewController: ViewController {
         if let session = SessionController.shared.current,
             let service = try? MastodonService(session: session)
         {
-            viewController = LoggedInViewController(service: service)
+            viewController = MainViewController(service: service)
         } else {
             viewController = OnboardingViewController()
         }
