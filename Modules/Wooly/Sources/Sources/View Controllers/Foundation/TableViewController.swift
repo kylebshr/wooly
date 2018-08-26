@@ -25,7 +25,7 @@ class TableViewController: UITableViewController {
         let selectedRows = tableView.indexPathsForSelectedRows ?? []
 
         let deselect = { [weak self] in
-            selectedRows.forEach { self?.tableView.deselectRow(at: $0, animated: false) }
+            selectedRows.forEach { self?.tableView.deselectRow(at: $0, animated: animated) }
         }
 
         let reselect = { [weak self] (context: UIViewControllerTransitionCoordinatorContext) in
