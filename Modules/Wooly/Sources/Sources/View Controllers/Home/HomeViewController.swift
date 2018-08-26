@@ -35,11 +35,16 @@ class HomeViewController: ViewController {
 
         add(child: tableViewController)
         tableViewController.view.pinEdges(to: view)
-        tableViewController.refresh = { [weak self] sender in
+
+        let compose = UIBarButtonItem(barButtonSystemItem: .compose, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = compose
+
+        tableViewController.refresh = { [weak self] completion in
             self?.service.home.load().onCompletion { _ in
-                sender()
+                completion()
             }
         }
+
         service.home.addObserver(owner: self) { [weak self] resource, event in
             self?.updateTimeline(with: resource)
         }
