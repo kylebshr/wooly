@@ -67,7 +67,7 @@ class TimelineTableViewController: TableViewController {
     }
 
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if customRefreshControl.isAnimating && scrollView.adjustedContentOffset.y < 0 {
+        if customRefreshControl.isAnimating {
             self.tableView.contentInset.top = self.customRefreshControl.bounds.height
         } else {
             self.tableView.contentInset.top = 0
