@@ -14,25 +14,22 @@ class TimelineStatusCell: TableViewCell {
 
         contentView.addSubview(avatarView)
         avatarView.pinEdges([.left, .top], to: contentView, insets: .standardEdges)
-        avatarView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardSpacing, priority: .almostRequired)
+        avatarView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardVerticalEdge)
+        avatarView.bottomAnchor.pin(to: contentView.bottomAnchor, constant: -.standardVerticalEdge, priority: .extraLow)
         avatarView.pinSize(to: 50)
+
+        contentView.addSubview(metadataView)
+        metadataView.leadingAnchor.pin(to: avatarView.trailingAnchor, constant: .standardSpacing)
+        metadataView.topAnchor.pin(to: avatarView.topAnchor)
+        metadataView.trailingAnchor.pin(to: contentView.trailingAnchor, constant: -.rightHorizontalEdge)
+
+        contentView.addSubview(contentLabel)
+        contentLabel.topAnchor.pin(to: metadataView.bottomAnchor, constant: .extraSmallSpacing)
+        contentLabel.pinEdges([.left, .right], to: metadataView)
+        contentLabel.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardVerticalEdge)
 
         contentLabel.numberOfLines = 0
         contentLabel.font = .customBody
-
-        let contentStack = UIStackView()
-        contentStack.distribution = .fill
-        contentStack.spacing = .extraSmallSpacing
-        contentStack.axis = .vertical
-        contentStack.addArrangedSubview(metadataView)
-        contentStack.addArrangedSubview(contentLabel)
-
-        contentView.addSubview(contentStack)
-        contentStack.leadingAnchor.pin(to: avatarView.trailingAnchor, constant: .standardSpacing)
-        contentStack.pinEdges(.top, to: avatarView)
-        contentStack.pinEdges(.right, to: contentView, insets: .standardSpacing)
-        contentStack.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardSpacing, priority: .almostRequired)
-        contentStack.bottomAnchor.pin(to: contentView.bottomAnchor, constant: -.standardSpacing, priority: .extraLow)
 
         ThemeController.shared.add(self) { [weak self] _ in
             self?.contentLabel.textColor = .text

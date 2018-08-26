@@ -1,26 +1,23 @@
 import UIKit
 
-class StatusMetadataView: UIStackView {
+class StatusMetadataView: UIView {
     private let nameLabel = Label()
     private let handleLabel = Label()
     private let timestampLabel = Label()
     private let interpunctView = InterpunctView()
-    private let paddingView = UIView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        addArrangedSubview(nameLabel)
-        addArrangedSubview(handleLabel)
-        addArrangedSubview(interpunctView)
-        addArrangedSubview(timestampLabel)
-        addArrangedSubview(paddingView)
-
-        spacing = .smallSpacing
-        alignment = .lastBaseline
-        paddingView.backgroundColor = .clear
+        let orderedViews = [nameLabel, handleLabel, interpunctView, timestampLabel]
+        orderedViews.forEach { addSubview($0) }
+        orderedViews.align(anchors: \.lastBaselineAnchor)
+        orderedViews.pin(anchors: \.trailingAnchor, to: \.leadingAnchor, spacing: .smallSpacing)
+        nameLabel.pinEdges([.left, .top, .bottom], to: self)
+        timestampLabel.trailingAnchor.pin(lessThan: trailingAnchor)
 
         nameLabel.font = .customCallout
+        nameLabel.set(compression: .required, for: .vertical)
         nameLabel.set(hugging: .defaultHigh, for: .horizontal)
 
         handleLabel.font = .customDetail

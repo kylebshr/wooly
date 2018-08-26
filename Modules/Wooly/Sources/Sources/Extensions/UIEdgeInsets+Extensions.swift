@@ -9,7 +9,12 @@ extension UIEdgeInsets {
         self.init(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
     }
 
-    static let standardEdges = UIEdgeInsets(vertical: .standardVerticalEdge, horizontal: .standardHorizontalEdge)
+    static let standardEdges = UIEdgeInsets(
+        top: .standardVerticalEdge,
+        left: .leftHorizontalEdge,
+        bottom: .standardVerticalEdge,
+        right: .rightHorizontalEdge
+    )
 
     static let standardSpacing = UIEdgeInsets(all: .standardSpacing)
 }

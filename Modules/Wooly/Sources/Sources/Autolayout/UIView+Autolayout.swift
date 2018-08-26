@@ -5,8 +5,13 @@ protocol Pinnable: class {
     var leadingAnchor: NSLayoutXAxisAnchor { get }
     var trailingAnchor: NSLayoutXAxisAnchor { get }
     var bottomAnchor: NSLayoutYAxisAnchor { get }
+
+    var firstBaselineAnchor: NSLayoutYAxisAnchor { get }
+    var lastBaselineAnchor: NSLayoutYAxisAnchor { get }
+
     var centerXAnchor: NSLayoutXAxisAnchor { get }
     var centerYAnchor: NSLayoutYAxisAnchor { get }
+
     var widthAnchor: NSLayoutDimension { get }
     var heightAnchor: NSLayoutDimension { get }
 
@@ -15,6 +20,14 @@ protocol Pinnable: class {
 
 extension UIView: Pinnable {}
 extension UILayoutGuide: Pinnable {
+    var firstBaselineAnchor: NSLayoutYAxisAnchor {
+        return bottomAnchor
+    }
+
+    var lastBaselineAnchor: NSLayoutYAxisAnchor {
+        return bottomAnchor
+    }
+
     var translatesAutoresizingMaskIntoConstraints: Bool {
         get { return false }
         set {}
@@ -60,5 +73,48 @@ extension Pinnable {
 
     public func pinSize(to constant: CGFloat) {
         pinSize(to: CGSize(width: constant, height: constant))
+    }
+}
+
+typealias XAnchorPath = KeyPath<Pinnable, NSLayoutXAxisAnchor>
+typealias YAnchorPath = KeyPath<Pinnable, NSLayoutYAxisAnchor>
+
+extension Array where Element: Pinnable {
+    func align(anchors anchor: YAnchorPath) {
+        guard let first = self.first else {
+            return
+        }
+
+        for view in dropFirst() {
+            view[keyPath: anchor].pin(to: first[keyPath: anchor])
+        }
+    }
+
+    func align(anchors anchor: XAnchorPath) {
+        guard let first = self.first else {
+            return
+        }
+
+        for view in dropFirst() {
+            view[keyPath: anchor].pin(to: first[keyPath: anchor])
+        }
+    }
+
+    func pin(anchors anchor: YAnchorPath, to: YAnchorPath, spacing: CGFloat = 0) {
+        var previous = first
+
+        for view in dropFirst() {
+            previous?[keyPath: anchor].pin(to: view[keyPath: to], constant: -spacing)
+            previous = view
+        }
+    }
+
+    func pin(anchors anchor: XAnchorPath, to: XAnchorPath, spacing: CGFloat = 0) {
+        var previous = first
+
+        for view in dropFirst() {
+            previous?[keyPath: anchor].pin(to: view[keyPath: to], constant: -spacing)
+            previous = view
+        }
     }
 }
