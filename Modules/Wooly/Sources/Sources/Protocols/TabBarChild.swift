@@ -1,16 +1,21 @@
 import UIKit
 
-protocol TabBarChild {
+@objc protocol TabBarChild: AnyObject {
+    @objc var scrollView: UIScrollView? { get }
     func tabBarControllerDidSelectTab(_ controller: UITabBarController)
 }
 
-extension UIViewController: TabBarChild {
+extension ViewController: TabBarChild {
+    var scrollView: UIScrollView? {
+        return view as? UIScrollView
+    }
+
     func tabBarControllerDidSelectTab(_ controller: UITabBarController) {
-        guard viewIfLoaded?.window != nil, let view = view as? UIScrollView else {
+        guard viewIfLoaded?.window != nil, let scrollView = scrollView else {
             return
         }
 
-        let offset = CGPoint(x: 0, y: -view.adjustedContentInset.top)
-        view.setContentOffset(offset, animated: true)
+        let offset = CGPoint(x: 0, y: -scrollView.adjustedContentInset.top)
+        scrollView.setContentOffset(offset, animated: true)
     }
 }

@@ -15,6 +15,10 @@ class HomeViewController: ViewController {
     private let tableViewController = TimelineTableViewController()
     private let indicatorViewController = BlockingActivityViewController()
 
+    override var scrollView: UIScrollView? {
+        return tableViewController.tableView
+    }
+
     private var showLoading: Bool = false {
         didSet {
             if oldValue != showLoading {
