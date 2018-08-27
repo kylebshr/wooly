@@ -17,7 +17,7 @@ class TimelineTableViewController: TableViewController {
 
         tableView.register(TimelineStatusCell.self)
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 140
+        tableView.estimatedRowHeight = 200
 
         view.addSubview(customRefreshControl)
         customRefreshControl.widthAnchor.pin(to: view.widthAnchor)
@@ -39,6 +39,7 @@ class TimelineTableViewController: TableViewController {
         }, completion: { _ in
             self.customRefreshControl.isAnimating = false
             self.customRefreshControl.isRefreshing = false
+            self.tableView.contentInset.top = 0
         })
     }
 
