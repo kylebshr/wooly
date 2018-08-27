@@ -23,7 +23,7 @@ enum Appearance {
         onboardingNavigationBar.barStyle = barStyle
         onboardingNavigationBar.barTintColor = .clear
 
-        let loggedInNavigationBar = UINavigationBar.appearance(whenContainedInInstancesOf: [MainViewController.self])
+        let loggedInNavigationBar = UINavigationBar.appearance()
         loggedInNavigationBar.barStyle = barStyle
         loggedInNavigationBar.barTintColor = .barColor
 
