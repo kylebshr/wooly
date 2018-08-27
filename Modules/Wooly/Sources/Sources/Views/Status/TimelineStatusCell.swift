@@ -42,6 +42,7 @@ class TimelineStatusCell: TableViewCell {
     }
 
     func display(status: Status) {
+        actionView.display(boosts: status.reblogsCount, favorites: status.favouritesCount)
         avatarView.pin_setImage(from: status.account.avatar)
         contentLabel.text = status.strippedContent
         metadataView.display(

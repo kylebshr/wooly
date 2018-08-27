@@ -2,17 +2,19 @@ import UIKit
 
 class StatusActionView: UIView {
 
+    private let haptics = UIImpactFeedbackGenerator()
+
+    private let replyButton = Button(type: .system)
+    private let boostButton = Button(type: .system)
+    private let favoriteButton = Button(type: .system)
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        let replyButton = UIButton(type: .system)
         replyButton.setImage(#imageLiteral(resourceName: "Reply"), for: .normal)
-
-        let boostButton = UIButton(type: .system)
         boostButton.setImage(#imageLiteral(resourceName: "Boost"), for: .normal)
-
-        let favoriteButton = UIButton(type: .system)
         favoriteButton.setImage(#imageLiteral(resourceName: "Favorite"), for: .normal)
+        favoriteButton.addTarget(self, action: #selector(self.playHaptics), for: .primaryActionTriggered)
 
         let buttons = [replyButton, boostButton, favoriteButton]
         let guides = [UILayoutGuide(), UILayoutGuide(), UILayoutGuide()]
@@ -21,6 +23,8 @@ class StatusActionView: UIView {
             addSubview(button)
             addLayoutGuide(layoutGuide)
 
+            button.titleLabel?.font = .footnote
+            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: .extraSmallSpacing, bottom: 0, right: -.extraSmallSpacing)
             button.pinEdges([.top, .bottom], to: self)
             button.leadingAnchor.pin(to: layoutGuide.trailingAnchor)
 
@@ -37,7 +41,12 @@ class StatusActionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func display(replies: Int, boosts: Int, favorites: Int) {
-        
+    func display(boosts: Int, favorites: Int) {
+        boostButton.setTitle(String(boosts), for: .normal)
+        favoriteButton.setTitle(String(favorites), for: .normal)
+    }
+
+    @objc private func playHaptics() {
+        haptics.impactOccurred()
     }
 }

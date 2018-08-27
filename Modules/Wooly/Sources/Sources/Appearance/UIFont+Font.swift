@@ -15,4 +15,9 @@ extension UIFont {
         let font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
     }
+
+    static var footnote: UIFont {
+        let font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
+    }
 }
