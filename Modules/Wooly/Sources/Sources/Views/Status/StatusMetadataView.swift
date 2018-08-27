@@ -1,3 +1,4 @@
+import AsyncDisplayKit
 import UIKit
 
 private let formatter: DateComponentsFormatter = {
@@ -7,44 +8,44 @@ private let formatter: DateComponentsFormatter = {
     return formatter
 }()
 
-class StatusMetadataView: UIView {
-    private let nameLabel = Label()
-    private let handleLabel = Label()
-    private let timestampLabel = Label()
-    private let interpunctView = InterpunctView()
+class StatusMetadataNode: ASDisplayNode {
+    private let nameLabel = LabelNode()
+    private let handleLabel = LabelNode()
+    private let timestampLabel = LabelNode()
+    private let interpunct = InterpunctNode()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override func didLoad() {
+        super.didLoad()
 
-        let orderedViews = [nameLabel, handleLabel, interpunctView, timestampLabel]
-        orderedViews.forEach { addSubview($0) }
-        orderedViews.align(anchors: \.lastBaselineAnchor)
-        orderedViews.pin(anchors: \.trailingAnchor, to: \.leadingAnchor, spacing: .smallSpacing)
-        nameLabel.pinEdges([.left, .top, .bottom], to: self)
-        timestampLabel.trailingAnchor.pin(lessThan: trailingAnchor)
+        addSubnode(nameLabel)
+        addSubnode(handleLabel)
+        addSubnode(interpunct)
+        addSubnode(timestampLabel)
 
         nameLabel.font = .customCallout
-        nameLabel.set(compressionResistance: .required, for: .vertical)
-        nameLabel.set(compressionResistance: .defaultHigh, for: .horizontal)
-
+//        nameLabel.set(compressionResistance: .required, for: .vertical)
+//        nameLabel.set(compressionResistance: .defaultHigh, for: .horizontal)
+//
         handleLabel.font = .customDetail
-        handleLabel.set(compressionResistance: .medium, for: .horizontal)
-
-        interpunctView.font = .customDetail
-
+//        handleLabel.set(compressionResistance: .medium, for: .horizontal)
+//
+        interpunct.font = .customDetail
+//
         timestampLabel.font = .customDetail
-        timestampLabel.set(compressionResistance: .required, for: .horizontal)
+//        timestampLabel.set(compressionResistance: .required, for: .horizontal)
 
         ThemeController.shared.add(self) { [weak self] _ in
             self?.nameLabel.textColor = .text
             self?.handleLabel.textColor = .textSecondary
-            self?.interpunctView.textColor = .textSecondary
+            self?.interpunct.textColor = .textSecondary
             self?.timestampLabel.textColor = .textSecondary
         }
     }
 
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+//        return ASStackLayoutSpec(direction: .horizontal, spacing: .smallSpacing, justifyContent: .start, alignItems: .baselineFirst, children: [nameLabel, handleLabel, interpunct, timestampLabel])
+
+        return ASStackLayoutSpec(direction: .horizontal, spacing: .smallSpacing, justifyContent: .start, alignItems: .baselineFirst, flexWrap: .wrap, alignContent: .start, lineSpacing: 0, children: [nameLabel, handleLabel, interpunct, timestampLabel])
     }
 
     func display(name: String, handle: String, timestamp: Date) {

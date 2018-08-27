@@ -20,6 +20,7 @@ targets:
       - target: Keychain
       - carthage: PINCache
       - carthage: PINRemoteImage
+      - carthage: AsyncDisplayKit
     settings:
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       TARGETED_DEVICE_FAMILY: 1

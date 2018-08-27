@@ -6,6 +6,11 @@ task :generate do
 end
 
 task :carthage do
-    puts 'Updating dependencies...'
+    puts 'Bootstrapping dependencies...'
     `carthage bootstrap --platform iOS --cache-builds`
+end
+
+task :update do
+    puts 'Updating dependencies...'
+    `carthage update --platform iOS --cache-builds`
 end
