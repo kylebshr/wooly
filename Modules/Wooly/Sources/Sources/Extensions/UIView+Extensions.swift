@@ -1,5 +1,7 @@
 import UIKit
 
+private let minimumDimension: CGFloat = 44
+
 extension UIView {
     func setHuggingAndCompression(to priority: UILayoutPriority) {
         set(contentHugging: priority, for: .horizontal)
@@ -20,5 +22,11 @@ extension UIView {
 
     func set(compressionResistance: UILayoutPriority, for axis: UILayoutConstraintAxis) {
         setContentCompressionResistancePriority(compressionResistance, for: axis)
+    }
+
+    func isPointInsideMinimum(_ point: CGPoint) -> Bool {
+        let outsetX = max(0, (minimumDimension - bounds.width) / 2)
+        let outsetY = max(0, (minimumDimension - bounds.height) / 2)
+        return bounds.insetBy(dx: -outsetX, dy: -outsetY).contains(point)
     }
 }

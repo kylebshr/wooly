@@ -33,6 +33,7 @@ class TimelineStatusCell: TableViewCell {
         actionView.pinEdges([.left, .right], to: contentLabel)
         actionView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardVerticalEdge)
 
+        contentLabel.isUserInteractionEnabled = false
         contentLabel.numberOfLines = 0
         contentLabel.font = .customBody
 

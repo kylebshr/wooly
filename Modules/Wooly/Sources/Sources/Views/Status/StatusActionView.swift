@@ -41,12 +41,17 @@ class StatusActionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return isPointInsideMinimum(point)
+    }
+
     func display(boosts: Int, favorites: Int) {
         boostButton.setTitle(String(boosts), for: .normal)
         favoriteButton.setTitle(String(favorites), for: .normal)
     }
 
     @objc private func playHaptics() {
+        print("hit")
         haptics.impactOccurred()
     }
 }
