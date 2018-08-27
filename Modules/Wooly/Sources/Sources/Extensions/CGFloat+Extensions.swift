@@ -7,4 +7,5 @@ extension CGFloat {
     static let leftHorizontalEdge: CGFloat = 16
     static let rightHorizontalEdge: CGFloat = 8
     static let standardVerticalEdge: CGFloat = 12
+    static var pixel: CGFloat { return 1 / UIScreen.main.scale }
 }

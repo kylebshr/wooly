@@ -17,7 +17,7 @@ class WelcomeViewController: ViewController, Authenticator {
 
         add(child: instanceViewController)
 
-        instanceView.layer.borderWidth = 1 / UIScreen.main.scale
+        instanceView.layer.borderWidth = .pixel
         instanceView.layer.cornerRadius = .standardSpacing
         instanceView.pinEdges([.left, .right, .bottom], to: view.safeAreaLayoutGuide, insets: .standardEdges)
         instanceView.heightAnchor.pin(to: 300)

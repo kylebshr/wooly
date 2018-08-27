@@ -4,7 +4,7 @@ import PINRemoteImage
 
 class TimelineStatusCell: TableViewCell {
 
-    private let avatarView = CircularImageView()
+    private let avatarView = AvatarControl()
     private let metadataView = StatusMetadataView()
     private let actionView = StatusActionView()
     private let contentLabel = Label()
@@ -35,7 +35,7 @@ class TimelineStatusCell: TableViewCell {
 
         contentLabel.isUserInteractionEnabled = false
         contentLabel.numberOfLines = 0
-        contentLabel.font = .customBody
+        contentLabel.font = .body
 
         ThemeController.shared.add(self) { [weak self] _ in
             self?.contentLabel.textColor = .text
@@ -44,7 +44,7 @@ class TimelineStatusCell: TableViewCell {
 
     func display(status: Status) {
         actionView.display(boosts: status.reblogsCount, favorites: status.favouritesCount)
-        avatarView.pin_setImage(from: status.account.avatar)
+        avatarView.url = status.account.avatar
         contentLabel.text = status.strippedContent
         metadataView.display(
             name: status.account.displayName,

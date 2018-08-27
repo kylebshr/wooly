@@ -10,7 +10,7 @@ class UnimplementedViewController: ViewController {
         view.addSubview(label)
         label.textAlignment = .center
         label.pinCenter(to: view)
-        label.font = .customBody
+        label.font = .body
         label.text = "Unimplemented"
 
         ThemeController.shared.add(self) { [weak self] _ in
