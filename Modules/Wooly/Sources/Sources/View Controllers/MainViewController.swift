@@ -27,4 +27,12 @@ class MainViewController: UITabBarController {
             customChildren[index].tabBarControllerDidSelectTab(self)
         }
     }
+
+    private func bounceTab(at index: Int) {
+        let item = tabBar.subviews[index + 1]
+        item.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.7) {
+            item.transform = .identity
+        }.startAnimation()
+    }
 }
