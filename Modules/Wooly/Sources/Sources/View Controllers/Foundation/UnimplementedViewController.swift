@@ -14,6 +14,7 @@ class UnimplementedViewController: ViewController {
         label.text = "Unimplemented"
 
         ThemeController.shared.add(self) { [weak self] _ in
+            self?.view.backgroundColor = .background
             self?.label.textColor = .textSecondary
         }
     }

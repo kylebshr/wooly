@@ -43,7 +43,6 @@ class RefreshControl: UIControl {
         arrow.pinCenter(to: self)
 
         ThemeController.shared.add(self) { [weak self] _ in
-            self?.backgroundColor = .highlight
             self?.arrow.tintColor = .textSecondary
         }
     }

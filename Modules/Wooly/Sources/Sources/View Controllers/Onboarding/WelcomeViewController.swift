@@ -17,11 +17,15 @@ class WelcomeViewController: ViewController, Authenticator {
 
         add(child: instanceViewController)
 
-        instanceView.layer.borderColor = UIColor.separator.cgColor
         instanceView.layer.borderWidth = 1 / UIScreen.main.scale
         instanceView.layer.cornerRadius = .standardSpacing
         instanceView.pinEdges([.left, .right, .bottom], to: view.safeAreaLayoutGuide, insets: .standardEdges)
         instanceView.heightAnchor.pin(to: 300)
+
+        ThemeController.shared.add(self) { [weak self] _ in
+            self?.instanceView.layer.borderColor = UIColor.separator.cgColor
+            self?.view.backgroundColor = .backgroundSecondary
+        }
     }
 
     private func didSelect(instance: Instance) {

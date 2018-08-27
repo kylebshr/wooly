@@ -10,7 +10,7 @@ class TableViewController: UITableViewController {
 
         ThemeController.shared.add(self) { [weak self] _ in
             self?.tableView.separatorColor = .separator
-            self?.tableView.backgroundColor = .highlight
+            self?.tableView.backgroundColor = .backgroundSecondary
         }
     }
 

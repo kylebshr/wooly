@@ -16,6 +16,13 @@ extension UIColor {
         }
     }
 
+    static var backgroundSecondary: UIColor {
+        switch theme {
+        case .dark: return UIColor(displayP3Red: 24, green: 31, blue: 41)
+        case .light: return UIColor(displayP3Red: 234, green: 238, blue: 239)
+        }
+    }
+
     static var barColor: UIColor {
         switch theme {
         case .dark: return UIColor(displayP3Red: 23, green: 34, blue: 56)
@@ -45,10 +52,7 @@ extension UIColor {
     }
 
     static var highlight: UIColor {
-        switch theme {
-        case .dark: return UIColor(displayP3Red: 24, green: 31, blue: 41)
-        case .light: return UIColor(displayP3Red: 234, green: 238, blue: 239)
-        }
+        return backgroundSecondary
     }
 
     convenience init(displayP3Red red: Int, green: Int, blue: Int) {
