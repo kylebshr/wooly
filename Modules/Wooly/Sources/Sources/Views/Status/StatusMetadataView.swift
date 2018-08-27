@@ -1,5 +1,12 @@
 import UIKit
 
+private let formatter: DateComponentsFormatter = {
+    let formatter = DateComponentsFormatter()
+    formatter.unitsStyle = .abbreviated
+    formatter.maximumUnitCount = 1
+    return formatter
+}()
+
 class StatusMetadataView: UIView {
     private let nameLabel = Label()
     private let handleLabel = Label()
@@ -43,6 +50,6 @@ class StatusMetadataView: UIView {
     func display(name: String, handle: String, timestamp: Date) {
         nameLabel.text = name
         handleLabel.text = handle
-        timestampLabel.text = "5h"
+        timestampLabel.text = formatter.string(from: timestamp, to: Date())
     }
 }
