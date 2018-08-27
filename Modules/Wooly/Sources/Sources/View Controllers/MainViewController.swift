@@ -1,24 +1,30 @@
 import UIKit
 import Mammut
 
-class MainViewController: ViewController {
+class MainViewController: UITabBarController {
 
-    private let childTabBarController = UITabBarController()
+    private let children: [UIViewController & TabBarChild]
 
     init(service: MastodonService) {
-        super.init()
-
-        childTabBarController.viewControllers = [
+        children = [
             HomeViewController(service: service),
             NotificationsViewController(),
             ExploreViewController(),
             ProfileViewController()
-        ].map { NavigationController(rootViewController: $0) }
+        ]
 
-        add(child: childTabBarController)
+        super.init(nibName: nil, bundle: nil)
+
+        viewControllers = children.map { NavigationController(rootViewController: $0) }
     }
 
-    override var childViewControllerForStatusBarStyle: UIViewController? {
-        return childTabBarController
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if let index = tabBar.items?.index(of: item) {
+            children[index].tabBarControllerDidSelectTab(self)
+        }
     }
 }
