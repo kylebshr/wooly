@@ -53,7 +53,9 @@ class TimelineTableViewController: TableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(StatusDetailViewController(), animated: true)
+        if let viewController = viewController(at: indexPath) {
+            navigationController?.pushViewController(viewController, animated: true)
+        }
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -82,5 +84,9 @@ class TimelineTableViewController: TableViewController {
         if customRefreshControl.isAnimating {
             customRefreshControl.isRefreshing = true
         }
+    }
+
+    override func viewController(at indexPath: IndexPath) -> UIViewController? {
+        return StatusDetailViewController()
     }
 }
