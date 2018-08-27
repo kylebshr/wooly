@@ -3,10 +3,10 @@ import Mammut
 
 class MainViewController: UITabBarController {
 
-    private let children: [UIViewController & TabBarChild]
+    private let customChildren: [UIViewController & TabBarChild]
 
     init(service: MastodonService) {
-        children = [
+        customChildren = [
             HomeViewController(service: service),
             NotificationsViewController(),
             ExploreViewController(),
@@ -15,7 +15,7 @@ class MainViewController: UITabBarController {
 
         super.init(nibName: nil, bundle: nil)
 
-        viewControllers = children.map { NavigationController(rootViewController: $0) }
+        viewControllers = customChildren.map { NavigationController(rootViewController: $0) }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -24,7 +24,7 @@ class MainViewController: UITabBarController {
 
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if let index = tabBar.items?.index(of: item) {
-            children[index].tabBarControllerDidSelectTab(self)
+            customChildren[index].tabBarControllerDidSelectTab(self)
         }
     }
 }

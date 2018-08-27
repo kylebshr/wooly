@@ -8,6 +8,10 @@ class BlockingActivityViewController: ViewController {
 
         view.addSubview(indicator)
         indicator.pinCenter(to: view)
+
+        ThemeController.shared.add(self) { [weak self] _ in
+            self?.view.backgroundColor = .background
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
