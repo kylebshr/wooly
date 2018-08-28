@@ -19,7 +19,7 @@ class ThemeController: Observable<Theme> {
 
     func toggleTheme() {
         UIView.animate(withDuration: 0.2) {
-            self.current = Theme(rawValue: self.current.rawValue + 1 % Theme.allCases.count)!
+            self.current = Theme(rawValue: (self.current.rawValue + 1) % Theme.allCases.count)!
         }
 
         let storableTheme = StorableBox<Theme>(current)

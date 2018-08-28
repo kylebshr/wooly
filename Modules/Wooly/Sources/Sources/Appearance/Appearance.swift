@@ -16,6 +16,13 @@ enum Appearance {
         }
     }
 
+    static var isBarTranslucent: Bool {
+        switch ThemeController.shared.current {
+        case .dark, .light: return true
+        case .black: return false
+        }
+    }
+
     static func apply() {
         let onboardingNavigationBar = UINavigationBar.appearance(whenContainedInInstancesOf: [OnboardingViewController.self])
         onboardingNavigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -26,11 +33,13 @@ enum Appearance {
         let loggedInNavigationBar = UINavigationBar.appearance()
         loggedInNavigationBar.barStyle = barStyle
         loggedInNavigationBar.barTintColor = .barColor
+        loggedInNavigationBar.isTranslucent = isBarTranslucent
 
         let tabBar = UITabBar.appearance(whenContainedInInstancesOf: [MainTabViewController.self])
         tabBar.barStyle = barStyle
         tabBar.barTintColor = .barColor
         tabBar.unselectedItemTintColor = .textSecondary
+        tabBar.isTranslucent = isBarTranslucent
 
         let scrollView = UIScrollView.appearance()
         scrollView.indicatorStyle = scrollIndicatorStyle
