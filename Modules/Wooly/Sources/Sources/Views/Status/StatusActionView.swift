@@ -46,8 +46,8 @@ class StatusActionView: UIView {
     }
 
     func display(boosts: Int, favorites: Int) {
-        boostButton.setTitle(String(boosts), for: .normal)
-        favoriteButton.setTitle(String(favorites), for: .normal)
+        boostButton.setTitle(boosts == 0 ? "" : String(boosts), for: .normal)
+        favoriteButton.setTitle(favorites == 0 ? "" : String(favorites), for: .normal)
     }
 
     @objc private func playHaptics() {
