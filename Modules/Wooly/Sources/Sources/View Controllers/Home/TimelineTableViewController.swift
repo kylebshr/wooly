@@ -27,7 +27,6 @@ class TimelineTableViewController: TableViewController {
     }
 
     @objc private func refreshChanged(_ sender: UIRefreshControl) {
-        print("refreshChanged")
         refresh? { [weak self] in
             self?.endRefreshing()
         }

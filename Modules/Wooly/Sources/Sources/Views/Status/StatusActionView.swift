@@ -51,7 +51,6 @@ class StatusActionView: UIView {
     }
 
     @objc private func playHaptics() {
-        print("hit")
         haptics.impactOccurred()
     }
 }
