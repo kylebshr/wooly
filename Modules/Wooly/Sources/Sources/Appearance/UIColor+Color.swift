@@ -13,6 +13,7 @@ extension UIColor {
         switch theme {
         case .dark: return UIColor(displayP3Red: 30, green: 40, blue: 54)
         case .light: return .white
+        case .black: return .black
         }
     }
 
@@ -20,6 +21,7 @@ extension UIColor {
         switch theme {
         case .dark: return UIColor(displayP3Red: 24, green: 31, blue: 41)
         case .light: return UIColor(displayP3Red: 234, green: 238, blue: 239)
+        case .black: return UIColor(displayP3Red: 18, green: 22, blue: 25)
         }
     }
 
@@ -27,6 +29,7 @@ extension UIColor {
         switch theme {
         case .dark: return UIColor(displayP3Red: 23, green: 34, blue: 56)
         case .light: return .white
+        case .black: return .black
         }
     }
 
@@ -34,6 +37,7 @@ extension UIColor {
         switch theme {
         case .dark: return .black
         case .light: return UIColor(displayP3Red: 205, green: 214, blue: 220)
+        case .black: return UIColor(displayP3Red: 53, green: 57, blue: 61)
         }
     }
 
@@ -41,12 +45,13 @@ extension UIColor {
         switch theme {
         case .dark: return .white
         case .light: return .black
+        case .black: return .white
         }
     }
 
     static var textSecondary: UIColor {
         switch theme {
-        case .dark: return UIColor(displayP3Red: 139, green: 152, blue: 164)
+        case .dark, .black: return UIColor(displayP3Red: 139, green: 152, blue: 164)
         case .light: return UIColor(displayP3Red: 102, green: 118, blue: 131)
         }
     }

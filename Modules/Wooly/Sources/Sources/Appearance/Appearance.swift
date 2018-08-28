@@ -4,14 +4,14 @@ import Mammut
 enum Appearance {
     static var scrollIndicatorStyle: UIScrollViewIndicatorStyle {
         switch ThemeController.shared.current {
-        case .dark: return .white
+        case .dark, .black: return .white
         case .light: return .black
         }
     }
 
     static var barStyle: UIBarStyle {
         switch ThemeController.shared.current {
-        case .dark: return .black
+        case .dark, .black: return .black
         case .light: return .default
         }
     }

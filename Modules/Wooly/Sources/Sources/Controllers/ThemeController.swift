@@ -3,9 +3,10 @@ import Keychain
 
 private let themeKey = "currentTheme"
 
-enum Theme: String, Codable {
-    case light = "light"
-    case dark = "dark"
+enum Theme: Int, Codable, CaseIterable {
+    case light = 0
+    case dark = 1
+    case black = 2
 }
 
 class ThemeController: Observable<Theme> {
@@ -18,10 +19,7 @@ class ThemeController: Observable<Theme> {
 
     func toggleTheme() {
         UIView.animate(withDuration: 0.2) {
-            switch self.current {
-            case .dark: self.current = .light
-            case .light: self.current = .dark
-            }
+            self.current = Theme(rawValue: self.current.rawValue + 1 % Theme.allCases.count)!
         }
 
         let storableTheme = StorableBox<Theme>(current)
