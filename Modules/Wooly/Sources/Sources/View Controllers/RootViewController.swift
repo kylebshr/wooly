@@ -23,9 +23,7 @@ class RootViewController: ViewController {
     // MARK: - Private methods
 
     private func updateViewController() {
-        if let session = SessionController.shared.current,
-            let service = try? MastodonService(session: session)
-        {
+        if let service = SessionController.shared.makeService() {
             viewController = MainTabViewController(service: service)
         } else {
             viewController = OnboardingViewController()

@@ -1,8 +1,8 @@
 import Keychain
 
-public struct Session: Storable {
+public struct Session: Storable, Equatable {
     public let instance: Instance
-    let client: Client
+    public let client: Client
     let refreshToken: String
 
     public init(instance: Instance, client: Client, refreshToken: String) {

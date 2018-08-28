@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Instance: Codable {
+public struct Instance: Codable, Equatable {
     public enum InstanceError: Error {
         case invalidName
     }

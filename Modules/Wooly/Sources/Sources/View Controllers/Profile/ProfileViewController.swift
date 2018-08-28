@@ -17,6 +17,6 @@ class ProfileViewController: UnimplementedViewController {
 
     @objc
     private func logOutTapped() {
-        SessionController.logOut()
+        SessionController.shared.logOut()
     }
 }

@@ -3,7 +3,8 @@ import Mammut
 import Keychain
 
 private let currentInstanceKey = "currentInstance"
-private let sessionStorageKey = "currentMastodonSession"
+private let sessionKey = "currentMastodonSession"
+private let authenticationTokenKey = "currentAuthenticationToken"
 
 private extension UserDefaults {
     @objc dynamic var currentInstance: String? {
@@ -21,18 +22,19 @@ class SessionController: Observable<Session?> {
 
     private var observation: NSKeyValueObservation?
 
-    private static var session: Session? {
+    private var session: Session? {
         guard let instance = UserDefaults.standard.currentInstance else {
             return nil
         }
 
-        return keychain(for: instance).value
+        return sessionKeychain(for: instance).value
     }
 
     private init() {
-        super.init(initial: SessionController.session)
+        super.init(initial: nil)
+        current = session
         observation = UserDefaults.standard.observe(\UserDefaults.currentInstance, options: [.new]) { [weak self] _, _ in
-            self?.current = SessionController.session
+            self?.current = self?.session
         }
     }
 
@@ -40,18 +42,30 @@ class SessionController: Observable<Session?> {
         observation?.invalidate()
     }
 
-    private static func keychain(for instance: String) -> Keychain<Session> {
-        return Keychain(service: instance, account: sessionStorageKey)
+    private func sessionKeychain(for instance: String) -> Keychain<Session> {
+        return Keychain(service: instance, account: sessionKey)
     }
 
-    static func logIn(with session: Session) {
-        keychain(for: session.instance.name).value = session
+    private func authKeychain(for session: Session) -> Keychain<StorableBox<String>> {
+        let accountKey = session.client.id + authenticationTokenKey
+        return Keychain(service: session.instance.name, account: accountKey)
+    }
+
+    func logIn(with session: Session) {
+        sessionKeychain(for: session.instance.name).value = session
         UserDefaults.standard.currentInstance = session.instance.name
     }
 
-    static func logOut() {
+    func logOut() {
         defer { UserDefaults.standard.currentInstance = nil }
         guard let session = session else { return }
-        keychain(for: session.instance.name).value = nil
+        authKeychain(for: session).value = nil
+        sessionKeychain(for: session.instance.name).value = nil
+    }
+
+    func makeService() -> MastodonService? {
+        guard let session = session else { return nil }
+        let tokenKeychain = authKeychain(for: session)
+        return MastodonService(session: session, tokenStorage: tokenKeychain)
     }
 }

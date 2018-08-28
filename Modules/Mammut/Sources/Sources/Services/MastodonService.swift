@@ -39,10 +39,12 @@ public class MastodonService: Service {
 
     /// Create a new service
     ///
-    /// - Parameter instanceURL: The URL of the Mastodon instance (i.e., `mastodon.social`)
-    public init(session: Session) throws {
+    /// - Parameters:
+    ///   - session: The current user's session
+    ///   - tokenStorage: A keychain for storing the authentication token
+    public init(session: Session, tokenStorage: Keychain<StorableBox<String>>) {
         self.session = session
-        self.authKeychain = Keychain(service: session.instance.name, account: "auth-token")
+        self.authKeychain = tokenStorage
 
         super.init(baseURL: session.instance.url.appendingPathComponent("api/v1"), standardTransformers: [.text, .image])
 

@@ -13,11 +13,11 @@ struct AnyWeak: Hashable {
     }
 }
 
-class Observable<T> {
+class Observable<T: Equatable> {
     private var observers: [AnyWeak: [(T) -> Void]] = [:]
 
     var current: T {
-        didSet { notify() }
+        didSet { if oldValue != current { notify() } }
     }
 
     func add<U: AnyObject>(_ observer: U, handler: @escaping (T) -> Void) where U: Hashable {

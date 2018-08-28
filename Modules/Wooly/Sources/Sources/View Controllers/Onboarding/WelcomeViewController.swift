@@ -40,7 +40,7 @@ class WelcomeViewController: ViewController, Authenticator {
     func didAuthenticate(client: Client, with token: String?) {
         if let token = token, let selectedInstance = selectedInstance {
             let session = Session(instance: selectedInstance, client: client, refreshToken: token)
-            SessionController.logIn(with: session)
+            SessionController.shared.logIn(with: session)
         } else {
             print("Failed to authenticate user")
         }
