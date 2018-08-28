@@ -27,7 +27,7 @@ enum Appearance {
         loggedInNavigationBar.barStyle = barStyle
         loggedInNavigationBar.barTintColor = .barColor
 
-        let tabBar = UITabBar.appearance(whenContainedInInstancesOf: [MainViewController.self])
+        let tabBar = UITabBar.appearance(whenContainedInInstancesOf: [MainTabViewController.self])
         tabBar.barStyle = barStyle
         tabBar.barTintColor = .barColor
         tabBar.unselectedItemTintColor = .textSecondary

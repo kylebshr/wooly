@@ -1,15 +1,15 @@
 import UIKit
 import Mammut
 
-class MainViewController: UITabBarController {
+class MainTabViewController: UITabBarController {
 
     private let customChildren: [UIViewController & TabBarChild]
 
     init(service: MastodonService) {
         customChildren = [
             HomeViewController(service: service),
-            NotificationsViewController(),
             ExploreViewController(),
+            NotificationsViewController(),
             ProfileViewController()
         ]
 

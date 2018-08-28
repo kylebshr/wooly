@@ -26,7 +26,7 @@ class RootViewController: ViewController {
         if let session = SessionController.shared.current,
             let service = try? MastodonService(session: session)
         {
-            viewController = MainViewController(service: service)
+            viewController = MainTabViewController(service: service)
         } else {
             viewController = OnboardingViewController()
         }

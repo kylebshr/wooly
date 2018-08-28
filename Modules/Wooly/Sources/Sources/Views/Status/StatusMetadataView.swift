@@ -18,9 +18,9 @@ class StatusMetadataView: UIView {
 
         let orderedViews = [nameLabel, handleLabel, interpunctView, timestampLabel]
         orderedViews.forEach { addSubview($0) }
-        orderedViews.align(anchors: \.lastBaselineAnchor)
         orderedViews.pin(anchors: \.trailingAnchor, to: \.leadingAnchor, spacing: .smallSpacing)
-        nameLabel.pinEdges([.left, .top, .bottom], to: self)
+        orderedViews.forEach { $0.pinEdges([.top, .bottom], to: self) }
+        nameLabel.pinEdges(.left, to: self)
         timestampLabel.trailingAnchor.pin(lessThan: trailingAnchor)
 
         nameLabel.font = .callout
