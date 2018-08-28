@@ -18,6 +18,7 @@ targets:
     dependencies:
       - target: Mammut
       - target: Keychain
+      - target: ActiveLabel
       - carthage: PINCache
       - carthage: PINRemoteImage
     settings:
@@ -51,6 +52,12 @@ targets:
     sources: 
       - path: Modules/Keychain/Sources
         name: Keychain
+  ActiveLabel:
+    type: framework
+    platform: iOS
+    sources:
+      - path: Modules/ActiveLabel/Sources
+        name: ActiveLabel
   KeychainTests:
     type: bundle.unit-test
     platform: iOS

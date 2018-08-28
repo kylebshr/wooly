@@ -1,13 +1,14 @@
 import UIKit
 import Mammut
 import PINRemoteImage
+import ActiveLabel
 
 class TimelineStatusCell: TableViewCell {
 
     private let avatarView = AvatarControl()
     private let metadataView = StatusMetadataView()
     private let actionView = StatusActionView()
-    private let contentLabel = Label()
+    private let contentLabel = StatusContentLabel()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -33,7 +34,7 @@ class TimelineStatusCell: TableViewCell {
         actionView.pinEdges([.left, .right], to: contentLabel)
         actionView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardVerticalEdge)
 
-        contentLabel.isUserInteractionEnabled = false
+        contentLabel.delegate = self
         contentLabel.numberOfLines = 0
         contentLabel.font = .body
 
@@ -51,5 +52,11 @@ class TimelineStatusCell: TableViewCell {
             handle: "@\(status.account.username)",
             timestamp: status.createdAt
         )
+    }
+}
+
+extension TimelineStatusCell: ActiveLabelDelegate {
+    func didSelect(_ text: String, type: ActiveType) {
+        print("didSelect: \(text) type: \(type)")
     }
 }
