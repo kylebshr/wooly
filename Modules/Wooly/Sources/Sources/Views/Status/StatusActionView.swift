@@ -45,9 +45,14 @@ class StatusActionView: UIView {
         return isPointInsideMinimum(point)
     }
 
-    func display(boosts: Int, favorites: Int) {
-        boostButton.setTitle(boosts == 0 ? "" : String(boosts), for: .normal)
-        favoriteButton.setTitle(favorites == 0 ? "" : String(favorites), for: .normal)
+    func display(replies: Int, boosts: Int, favorites: Int) {
+        replyButton.setTitle(title(for: replies), for: .normal)
+        boostButton.setTitle(title(for: boosts), for: .normal)
+        favoriteButton.setTitle(title(for: favorites), for: .normal)
+    }
+
+    private func title(for count: Int) -> String? {
+        return count == 0 ? nil : String(count)
     }
 
     @objc private func playHaptics() {

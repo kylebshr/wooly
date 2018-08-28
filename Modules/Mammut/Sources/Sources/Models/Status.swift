@@ -10,6 +10,7 @@ public struct Status: Codable {
     public let content: String
     public let createdAt: Date
 //    public let emojis: [Emoji]
+    public let repliesCount: Int
     public let reblogsCount: Int
     public let favouritesCount: Int
     public let reblogged: Bool?
