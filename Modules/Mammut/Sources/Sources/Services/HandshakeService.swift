@@ -14,22 +14,27 @@ public enum HandshakeService {
         public var controlTintColor: UIColor?
     }
 
+    private struct Handshake {
+        var app: App?
+        weak var viewController: AuthenticatorViewController?
+
+        var client: Client?
+        var service: Service?
+    }
+
+    private static var currentHandshake = Handshake()
+
     public static var configuration = Configuration()
-
-    private static let redirectURI = "com.kylebashour.Wooly://oath2"
-
-    private static var currentClient: Client?
-    private static var currentService: Service?
-    private static weak var currentViewController: AuthenticatorViewController?
 
     public static func handle(url: URL) -> Bool {
         var token: String?
 
         defer {
-            currentViewController?.dismiss(animated: true)
-            if let client = currentClient {
-                currentViewController?.didAuthenticate(client: client, with: token)
+            currentHandshake.viewController?.dismiss(animated: true)
+            if let client = currentHandshake.client {
+                currentHandshake.viewController?.didAuthenticate(client: client, with: token)
             }
+            cleanup()
         }
 
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
@@ -51,11 +56,11 @@ public enum HandshakeService {
         return service
     }
 
-    static func performOauth(client: Client, for instance: Instance) {
+    private static func performOauth(client: Client, for instance: Instance) {
         let parameters = [
             URLQueryItem(name: "scope", value: "read write follow"),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "redirect_uri", value: redirectURI),
+            URLQueryItem(name: "redirect_uri", value: currentHandshake.app?.redirectUris),
             URLQueryItem(name: "client_id", value: client.clientId)
         ]
 
@@ -66,26 +71,31 @@ public enum HandshakeService {
         safariViewController.preferredControlTintColor = configuration.controlTintColor
         safariViewController.dismissButtonStyle = .cancel
         safariViewController.modalPresentationStyle = .overFullScreen
-        currentViewController?.present(safariViewController, animated: true, completion: nil)
+        currentHandshake.viewController?.present(safariViewController, animated: true, completion: nil)
     }
 
-    public static func authenticate(on instance: Instance, from viewController: AuthenticatorViewController,
+    public static func authenticate(app: App, on instance: Instance, from viewController: AuthenticatorViewController,
                                     completion: @escaping (Bool) -> Void) {
-        currentViewController = viewController
-
-        let app = App(clientName: "Wooly", redirectURI: redirectURI)
-        currentService = service(for: instance)
-        currentService?.resource("apps").request(.post, json: app.dictionary ?? [:]).onSuccess { entity in
+        currentHandshake = Handshake(app: app, viewController: viewController, client: nil, service: nil)
+        currentHandshake.viewController = viewController
+        currentHandshake.service = service(for: instance)
+        currentHandshake.service?.resource("apps").request(.post, json: app.dictionary ?? [:]).onSuccess { entity in
             guard let client: Client = entity.typedContent() else {
+                cleanup()
                 return completion(false)
             }
 
-            currentClient = client
+            currentHandshake.client = client
             performOauth(client: client, for: instance)
             completion(true)
-        } .onFailure {
-            print($0)
+        } .onFailure { error in
+            cleanup()
+            print("--- Handshake failed: \(error)")
         }
+    }
+
+    private static func cleanup() {
+        currentHandshake = Handshake()
     }
 }
 

@@ -61,7 +61,6 @@ class HomeViewController: ViewController {
     }
 
     private func updateTimeline(with resource: Resource) {
-        tableViewController.refreshControl?.endRefreshing()
         timeline = resource.typedContent() ?? []
         showLoading = resource.isLoading && timeline.isEmpty
 

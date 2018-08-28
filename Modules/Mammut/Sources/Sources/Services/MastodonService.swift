@@ -97,12 +97,12 @@ public class MastodonService: Service {
         return resource(baseURL: session.instance.url, path: "oauth/token")
             .request(.post, json: authenticationData)
             .onSuccess {
-                print("---\nGot auth token!\n---")
+                print("--- Got auth token!")
                 if let token = $0.jsonDict["access_token"] as? String {
                     self.authenticationToken = "Bearer \(token)"
                 }
             } .onFailure { [weak self] error in
-                print("---\nAuthentication token failed: \(error)\n---")
+                print("--- Authentication token failed: \(error)")
                 self?.invalidateSession()
             }
     }

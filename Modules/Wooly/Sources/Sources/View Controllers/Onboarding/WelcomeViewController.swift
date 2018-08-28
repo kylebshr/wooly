@@ -1,6 +1,10 @@
 import UIKit
 import Mammut
 
+private let appName = "Wooly for iOS"
+private let website = URL(staticString: "https://wooly.social")
+private let redirectURI = "com.kylebashour.Wooly://oath2"
+
 class WelcomeViewController: ViewController, Authenticator {
     private var selectedInstance: Instance?
 
@@ -30,7 +34,8 @@ class WelcomeViewController: ViewController, Authenticator {
 
     private func didSelect(instance: Instance) {
         selectedInstance = instance
-        HandshakeService.authenticate(on: instance, from: self) { success in
+        let app = App(clientName: appName, redirectURI: redirectURI, website: website)
+        HandshakeService.authenticate(app: app, on: instance, from: self) { success in
             guard success else {
                 return print("Failed to register app")
             }
