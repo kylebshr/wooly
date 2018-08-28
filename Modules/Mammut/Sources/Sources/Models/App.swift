@@ -4,11 +4,10 @@ struct App: Codable {
     var scopes: String
     var website: URL?
 
-    init(clientName: String, redirectURI: String = "urn:ietf:wg:oauth:2.0:oob",
-         scopes: String = "read write follow", website: URL? = nil) {
+    init(clientName: String, redirectURI: String, scopes: String = "read write follow") {
         self.clientName = clientName
         self.redirectUris = redirectURI
         self.scopes = scopes
-        self.website = website
+        self.website = URL(staticString: "https://wooly.social")
     }
 }

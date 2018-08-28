@@ -66,6 +66,6 @@ class SessionController: Observable<Session?> {
     func makeService() -> MastodonService? {
         guard let session = session else { return nil }
         let tokenKeychain = authKeychain(for: session)
-        return MastodonService(session: session, tokenStorage: tokenKeychain)
+        return MastodonService(session: session, tokenStorage: tokenKeychain, invalidateSession: logOut)
     }
 }

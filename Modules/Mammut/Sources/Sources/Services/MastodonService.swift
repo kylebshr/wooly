@@ -9,6 +9,7 @@ public class MastodonService: Service {
 
     private let session: Session
     private let authKeychain: Keychain<StorableBox<String>>
+    private let invalidateSession: () -> Void
 
     private var authenticationToken: String? {
         get {
@@ -40,11 +41,13 @@ public class MastodonService: Service {
     /// Create a new service
     ///
     /// - Parameters:
-    ///   - session: The current user's session
-    ///   - tokenStorage: A keychain for storing the authentication token
-    public init(session: Session, tokenStorage: Keychain<StorableBox<String>>) {
+    ///   - session:            The current user's session
+    ///   - tokenStorage:       A keychain for storing the authentication token
+    ///   - invalidateSession:  Called if we can't refresh our authentication token with the given session
+    public init(session: Session, tokenStorage: Keychain<StorableBox<String>>, invalidateSession: @escaping () -> Void) {
         self.session = session
         self.authKeychain = tokenStorage
+        self.invalidateSession = invalidateSession
 
         super.init(baseURL: session.instance.url.appendingPathComponent("api/v1"), standardTransformers: [.text, .image])
 
@@ -94,9 +97,13 @@ public class MastodonService: Service {
         return resource(baseURL: session.instance.url, path: "oauth/token")
             .request(.post, json: authenticationData)
             .onSuccess {
+                print("---\nGot auth token!\n---")
                 if let token = $0.jsonDict["access_token"] as? String {
                     self.authenticationToken = "Bearer \(token)"
                 }
+            } .onFailure { [weak self] error in
+                print("---\nAuthentication token failed: \(error)\n---")
+                self?.invalidateSession()
             }
     }
 }
