@@ -32,10 +32,10 @@ class TimelineStatusCell: TableViewCell {
 
         contentLabel.topAnchor.pin(to: metadataView.bottomAnchor, constant: .extraSmallSpacing)
         contentLabel.pinEdges([.left, .right], to: metadataView)
-        contentLabel.bottomAnchor.pin(to: actionView.topAnchor, constant: -.standardSpacing)
+        contentLabel.bottomAnchor.pin(to: actionView.topAnchor, constant: -.standardVerticalEdge)
 
         actionView.pinEdges([.left, .right], to: contentLabel)
-        actionView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardVerticalEdge)
+        actionView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardSpacing)
 
         contentLabel.isUserInteractionEnabled = false
         contentLabel.numberOfLines = 0
