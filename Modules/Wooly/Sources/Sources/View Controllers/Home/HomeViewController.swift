@@ -15,10 +15,6 @@ class HomeViewController: ViewController {
     private let tableViewController = TimelineTableViewController()
     private let indicatorViewController = BlockingActivityViewController()
 
-    override var scrollView: UIScrollView? {
-        return tableViewController.tableView
-    }
-
     private var showLoading: Bool = false {
         didSet {
             if oldValue != showLoading {
@@ -73,5 +69,11 @@ class HomeViewController: ViewController {
         let compose = ComposeViewController()
         let navigation = NavigationController(rootViewController: compose)
         present(navigation, animated: true, completion: nil)
+    }
+}
+
+extension HomeViewController: TabBarTableViewController {
+    var tableView: UITableView {
+        return tableViewController.tableView
     }
 }

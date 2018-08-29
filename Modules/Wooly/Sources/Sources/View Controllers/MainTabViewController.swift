@@ -3,7 +3,7 @@ import Mammut
 
 class MainTabViewController: UITabBarController {
 
-    private let customChildren: [UIViewController & TabBarChild]
+    private let customChildren: [UIViewController]
 
     init(service: MastodonService) {
         customChildren = [
@@ -23,8 +23,8 @@ class MainTabViewController: UITabBarController {
     }
 
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if let index = tabBar.items?.index(of: item) {
-            customChildren[index].tabBarControllerDidSelectTab(self)
+        if let index = tabBar.items?.index(of: item), let child = customChildren[index] as? TabBarChild {
+            child.tabBarControllerDidSelectTab(self)
         }
     }
 
