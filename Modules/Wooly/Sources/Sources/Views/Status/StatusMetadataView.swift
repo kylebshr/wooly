@@ -36,10 +36,14 @@ class StatusMetadataView: UIView {
         timestampLabel.set(compressionResistance: .required, for: .horizontal)
 
         ThemeController.shared.add(self) { [weak self] _ in
-            self?.nameLabel.textColor = .text
-            self?.handleLabel.textColor = .textSecondary
-            self?.interpunctView.textColor = .textSecondary
-            self?.timestampLabel.textColor = .textSecondary
+            guard let this = self else { return }
+
+            UIView.transition(with: this, duration: 0, options: [.transitionCrossDissolve], animations: {
+                this.nameLabel.textColor = .text
+                this.handleLabel.textColor = .textSecondary
+                this.interpunctView.textColor = .textSecondary
+                this.timestampLabel.textColor = .textSecondary
+            }, completion: nil)
         }
     }
 

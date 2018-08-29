@@ -42,7 +42,10 @@ class TimelineStatusCell: TableViewCell {
         contentLabel.font = .body
 
         ThemeController.shared.add(self) { [weak self] _ in
-            self?.contentLabel.textColor = .text
+            guard let this = self else { return }
+            UIView.transition(with: this.contentLabel, duration: 0, options: [.transitionCrossDissolve], animations: {
+                this.contentLabel.textColor = .text
+            }, completion: nil)
         }
     }
 
