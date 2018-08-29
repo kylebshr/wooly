@@ -16,6 +16,12 @@ class MainTabViewController: UITabBarController {
         super.init(nibName: nil, bundle: nil)
 
         viewControllers = customChildren.map { NavigationController(rootViewController: $0) }
+
+        let longpressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longpress))
+
+        longpressGestureRecognizer.allowableMovement = 200
+        longpressGestureRecognizer.minimumPressDuration = 0.5
+        tabBar.addGestureRecognizer(longpressGestureRecognizer)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,11 +34,10 @@ class MainTabViewController: UITabBarController {
         }
     }
 
-    private func bounceTab(at index: Int) {
-        let item = tabBar.subviews[index + 1]
-        item.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-        UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.7) {
-            item.transform = .identity
-        }.startAnimation()
+    @objc private func longpress(_ gesture: UILongPressGestureRecognizer) {
+        if case .began = gesture.state {
+            ThemeController.shared.toggleTheme()
+        }
     }
+
 }
