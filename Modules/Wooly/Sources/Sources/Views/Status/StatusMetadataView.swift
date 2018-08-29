@@ -8,6 +8,8 @@ private let formatter: DateComponentsFormatter = {
 }()
 
 class StatusMetadataView: UIView {
+    private let mainStack = UIStackView()
+    private let detailStack = UIStackView()
     private let nameLabel = Label()
     private let handleLabel = Label()
     private let timestampLabel = Label()
@@ -16,12 +18,15 @@ class StatusMetadataView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        let orderedViews = [nameLabel, handleLabel, interpunctView, timestampLabel]
-        orderedViews.forEach { addSubview($0) }
-        orderedViews.pin(anchors: \.trailingAnchor, to: \.leadingAnchor, spacing: .smallSpacing)
-        orderedViews.forEach { $0.pinEdges([.top, .bottom], to: self) }
-        nameLabel.pinEdges(.left, to: self)
-        timestampLabel.trailingAnchor.pin(lessThan: trailingAnchor)
+        addSubview(mainStack)
+        mainStack.pinEdges([.left, .top, .bottom], to: self)
+        mainStack.trailingAnchor.pin(lessThan: self.trailingAnchor)
+        mainStack.spacing = .smallSpacing
+        mainStack.addArrangedSubviews([nameLabel, detailStack])
+
+        detailStack.spacing = .smallSpacing
+        detailStack.alignment = .firstBaseline
+        detailStack.addArrangedSubviews([handleLabel, interpunctView, timestampLabel])
 
         nameLabel.font = .callout
         nameLabel.set(compressionResistance: .required, for: .vertical)
@@ -55,5 +60,16 @@ class StatusMetadataView: UIView {
         nameLabel.text = name
         handleLabel.text = handle
         timestampLabel.text = formatter.string(from: timestamp, to: Date())
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if traitCollection.preferredContentSizeCategory > .extraExtraLarge {
+            mainStack.alignment = .leading
+            mainStack.axis = .vertical
+        } else {
+            mainStack.alignment = .firstBaseline
+            mainStack.axis = .horizontal
+        }
     }
 }
