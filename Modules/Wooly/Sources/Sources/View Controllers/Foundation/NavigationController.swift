@@ -22,6 +22,12 @@ class NavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let longpressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longpress))
+
+        longpressGestureRecognizer.allowableMovement = 200
+        longpressGestureRecognizer.minimumPressDuration = 0.5
+        navigationBar.addGestureRecognizer(longpressGestureRecognizer)
+
         if let cachedInteractionController = value(forKey: "_cachedInter" + "actionController") as? NSObject {
             let selector = Selector("handleNaviga" + "tionTransition:")
             if cachedInteractionController.responds(to: selector) {
@@ -31,20 +37,9 @@ class NavigationController: UINavigationController {
         }
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        touchTimestamp = touches.first?.timestamp
-    }
-
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-
-        guard let touch = touches.first, let touchTimestamp = touchTimestamp else { return }
-        if navigationBar.bounds.contains(touch.location(in: navigationBar)) {
-            if touch.timestamp - touchTimestamp > 0.5 {
-                ThemeController.shared.toggleTheme()
-                self.touchTimestamp = nil
-            }
+    @objc private func longpress(_ gesture: UILongPressGestureRecognizer) {
+        if case .began = gesture.state {
+            ThemeController.shared.toggleTheme()
         }
     }
 }

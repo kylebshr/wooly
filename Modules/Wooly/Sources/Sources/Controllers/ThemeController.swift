@@ -18,7 +18,7 @@ class ThemeController: Observable<Theme> {
     }
 
     func toggleTheme() {
-        UIView.animate(withDuration: 0.2) {
+        UIView.animate(withDuration: 0.3) {
             self.current = Theme(rawValue: (self.current.rawValue + 1) % Theme.allCases.count)!
         }
 

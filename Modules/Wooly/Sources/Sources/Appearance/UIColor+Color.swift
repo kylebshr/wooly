@@ -37,7 +37,7 @@ extension UIColor {
         switch theme {
         case .dark: return .black
         case .light: return UIColor(displayP3Red: 205, green: 214, blue: 220)
-        case .black: return UIColor(displayP3Red: 53, green: 57, blue: 61)
+        case .black: return UIColor(displayP3Red: 37, green: 38, blue: 39)
         }
     }
 

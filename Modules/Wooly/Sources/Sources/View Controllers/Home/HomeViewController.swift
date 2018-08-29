@@ -34,7 +34,6 @@ class HomeViewController: ViewController {
         super.viewDidLoad()
 
         add(child: tableViewController)
-        tableViewController.view.pinEdges(to: view)
 
         let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(compose))
         navigationItem.rightBarButtonItem = composeButton
