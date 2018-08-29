@@ -1,7 +1,7 @@
 import UIKit
 
 class BlockingActivityViewController: ViewController {
-    private let indicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    private let indicator = UIActivityIndicatorView(style: .white)
 
     override func viewDidLoad() {
         super.viewDidLoad()

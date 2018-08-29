@@ -2,15 +2,15 @@ import UIKit
 
 extension UIViewController {
     func add(child: UIViewController) {
-        addChildViewController(child)
+        addChild(child)
         view.addSubview(child.view)
         child.view.pinEdges(to: view)
-        child.didMove(toParentViewController: self)
+        child.didMove(toParent: self)
     }
 
     func remove() {
-        willMove(toParentViewController: nil)
+        willMove(toParent: nil)
         view.removeFromSuperview()
-        removeFromParentViewController()
+        removeFromParent()
     }
 }

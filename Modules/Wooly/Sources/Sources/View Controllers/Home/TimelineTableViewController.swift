@@ -16,7 +16,7 @@ class TimelineTableViewController: TableViewController {
         super.viewDidLoad()
 
         tableView.register(TimelineStatusCell.self)
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 200
 
         view.addSubview(customRefreshControl)

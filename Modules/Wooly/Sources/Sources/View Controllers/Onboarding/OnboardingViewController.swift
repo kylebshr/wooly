@@ -12,7 +12,7 @@ class OnboardingViewController: ViewController {
         add(child: navigationController)
     }
 
-    override var childViewControllerForStatusBarStyle: UIViewController? {
-        return childViewControllers.first
+    override var childForStatusBarStyle: UIViewController? {
+        return children.first
     }
 }

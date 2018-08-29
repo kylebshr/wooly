@@ -2,7 +2,7 @@ import UIKit
 import Mammut
 
 enum Appearance {
-    static var scrollIndicatorStyle: UIScrollViewIndicatorStyle {
+    static var scrollIndicatorStyle: UIScrollView.IndicatorStyle {
         switch ThemeController.shared.current {
         case .dark, .black: return .white
         case .light: return .black

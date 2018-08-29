@@ -13,7 +13,7 @@ class InstanceViewController: TableViewController {
     init(instanceHandler: @escaping InstanceHandler) {
         self.instanceHandler = instanceHandler
         super.init()
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 20
     }
 

@@ -11,16 +11,16 @@ extension UIView {
     }
 
 
-    func setHuggingAndCompression(to priority: UILayoutPriority, for axis: UILayoutConstraintAxis) {
+    func setHuggingAndCompression(to priority: UILayoutPriority, for axis: NSLayoutConstraint.Axis) {
         set(contentHugging: priority, for: axis)
         set(compressionResistance: priority, for: axis)
     }
 
-    func set(contentHugging: UILayoutPriority, for axis: UILayoutConstraintAxis) {
+    func set(contentHugging: UILayoutPriority, for axis: NSLayoutConstraint.Axis) {
         setContentHuggingPriority(contentHugging, for: axis)
     }
 
-    func set(compressionResistance: UILayoutPriority, for axis: UILayoutConstraintAxis) {
+    func set(compressionResistance: UILayoutPriority, for axis: NSLayoutConstraint.Axis) {
         setContentCompressionResistancePriority(compressionResistance, for: axis)
     }
 

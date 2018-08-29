@@ -4,6 +4,7 @@ options:
 settings:
   DEVELOPMENT_TEAM: ZEAD23GG77
   IPHONEOS_DEPLOYMENT_TARGET: 11.3
+  SWIFT_VERSION: 4.2
 targets:
   Wooly:
     type: application

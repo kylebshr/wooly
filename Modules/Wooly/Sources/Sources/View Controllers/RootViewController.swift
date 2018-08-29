@@ -30,7 +30,7 @@ class RootViewController: ViewController {
         }
     }
 
-    override var childViewControllerForStatusBarStyle: UIViewController? {
+    override var childForStatusBarStyle: UIViewController? {
         return viewController
     }
 }
