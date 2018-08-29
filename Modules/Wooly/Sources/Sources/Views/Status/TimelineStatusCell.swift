@@ -9,6 +9,10 @@ class TimelineStatusCell: TableViewCell {
     private let actionView = StatusActionView()
     private let contentLabel = Label()
 
+    weak var delegate: StatusViewDelegate? {
+        didSet { actionView.delegate = delegate }
+    }
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -43,7 +47,7 @@ class TimelineStatusCell: TableViewCell {
     }
 
     func display(status: Status) {
-        actionView.display(status: status)
+        actionView.status = status
         avatarView.url = status.account.avatar
         contentLabel.text = status.strippedContent
         metadataView.display(

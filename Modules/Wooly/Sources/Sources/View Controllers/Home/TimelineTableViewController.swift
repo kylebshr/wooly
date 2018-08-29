@@ -48,6 +48,7 @@ class TimelineTableViewController: TableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: TimelineStatusCell = tableView.dequeue(for: indexPath)
+        cell.delegate = self
         cell.display(status: timeline[indexPath.row])
         return cell
     }
@@ -88,5 +89,24 @@ class TimelineTableViewController: TableViewController {
 
     override func viewController(at indexPath: IndexPath) -> UIViewController? {
         return StatusDetailViewController()
+    }
+}
+
+extension TimelineTableViewController: StatusViewDelegate {
+    func setFavorite(_ favorite: Bool, on status: Status) {
+        print("Favorite!")
+    }
+
+    func setReblog(_ reblog: Bool, on status: Status, didReblog: @escaping (Bool) -> Void) {
+        guard reblog else { return }
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Boost", style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Boost with Comment", style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in didReblog(false) }))
+        present(alertController, animated: true, completion: nil)
+    }
+
+    func reply(to status: Status) {
+        print("Reply!")
     }
 }
