@@ -60,6 +60,14 @@ extension UIColor {
         return backgroundSecondary
     }
 
+    static var favoriteColor: UIColor {
+        return UIColor(displayP3Red: 244, green: 180, blue: 85)
+    }
+
+    static var reblogColor: UIColor {
+        return UIColor(displayP3Red: 89, green: 187, blue: 109)
+    }
+
     convenience init(displayP3Red red: Int, green: Int, blue: Int) {
         self.init(
             displayP3Red: CGFloat(red) / 255,

@@ -1,30 +1,23 @@
 import UIKit
+import Mammut
 
 class StatusActionView: UIView {
 
-    private let haptics = UIImpactFeedbackGenerator()
 
-    private let replyButton = Button(type: .system)
-    private let boostButton = Button(type: .system)
-    private let favoriteButton = Button(type: .system)
+    private let replyButton = StatusActionButton(image: #imageLiteral(resourceName: "Reply"))
+    private let reblogButton = StatusActionButton(image: #imageLiteral(resourceName: "Reblog"), selectedImage: #imageLiteral(resourceName: "Reblog Selected"), haptics: true)
+    private let favoriteButton = StatusActionButton(image: #imageLiteral(resourceName: "Favorite"), selectedImage: #imageLiteral(resourceName: "Favorite Selected"), haptics: true)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        replyButton.setImage(#imageLiteral(resourceName: "Reply"), for: .normal)
-        boostButton.setImage(#imageLiteral(resourceName: "Boost"), for: .normal)
-        favoriteButton.setImage(#imageLiteral(resourceName: "Favorite"), for: .normal)
-        favoriteButton.addTarget(self, action: #selector(self.playHaptics), for: .primaryActionTriggered)
-
-        let buttons = [replyButton, boostButton, favoriteButton]
+        let buttons = [replyButton, reblogButton, favoriteButton]
         let guides = [UILayoutGuide(), UILayoutGuide(), UILayoutGuide()]
 
         for (index, (button, layoutGuide)) in zip(buttons, guides).enumerated() {
             addSubview(button)
             addLayoutGuide(layoutGuide)
 
-            button.titleLabel?.font = .footnote
-            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: .extraSmallSpacing, bottom: 0, right: -.extraSmallSpacing)
             button.pinEdges([.top, .bottom], to: self)
             button.leadingAnchor.pin(to: layoutGuide.trailingAnchor)
 
@@ -32,8 +25,11 @@ class StatusActionView: UIView {
             layoutGuide.leadingAnchor.pin(to: leadingAnchor)
         }
 
-        ThemeController.shared.add(self) { _ in
+        ThemeController.shared.add(self) { [weak self] _ in
             buttons.forEach { $0.tintColor = .textSecondary }
+            self?.replyButton.selectedColor = .textSecondary
+            self?.reblogButton.selectedColor = .reblogColor
+            self?.favoriteButton.selectedColor = .favoriteColor
         }
     }
 
@@ -45,17 +41,15 @@ class StatusActionView: UIView {
         return isPointInsideMinimum(point)
     }
 
-    func display(replies: Int, boosts: Int, favorites: Int) {
-        replyButton.setTitle(title(for: replies), for: .normal)
-        boostButton.setTitle(title(for: boosts), for: .normal)
-        favoriteButton.setTitle(title(for: favorites), for: .normal)
+    func display(status: Status) {
+        replyButton.title = title(for: status.repliesCount)
+        reblogButton.title = title(for: status.reblogsCount)
+        favoriteButton.title = title(for: status.favouritesCount)
+        reblogButton.isSelected = status.reblogged ?? false
+        favoriteButton.isSelected = status.favourited ?? false
     }
 
     private func title(for count: Int) -> String? {
         return count == 0 ? nil : String(count)
-    }
-
-    @objc private func playHaptics() {
-        haptics.impactOccurred()
     }
 }

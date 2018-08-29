@@ -43,7 +43,7 @@ class TimelineStatusCell: TableViewCell {
     }
 
     func display(status: Status) {
-        actionView.display(replies: status.repliesCount, boosts: status.reblogsCount, favorites: status.favouritesCount)
+        actionView.display(status: status)
         avatarView.url = status.account.avatar
         contentLabel.text = status.strippedContent
         metadataView.display(
