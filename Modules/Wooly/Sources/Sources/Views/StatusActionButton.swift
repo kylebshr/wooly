@@ -16,7 +16,7 @@ class StatusActionButton: Control {
 
     private let haptics = UIImpactFeedbackGenerator()
     private let imageView = UIImageView()
-    private let label = UILabel()
+    private let label = Label()
 
     override var isSelected: Bool {
         didSet {
@@ -38,12 +38,13 @@ class StatusActionButton: Control {
     }
 
     init(image: UIImage, selectedImage: UIImage? = nil, haptics: Bool = false) {
-        self.image = image.withRenderingMode(.alwaysTemplate)
-        self.selectedImage = selectedImage?.withRenderingMode(.alwaysTemplate) ??
-            image.withRenderingMode(.alwaysTemplate)
+        self.image = image
+        self.selectedImage = selectedImage ?? image
         self.shouldPlayHaptics = haptics
 
         super.init(frame: .zero)
+
+        addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
 
         addSubview(label)
         addSubview(imageView)
@@ -52,12 +53,12 @@ class StatusActionButton: Control {
         label.pinEdges([.top, .right, .bottom], to: self)
         label.leadingAnchor.pin(to: imageView.trailingAnchor, constant: .extraSmallSpacing)
 
+        imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
         imageView.setHuggingAndCompression(to: .required)
         imageView.image = self.image
         imageView.pinEdges([.top, .left, .bottom], to: self)
 
         updateColor()
-        addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
     }
 
     @objc private func touchUpInside() {
