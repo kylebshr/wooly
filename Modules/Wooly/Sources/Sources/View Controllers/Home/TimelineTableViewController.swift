@@ -100,13 +100,14 @@ extension TimelineTableViewController: StatusViewDelegate {
     func setReblog(_ reblog: Bool, on status: Status, didReblog: @escaping (Bool) -> Void) {
         guard reblog else { return }
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Boost", style: .default, handler: nil))
-        alertController.addAction(UIAlertAction(title: "Boost with Comment", style: .default, handler: nil))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in didReblog(false) }))
+        alertController.addAction(UIAlertAction(title: "Boost", style: .default, handler: { _ in didReblog(true) }))
+        alertController.addAction(UIAlertAction(title: "Boost with Comment", style: .default, handler: { _ in didReblog(true) }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
     }
 
     func reply(to status: Status) {
-        print("Reply!")
+        let compose = ComposeViewController()
+        present(NavigationController(rootViewController: compose), animated: true, completion: nil)
     }
 }

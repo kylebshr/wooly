@@ -72,6 +72,7 @@ class StatusActionView: UIView {
         delegate?.setReblog(sender.isSelected, on: status) { didReblog in
             sender.isSelected = didReblog
         }
+        sender.isSelected = false
     }
 
     @objc private func favorite(_ sender: StatusActionButton) {
