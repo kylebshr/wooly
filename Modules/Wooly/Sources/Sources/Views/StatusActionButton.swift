@@ -32,6 +32,11 @@ class StatusActionButton: Control {
         }
     }
 
+    override func tintColorDidChange() {
+        super.tintColorDidChange()
+        updateColor()
+    }
+
     init(image: UIImage, selectedImage: UIImage? = nil, haptics: Bool = false) {
         self.image = image.withRenderingMode(.alwaysTemplate)
         self.selectedImage = selectedImage?.withRenderingMode(.alwaysTemplate) ??
@@ -74,7 +79,12 @@ class StatusActionButton: Control {
     }
 
     private func updateColor() {
-        let color = isSelected ? selectedColor : tintColor
+        let color: UIColor
+        switch tintAdjustmentMode {
+        case .dimmed: color = tintColor
+        default: color = isSelected ? selectedColor : tintColor
+        }
+
         imageView.tintColor = color
         label.textColor = color
     }
