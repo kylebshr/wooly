@@ -8,8 +8,8 @@ private let formatter: DateComponentsFormatter = {
 }()
 
 class StatusMetadataView: UIView {
-    private let mainStack = UIStackView()
-    private let detailStack = UIStackView()
+    private let mainStack = StackView()
+    private let detailStack = StackView()
     private let nameLabel = Label()
     private let handleLabel = Label()
     private let timestampLabel = Label()

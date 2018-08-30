@@ -1,9 +1,9 @@
 import UIKit
 import Mammut
 
-class StatusActionView: UIView {
+class StatusActionView: ContainerView {
 
-    private let stackView = UIStackView()
+    private let stackView = StackView()
     private let replyButton = StatusActionButton(image: #imageLiteral(resourceName: "Reply"))
     private let reblogButton = StatusActionButton(image: #imageLiteral(resourceName: "Reblog"), selectedImage: #imageLiteral(resourceName: "Reblog Selected"))
     private let favoriteButton = StatusActionButton(image: #imageLiteral(resourceName: "Favorite"), selectedImage: #imageLiteral(resourceName: "Favorite Selected"), haptics: true)
@@ -30,7 +30,7 @@ class StatusActionView: UIView {
         let buttons = [replyButton, reblogButton, favoriteButton]
 
         for button in buttons {
-            let container = UIView()
+            let container = ContainerView()
             container.addSubview(button)
             button.pinEdges([.left, .top, .bottom], to: container)
             button.trailingAnchor.pin(lessThan: container.trailingAnchor)
@@ -48,11 +48,7 @@ class StatusActionView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return isPointInsideMinimum(point)
-    }
-
+    
     private func display(status: Status) {
         replyButton.title = title(for: status.repliesCount)
         reblogButton.title = title(for: status.reblogsCount)
