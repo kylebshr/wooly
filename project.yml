@@ -13,12 +13,10 @@ targets:
       testTargets:
         - WoolyTests
     sources: 
-      - path: Modules/Wooly/Sources
-        name: Wooly
+      - path: Wooly
     name: Wooly
     dependencies:
-      - target: Mammut
-      - target: Keychain
+      - carthage: Siesta
       - carthage: PINCache
       - carthage: PINRemoteImage
     settings:
@@ -29,37 +27,8 @@ targets:
     platform: iOS
     scheme: {}
     sources:
-      - path: Modules/Wooly/Tests
-        name: WoolyTests
+      - path: Tests
     dependencies:
       - target: Wooly
-    settings:
-      TEST_HOST: $(BUILT_PRODUCTS_DIR)/Wooly.app/Wooly
-  Mammut:
-    type: framework
-    platform: iOS
-    sources: 
-      - path: Modules/Mammut/Sources
-        name: Mammut
-    dependencies:
-      - carthage: Siesta
-      - target: Keychain
-  Keychain:
-    type: framework
-    platform: iOS
-    testTargets:
-        - KeychainTests
-    sources: 
-      - path: Modules/Keychain/Sources
-        name: Keychain
-  KeychainTests:
-    type: bundle.unit-test
-    platform: iOS
-    scheme: {}
-    sources:
-      - path: Modules/Keychain/Tests
-        name: KeychainTests
-    dependencies:
-      - target: Keychain
     settings:
       TEST_HOST: $(BUILT_PRODUCTS_DIR)/Wooly.app/Wooly
