@@ -111,6 +111,16 @@ typealias ElementTuple = (range: NSRange, element: ActiveElement, type: ActiveTy
     }
 
     // MARK: - override UILabel properties
+
+    private var mentionIDs: [String] = []
+
+    public func set(text: String, mentionIDs: [String]) {
+        self.mentionIDs = mentionIDs
+        super.text = text
+        updateTextStorage()
+    }
+
+    @available(*, unavailable)
     override open var text: String? {
         didSet { updateTextStorage() }
     }
@@ -282,7 +292,7 @@ typealias ElementTuple = (range: NSRange, element: ActiveElement, type: ActiveTy
         addLinkAttribute(mutAttrString)
         textStorage.setAttributedString(mutAttrString)
         _customizing = true
-        text = mutAttrString.string
+        super.text = mutAttrString.string
         _customizing = false
         setNeedsDisplay()
     }
@@ -352,13 +362,15 @@ typealias ElementTuple = (range: NSRange, element: ActiveElement, type: ActiveTy
         }
 
         for type in enabledTypes where type != .url {
-            var filter: ((String) -> Bool)? = nil
+            var filter: ((String) -> Bool)?
+            var replacements: [String]?
             if type == .mention {
+                replacements = mentionIDs
                 filter = mentionFilterPredicate
             } else if type == .hashtag {
                 filter = hashtagFilterPredicate
             }
-            let hashtagElements = ActiveBuilder.createElements(type: type, from: textString, range: textRange, filterPredicate: filter)
+            let hashtagElements = ActiveBuilder.createElements(type: type, from: textString, range: textRange, filterPredicate: filter, using: replacements)
             activeElements[type] = hashtagElements
         }
 

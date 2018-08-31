@@ -5,11 +5,14 @@ class StatusLabel: ActiveLabel {
 
     weak var statusDelegate: StatusViewDelegate?
 
-    private var status: Status?
+    var status: Status? {
+        didSet { if let status = status { self.display(status: status) } }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        urlMaximumLength = 50
         delegate = self
         enabledTypes = [.mention, .hashtag, .url]
 
@@ -36,9 +39,9 @@ class StatusLabel: ActiveLabel {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func display(status: Status) {
-        self.status = status
-        text = status.content
+    private func display(status: Status) {
+        let mentionIDs = status.mentions.map { $0.id }
+        set(text: status.content, mentionIDs: mentionIDs)
     }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -48,7 +51,17 @@ class StatusLabel: ActiveLabel {
 
 extension StatusLabel: ActiveLabelDelegate {
     func didSelect(_ text: String, type: ActiveType) {
-//        guard let status = status else { return }
-        print("Selected \(text) type \(type)")
+        switch type {
+        case .mention:
+            statusDelegate?.didSelect(account: text)
+        case .hashtag:
+            statusDelegate?.didSelect(hashtag: text)
+        case .url:
+            if let url = URL(string: text) {
+                statusDelegate?.didSelect(link: url)
+            }
+        case .custom:
+            break
+        }
     }
 }

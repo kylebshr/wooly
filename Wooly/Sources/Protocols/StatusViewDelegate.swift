@@ -6,6 +6,6 @@ protocol StatusViewDelegate: AnyObject {
     func reply(to status: Status)
 
     func didSelect(hashtag: String)
-    func didSelect(account: Account)
+    func didSelect(account: String)
     func didSelect(link: URL)
 }

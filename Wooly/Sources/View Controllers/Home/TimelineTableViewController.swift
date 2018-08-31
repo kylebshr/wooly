@@ -93,10 +93,10 @@ class TimelineTableViewController: TableViewController {
 
 extension TimelineTableViewController: StatusViewDelegate {
     func didSelect(hashtag: String) {
-        print("Hashtag!")
+        print("Hashtag! \(hashtag)")
     }
 
-    func didSelect(account: Account) {
+    func didSelect(account: String) {
         print("Account! \(account)")
     }
 

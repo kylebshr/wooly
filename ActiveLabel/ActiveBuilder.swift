@@ -12,10 +12,10 @@ typealias ActiveFilterPredicate = ((String) -> Bool)
 
 struct ActiveBuilder {
 
-    static func createElements(type: ActiveType, from text: String, range: NSRange, filterPredicate: ActiveFilterPredicate?) -> [ElementTuple] {
+    static func createElements(type: ActiveType, from text: String, range: NSRange, filterPredicate: ActiveFilterPredicate?, using replacements: [String]?) -> [ElementTuple] {
         switch type {
         case .mention, .hashtag:
-            return createElementsIgnoringFirstCharacter(from: text, for: type, range: range, filterPredicate: filterPredicate)
+            return createElementsIgnoringFirstCharacter(from: text, for: type, range: range, filterPredicate: filterPredicate, using: replacements)
         case .url:
             return createElements(from: text, for: type, range: range, filterPredicate: filterPredicate)
         case .custom:
@@ -52,11 +52,11 @@ struct ActiveBuilder {
     }
 
     private static func createElements(from text: String,
-                                            for type: ActiveType,
-                                                range: NSRange,
-                                                minLength: Int = 2,
-                                                filterPredicate: ActiveFilterPredicate?) -> [ElementTuple] {
-
+                                       for type: ActiveType,
+                                       range: NSRange,
+                                       minLength: Int = 2,
+                                       filterPredicate: ActiveFilterPredicate?) -> [ElementTuple]
+    {
         let matches = RegexParser.getElements(from: text, with: type.pattern, range: range)
         let nsstring = text as NSString
         var elements: [ElementTuple] = []
@@ -73,20 +73,27 @@ struct ActiveBuilder {
     }
 
     private static func createElementsIgnoringFirstCharacter(from text: String,
-                                                                  for type: ActiveType,
-                                                                      range: NSRange,
-                                                                      filterPredicate: ActiveFilterPredicate?) -> [ElementTuple] {
+                                                             for type: ActiveType,
+                                                             range: NSRange,
+                                                             filterPredicate: ActiveFilterPredicate?,
+                                                             using replacements: [String]?) -> [ElementTuple]
+    {
         let matches = RegexParser.getElements(from: text, with: type.pattern, range: range)
         let nsstring = text as NSString
         var elements: [ElementTuple] = []
+        var count = 0
 
         for match in matches where match.range.length > 2 {
-            let range = NSRange(location: match.range.location + 1, length: match.range.length - 1)
+            let range = NSRange(location: match.range.location, length: match.range.length)
             var word = nsstring.substring(with: range)
-            if word.hasPrefix("@") {
+            if word.hasPrefix(" ") {
                 word.remove(at: word.startIndex)
             }
-            else if word.hasPrefix("#") {
+
+            if word.hasPrefix("@"), let replacements = replacements, replacements.count > count {
+                word = replacements[count]
+                count += 1
+            } else if word.hasPrefix("#") || word.hasPrefix("@") {
                 word.remove(at: word.startIndex)
             }
 
