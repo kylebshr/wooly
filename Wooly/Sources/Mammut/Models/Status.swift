@@ -19,10 +19,17 @@ public struct Status: Codable {
     public let spoilerText: String
 //    public let visibility: Visibility
 //    public let mediaAttachments: [Attachment]
-//    public let mentions: [Mention]
+    public let mentions: [Mention]
 //    public let tags: [Tag]
 //    public let application: Application?
     public let language: String?
 //    public let reblog: Status?
     public let pinned: Bool?
+}
+
+public struct Mention: Codable {
+    public let url: URL
+    public let username: String
+    public let acct: String
+    public let id: String
 }

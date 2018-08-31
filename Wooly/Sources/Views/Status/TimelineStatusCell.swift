@@ -49,6 +49,9 @@ class TimelineStatusCell: TableViewCell {
     }
 
     func display(status: Status) {
+        print(status.content)
+        print(status.mentions.map { $0.username })
+
         actionView.status = status
         avatarView.url = status.account.avatar
         contentLabel.text = status.content
