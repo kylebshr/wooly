@@ -1,3 +1,5 @@
-github "bustoutsolutions/siesta" "1.4.0"
+github "alexaubry/HTMLString" "4.0.2"
+github "bustoutsolutions/siesta" "1.4.1"
+github "optonaut/ActiveLabel.swift" "0.9.0"
 github "pinterest/PINCache" "2.3"
 github "pinterest/PINRemoteImage" "2.1.4"

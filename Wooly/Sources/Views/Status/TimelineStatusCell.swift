@@ -6,10 +6,13 @@ class TimelineStatusCell: TableViewCell {
     private let avatarView = AvatarControl()
     private let metadataView = StatusMetadataView()
     private let actionView = StatusActionView()
-    private let contentLabel = Label()
+    private let statusLabel = StatusLabel()
 
     weak var delegate: StatusViewDelegate? {
-        didSet { actionView.delegate = delegate }
+        didSet {
+            actionView.delegate = delegate
+            statusLabel.statusDelegate = delegate
+        }
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -18,7 +21,7 @@ class TimelineStatusCell: TableViewCell {
         contentView.addSubview(actionView)
         contentView.addSubview(avatarView)
         contentView.addSubview(metadataView)
-        contentView.addSubview(contentLabel)
+        contentView.addSubview(statusLabel)
 
         avatarView.pinEdges([.left, .top], to: contentView, insets: .standardEdges)
         avatarView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardVerticalEdge)
@@ -29,23 +32,15 @@ class TimelineStatusCell: TableViewCell {
         metadataView.topAnchor.pin(to: avatarView.topAnchor)
         metadataView.trailingAnchor.pin(to: contentView.trailingAnchor, constant: -.rightHorizontalEdge)
 
-        contentLabel.topAnchor.pin(to: metadataView.bottomAnchor, constant: .extraSmallSpacing)
-        contentLabel.pinEdges([.left, .right], to: metadataView)
-        contentLabel.bottomAnchor.pin(to: actionView.topAnchor, constant: -.standardVerticalEdge)
+        statusLabel.topAnchor.pin(to: metadataView.bottomAnchor, constant: .extraSmallSpacing)
+        statusLabel.pinEdges([.left, .right], to: metadataView)
+        statusLabel.bottomAnchor.pin(to: actionView.topAnchor, constant: -.standardVerticalEdge)
 
-        actionView.pinEdges([.left, .right], to: contentLabel)
+        actionView.pinEdges([.left, .right], to: statusLabel)
         actionView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardSpacing)
 
-        contentLabel.isUserInteractionEnabled = false
-        contentLabel.numberOfLines = 0
-        contentLabel.font = .body
-
-        ThemeController.shared.add(self) { [weak self] _ in
-            guard let this = self else { return }
-            UIView.transition(with: this.contentLabel, duration: 0, options: [.transitionCrossDissolve], animations: {
-                this.contentLabel.textColor = .text
-            }, completion: nil)
-        }
+        statusLabel.numberOfLines = 0
+        statusLabel.font = .body
     }
 
     func display(status: Status) {
@@ -54,7 +49,7 @@ class TimelineStatusCell: TableViewCell {
 
         actionView.status = status
         avatarView.url = status.account.avatar
-        contentLabel.text = status.content
+        statusLabel.text = status.content
         metadataView.display(
             name: status.account.displayName,
             handle: "@\(status.account.username)",

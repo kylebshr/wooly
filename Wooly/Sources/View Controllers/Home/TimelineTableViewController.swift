@@ -92,6 +92,18 @@ class TimelineTableViewController: TableViewController {
 }
 
 extension TimelineTableViewController: StatusViewDelegate {
+    func didSelect(hashtag: String) {
+        print("Hashtag!")
+    }
+
+    func didSelect(account: Account) {
+        print("Account! \(account)")
+    }
+
+    func didSelect(link: URL) {
+        print("Link! \(link)")
+    }
+
     func setFavorite(_ favorite: Bool, on status: Status) {
         print("Favorite!")
     }

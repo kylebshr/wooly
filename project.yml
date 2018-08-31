@@ -19,6 +19,8 @@ targets:
       - carthage: Siesta
       - carthage: PINCache
       - carthage: PINRemoteImage
+      - carthage: HTMLString
+      - target: ActiveLabel
     settings:
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       TARGETED_DEVICE_FAMILY: 1
@@ -32,3 +34,8 @@ targets:
       - target: Wooly
     settings:
       TEST_HOST: $(BUILT_PRODUCTS_DIR)/Wooly.app/Wooly
+  ActiveLabel:
+    type: framework
+    platform: iOS
+    sources:
+      - path: ActiveLabel

@@ -1,2 +1,4 @@
 github "bustoutsolutions/siesta"
 github "pinterest/PINRemoteImage"
+github "optonaut/ActiveLabel.swift"
+github "alexaubry/HTMLString"
