@@ -11,7 +11,7 @@ class HomeViewController: ViewController {
 
     private let service: MastodonService
 
-    private let tableViewController = TimelineTableViewController()
+    private let tableViewController: TimelineTableViewController
     private let indicatorViewController = BlockingActivityViewController()
 
     private var showLoading: Bool = false {
@@ -23,6 +23,7 @@ class HomeViewController: ViewController {
     }
 
     init(service: MastodonService) {
+        self.tableViewController = TimelineTableViewController(service: service)
         self.service = service
         super.init()
         title = "Home"
@@ -36,12 +37,6 @@ class HomeViewController: ViewController {
 
         let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(compose))
         navigationItem.rightBarButtonItem = composeButton
-
-        tableViewController.refresh = { [weak self] completion in
-            self?.service.home.load().onCompletion { _ in
-                completion()
-            }
-        }
 
         service.home.addObserver(owner: self) { [weak self] resource, event in
             self?.updateTimeline(with: resource)

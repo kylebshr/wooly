@@ -8,9 +8,13 @@ class TimelineTableViewController: TableViewController {
         }
     }
 
-    var refresh: ((@escaping () -> Void) -> Void)?
-
     private let customRefreshControl = RefreshControl()
+    private let service: MastodonService
+
+    init(service: MastodonService) {
+        self.service = service
+        super.init()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +31,7 @@ class TimelineTableViewController: TableViewController {
     }
 
     @objc private func refreshChanged(_ sender: UIRefreshControl) {
-        refresh? { [weak self] in
+        service.home.load().onCompletion { [weak self] _ in
             self?.endRefreshing()
         }
     }
@@ -107,15 +111,23 @@ extension TimelineTableViewController: StatusViewDelegate {
     }
 
     func setFavorite(_ favorite: Bool, on status: Status) {
-        print("Favorite!")
+        service.setFavorite(favorite, status: status)
     }
 
     func setReblog(_ reblog: Bool, on status: Status, didReblog: @escaping (Bool) -> Void) {
-        guard reblog else { return }
+        guard reblog else {
+            return service.setReblog(reblog, status: status)
+        }
+
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Boost", style: .default, handler: { _ in didReblog(true) }))
-        alertController.addAction(UIAlertAction(title: "Boost with Comment", style: .default, handler: { _ in didReblog(true) }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Boost", style: .default, handler: { [weak self] _ in
+            self?.service.setReblog(reblog, status: status)
+            didReblog(true)
+        }))
+        alertController.addAction(UIAlertAction(title: "Boost with Comment", style: .default, handler: { _ in didReblog(false) }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            didReblog(false)
+        }))
         present(alertController, animated: true, completion: nil)
     }
 

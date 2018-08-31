@@ -4,7 +4,7 @@ class StatusActionView: ContainerView {
 
     private let stackView = StackView()
     private let replyButton = StatusActionButton(image: #imageLiteral(resourceName: "Reply"))
-    private let reblogButton = StatusActionButton(image: #imageLiteral(resourceName: "Reblog"), selectedImage: #imageLiteral(resourceName: "Reblog Selected"))
+    private let reblogButton = StatusActionButton(image: #imageLiteral(resourceName: "Reblog"), selectedImage: #imageLiteral(resourceName: "Reblog Selected"), haptics: true)
     private let favoriteButton = StatusActionButton(image: #imageLiteral(resourceName: "Favorite"), selectedImage: #imageLiteral(resourceName: "Favorite Selected"), haptics: true)
 
     var status: Status? {
@@ -75,7 +75,8 @@ class StatusActionView: ContainerView {
 
     @objc private func favorite(_ sender: StatusActionButton) {
         guard let status = status else { return }
-        delegate?.setFavorite(sender.isSelected, on: status)
+        let isFavorite = sender.isSelected
+        delegate?.setFavorite(isFavorite, on: status)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

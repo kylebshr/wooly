@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             guard let this = self else { return }
 
-            this.window.tintColor = .tintColor
             for view in this.window.subviews {
                 view.removeFromSuperview()
                 this.window.addSubview(view)

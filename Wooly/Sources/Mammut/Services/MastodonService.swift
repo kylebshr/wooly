@@ -105,4 +105,21 @@ public class MastodonService: Service {
                 self?.invalidateSession()
             }
     }
+
+    func statusResource(with ID: String) -> Resource {
+        return resource("statuses")
+            .child(ID)
+    }
+
+    func setFavorite(_ isFavorite: Bool, status: Status) {
+        _ = statusResource(with: status.id)
+            .child(isFavorite ? "favourite" : "unfavourite")
+            .request(.post)
+    }
+
+    func setReblog(_ isReblog: Bool, status: Status) {
+        _ = statusResource(with: status.id)
+            .child(isReblog ? "reblog" : "unreblog")
+            .request(.post)
+    }
 }
