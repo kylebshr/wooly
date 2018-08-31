@@ -22,7 +22,7 @@ extension String {
             if let tmp = tmp {
                 if tmp == "<br /" || tmp == "<br" {
                     pureString.append("\n")
-                } else if tmp == "</p" && scanner.scanLocation + 1 != count {
+                } else if tmp == "</p" && scanner.scanLocation + 1 != (self as NSString).length {
                     pureString.append("\n\n")
                 }
             }
