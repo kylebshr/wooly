@@ -33,12 +33,14 @@ enum Appearance {
         loggedInNavigationBar.barStyle = barStyle
         loggedInNavigationBar.barTintColor = .barColor
         loggedInNavigationBar.isTranslucent = isBarTranslucent
+        loggedInNavigationBar.tintColor = .tintColor
 
         let tabBar = UITabBar.appearance(whenContainedInInstancesOf: [MainTabViewController.self])
         tabBar.barStyle = barStyle
         tabBar.barTintColor = .barColor
         tabBar.unselectedItemTintColor = .textSecondary
         tabBar.isTranslucent = isBarTranslucent
+        tabBar.tintColor = .tintColor
 
         let scrollView = UIScrollView.appearance()
         scrollView.indicatorStyle = scrollIndicatorStyle
