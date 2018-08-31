@@ -4,7 +4,7 @@ class StatusActionView: ContainerView {
 
     private let stackView = StackView()
     private let replyButton = StatusActionButton(image: #imageLiteral(resourceName: "Reply"))
-    private let reblogButton = StatusActionButton(image: #imageLiteral(resourceName: "Reblog"), selectedImage: #imageLiteral(resourceName: "Reblog Selected"), haptics: true)
+    private let reblogButton = StatusActionButton(image: #imageLiteral(resourceName: "Reblog"), selectedImage: #imageLiteral(resourceName: "Reblog Selected"))
     private let favoriteButton = StatusActionButton(image: #imageLiteral(resourceName: "Favorite"), selectedImage: #imageLiteral(resourceName: "Favorite Selected"), haptics: true)
 
     var status: Status? {
