@@ -1,4 +1,5 @@
 import UIKit
+import SafariServices
 
 class TimelineTableViewController: TableViewController {
     var timeline: [Status] = [] {
@@ -101,7 +102,8 @@ extension TimelineTableViewController: StatusViewDelegate {
     }
 
     func didSelect(link: URL) {
-        print("Link! \(link)")
+        let viewController = SFSafariViewController.makedThemedViewController(url: link)
+        present(viewController, animated: true, completion: nil)
     }
 
     func setFavorite(_ favorite: Bool, on status: Status) {
