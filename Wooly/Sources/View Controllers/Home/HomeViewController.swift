@@ -35,7 +35,8 @@ class HomeViewController: ViewController {
 
         add(child: tableViewController)
 
-        let composeButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(compose))
+        let composeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "Compose.pdf"), landscapeImagePhone: #imageLiteral(resourceName: "Compose Landscape.pdf"), style: .plain,
+                                            target: self, action: #selector(compose))
         navigationItem.rightBarButtonItem = composeButton
 
         service.home.addObserver(owner: self) { [weak self] resource, event in
