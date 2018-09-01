@@ -31,6 +31,9 @@ class TextView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        clipsToBounds = false
+        textView.clipsToBounds = false
+
         addSubview(placeholderLabel)
         placeholderLabel.pinEdges([.left, .top, .right], to: self)
         placeholderLabel.isUserInteractionEnabled = false
