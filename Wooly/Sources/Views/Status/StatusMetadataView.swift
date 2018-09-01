@@ -19,7 +19,7 @@ class StatusMetadataView: UIView {
         super.init(frame: frame)
 
         addSubview(mainStack)
-        mainStack.pinEdges([.left, .top, .bottom], to: self)
+        mainStack.pinEdges([.left, .top, .bottom], to: self, insets: .init(top: 2, left: 0, bottom: 0, right: 0))
         mainStack.trailingAnchor.pin(lessThan: self.trailingAnchor)
         mainStack.spacing = .smallSpacing
         mainStack.addArrangedSubviews([nameLabel, detailStack])
@@ -29,15 +29,19 @@ class StatusMetadataView: UIView {
         detailStack.addArrangedSubviews([handleLabel, interpunctView, timestampLabel])
 
         nameLabel.font = .callout
+        nameLabel.capHeightRelativeLayout = true
         nameLabel.set(compressionResistance: .required, for: .vertical)
         nameLabel.set(compressionResistance: .defaultHigh, for: .horizontal)
 
         handleLabel.font = .detail
+        handleLabel.capHeightRelativeLayout = true
         handleLabel.set(compressionResistance: .medium, for: .horizontal)
 
         interpunctView.font = .detail
+        interpunctView.capHeightRelativeLayout = true
 
         timestampLabel.font = .detail
+        timestampLabel.capHeightRelativeLayout = true
         timestampLabel.set(compressionResistance: .required, for: .horizontal)
 
         ThemeController.shared.add(self) { [weak self] _ in
