@@ -14,6 +14,8 @@ class StatusLabel: ActiveLabel {
 
         adjustsFontForContentSizeCategory = true
 
+        font = .body
+        numberOfLines = 0
         urlMaximumLength = 56
         delegate = self
         enabledTypes = [.mention, .hashtag, .url]

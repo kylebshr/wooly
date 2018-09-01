@@ -2,11 +2,11 @@ import UIKit
 import PINRemoteImage
 
 class TimelineStatusCell: TableViewCell {
-
     private let avatarView = AvatarControl()
     private let metadataView = StatusMetadataView()
     private let actionView = StatusActionView()
     private let statusLabel = StatusLabel()
+    private let cardContainer = ContainerView()
 
     weak var delegate: StatusViewDelegate? {
         didSet {
@@ -18,39 +18,41 @@ class TimelineStatusCell: TableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        contentView.addSubview(actionView)
+        let contentStack = UIStackView(arrangedSubviews: [metadataView, statusLabel, cardContainer, actionView])
+        contentStack.setCustomSpacing(.extraSmallSpacing, after: metadataView)
+        contentStack.setCustomSpacing(.standardVerticalEdge, after: cardContainer)
+        contentStack.spacing = .standardSpacing
+        contentStack.axis = .vertical
+
         contentView.addSubview(avatarView)
-        contentView.addSubview(metadataView)
-        contentView.addSubview(statusLabel)
+        contentView.addSubview(contentStack)
 
         avatarView.pinEdges([.left, .top], to: contentView, insets: .standardEdges)
         avatarView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardVerticalEdge)
         avatarView.bottomAnchor.pin(to: contentView.bottomAnchor, constant: -.standardVerticalEdge, priority: .extraLow)
         avatarView.pinSize(to: 50)
 
-        metadataView.leadingAnchor.pin(to: avatarView.trailingAnchor, constant: .standardSpacing)
-        metadataView.topAnchor.pin(to: avatarView.topAnchor)
-        metadataView.trailingAnchor.pin(to: contentView.trailingAnchor, constant: -.rightHorizontalEdge)
-
-        statusLabel.topAnchor.pin(to: metadataView.bottomAnchor, constant: .extraSmallSpacing)
-        statusLabel.pinEdges([.left, .right], to: metadataView)
-        statusLabel.bottomAnchor.pin(to: actionView.topAnchor, constant: -.standardVerticalEdge)
-
-        actionView.pinEdges([.left, .right], to: statusLabel)
-        actionView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardSpacing)
-
-        statusLabel.numberOfLines = 0
-        statusLabel.font = .body
+        contentStack.leadingAnchor.pin(to: avatarView.trailingAnchor, constant: .standardSpacing)
+        contentStack.topAnchor.pin(to: avatarView.topAnchor)
+        contentStack.pinEdges([.right, .bottom], to: contentView, insets: .standardEdges)
     }
 
     func display(status: Status) {
         actionView.status = status
         avatarView.url = status.account.avatar
         statusLabel.status = status
-        metadataView.display(
-            name: status.account.displayName,
-            handle: "@\(status.account.username)",
-            timestamp: status.createdAt
-        )
+        metadataView.display(status: status)
+
+        if let reblog = status.reblog {
+            let reblogView = ReblogCardControl()
+            reblogView.status = reblog
+            cardContainer.child = reblogView
+            cardContainer.isHidden = false
+        } else {
+            cardContainer.child = nil
+            cardContainer.isHidden = true
+        }
+
+        statusLabel.isHidden = !cardContainer.isHidden
     }
 }

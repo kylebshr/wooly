@@ -60,10 +60,10 @@ class StatusMetadataView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func display(name: String, handle: String, timestamp: Date) {
-        nameLabel.text = name
-        handleLabel.text = handle
-        timestampLabel.text = formatter.string(from: timestamp, to: Date())
+    func display(status: Status) {
+        nameLabel.text = status.account.displayName
+        handleLabel.text = status.account.username
+        timestampLabel.text = formatter.string(from: status.createdAt, to: Date())
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
