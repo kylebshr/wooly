@@ -37,6 +37,10 @@ public class MastodonService: Service {
         return resource("timelines/home")
     }
 
+    var currentUser: Resource {
+        return resource("accounts/verify_credentials")
+    }
+
     /// Create a new service
     ///
     /// - Parameters:
@@ -52,6 +56,8 @@ public class MastodonService: Service {
 
         configureHeaders()
         configureTransformers()
+
+        SiestaLog.Category.enabled = [.network]
     }
 
     private func configureHeaders() {
@@ -90,6 +96,10 @@ public class MastodonService: Service {
         configureTransformer("timelines/*") {
             try decoder.decode([Status].self, from: $0.content)
         }
+
+        configureTransformer("accounts/*") {
+            try decoder.decode(Account.self, from: $0.content)
+        }
     }
 
     private func createAuthToken() -> Request {
@@ -104,6 +114,13 @@ public class MastodonService: Service {
                 print("--- Authentication token failed: \(error)")
                 self?.invalidateSession()
             }
+    }
+
+    func post(status: String, replyingTo inReplyToID: String?) -> Request {
+        return resource("statuses").request(.post, json: [
+            "status": status,
+            "in_reply_to_id": inReplyToID
+        ])
     }
 
     func statusResource(with ID: String) -> Resource {

@@ -132,7 +132,7 @@ extension TimelineTableViewController: StatusViewDelegate {
     }
 
     func reply(to status: Status) {
-        let compose = ComposeViewController()
+        let compose = ComposeViewController(service: service, replyingTo: status)
         present(NavigationController(rootViewController: compose), animated: true, completion: nil)
     }
 }

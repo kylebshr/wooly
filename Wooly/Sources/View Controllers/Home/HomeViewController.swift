@@ -44,12 +44,6 @@ class HomeViewController: ViewController {
         }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        service.home.loadIfNeeded()
-    }
-
     private func updateTimeline(with resource: Resource) {
         timeline = resource.typedContent() ?? []
         showLoading = resource.isLoading && timeline.isEmpty
@@ -60,7 +54,7 @@ class HomeViewController: ViewController {
     }
 
     @objc private func compose() {
-        let compose = ComposeViewController()
+        let compose = ComposeViewController(service: service)
         let navigation = NavigationController(rootViewController: compose)
         present(navigation, animated: true, completion: nil)
     }

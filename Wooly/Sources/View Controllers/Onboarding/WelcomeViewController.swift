@@ -1,6 +1,6 @@
 import UIKit
 
-private let appName = "Wooly for iOS"
+private let appName = "Wooly"
 private let website = URL(staticString: "https://wooly.social")
 private let redirectURI = "com.kylebashour.Wooly://oath2"
 

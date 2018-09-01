@@ -1,8 +1,17 @@
 import UIKit
 
+protocol TextViewDelegate: AnyObject {
+    func textViewDidChange(_ textView: TextView)
+}
+
 class TextView: UIView {
     private let textView = UITextView()
     private let placeholderLabel = Label()
+
+    var text: String {
+        get { return textView.text }
+        set { textView.text = newValue }
+    }
 
     var font: UIFont? {
         get { return textView.font }
@@ -16,6 +25,8 @@ class TextView: UIView {
         get { return placeholderLabel.text }
         set { placeholderLabel.text = newValue }
     }
+
+    weak var delegate: TextViewDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,11 +72,11 @@ class TextView: UIView {
         return textView.canResignFirstResponder
     }
 
-    override func becomeFirstResponder() -> Bool {
+    @discardableResult override func becomeFirstResponder() -> Bool {
         return textView.becomeFirstResponder()
     }
 
-    override func resignFirstResponder() -> Bool {
+    @discardableResult override func resignFirstResponder() -> Bool {
         return textView.resignFirstResponder()
     }
 
@@ -76,6 +87,7 @@ class TextView: UIView {
 
 extension TextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        delegate?.textViewDidChange(self)
         placeholderLabel.isHidden = !textView.text.isEmpty
         UIView.animate(withDuration: 0.2) {
             self.invalidateIntrinsicContentSize()
