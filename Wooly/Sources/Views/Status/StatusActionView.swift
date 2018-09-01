@@ -39,8 +39,8 @@ class StatusActionView: ContainerView {
         ThemeController.shared.add(self) { [weak self] _ in
             buttons.forEach { $0.tintColor = .textSecondary }
             self?.replyButton.selectedColor = .textSecondary
-            self?.reblogButton.selectedColor = .reblogColor
-            self?.favoriteButton.selectedColor = .favoriteColor
+            self?.reblogButton.selectedColor = .reblog
+            self?.favoriteButton.selectedColor = .favorite
         }
     }
 

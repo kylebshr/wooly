@@ -20,15 +20,15 @@ class StatusLabel: ActiveLabel {
 
         ThemeController.shared.add(self) { [weak self] _ in
             guard let this = self else { return }
-            UIView.transition(with: this, duration: 0, options: [.transitionCrossDissolve], animations: {
+            UIView.transition(with: this, duration: 0, options: .transitionCrossDissolve, animations: {
                 this.customize { label in
                     label.textColor = .text
 
-                    label.mentionColor = .tintColor
-                    label.hashtagColor = .tintColor
-                    label.URLColor = .tintColor
+                    label.mentionColor = .tint
+                    label.hashtagColor = .tint
+                    label.URLColor = .tint
 
-                    let selected = UIColor.tintColor.withAlphaComponent(0.3)
+                    let selected = UIColor.tint.withAlphaComponent(0.3)
                     label.mentionSelectedColor = selected
                     label.hashtagSelectedColor = selected
                     label.URLSelectedColor = selected

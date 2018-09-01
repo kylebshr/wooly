@@ -43,7 +43,7 @@ class StatusMetadataView: UIView {
         ThemeController.shared.add(self) { [weak self] _ in
             guard let this = self else { return }
 
-            UIView.transition(with: this, duration: 0, options: [.transitionCrossDissolve], animations: {
+            UIView.transition(with: this, duration: 0, options: .transitionCrossDissolve, animations: {
                 this.nameLabel.textColor = .text
                 this.handleLabel.textColor = .textSecondary
                 this.interpunctView.textColor = .textSecondary

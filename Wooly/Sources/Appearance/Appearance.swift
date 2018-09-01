@@ -22,6 +22,13 @@ enum Appearance {
         }
     }
 
+    static var keyboardAppearance: UIKeyboardAppearance {
+        switch ThemeController.shared.current {
+        case .dark, .black: return .dark
+        case .light: return .light
+        }
+    }
+
     static func apply() {
         let onboardingNavigationBar = UINavigationBar.appearance(whenContainedInInstancesOf: [OnboardingViewController.self])
         onboardingNavigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -31,16 +38,16 @@ enum Appearance {
 
         let loggedInNavigationBar = UINavigationBar.appearance()
         loggedInNavigationBar.barStyle = barStyle
-        loggedInNavigationBar.barTintColor = .barColor
+        loggedInNavigationBar.barTintColor = .bar
         loggedInNavigationBar.isTranslucent = isBarTranslucent
-        loggedInNavigationBar.tintColor = .tintColor
+        loggedInNavigationBar.tintColor = .tint
 
         let tabBar = UITabBar.appearance(whenContainedInInstancesOf: [MainTabViewController.self])
         tabBar.barStyle = barStyle
-        tabBar.barTintColor = .barColor
+        tabBar.barTintColor = .bar
         tabBar.unselectedItemTintColor = .textSecondary
         tabBar.isTranslucent = isBarTranslucent
-        tabBar.tintColor = .tintColor
+        tabBar.tintColor = .tint
 
         let scrollView = UIScrollView.appearance()
         scrollView.indicatorStyle = scrollIndicatorStyle
@@ -48,7 +55,13 @@ enum Appearance {
         let activityIndicator = UIActivityIndicatorView.appearance()
         activityIndicator.color = .textSecondary
 
-        HandshakeService.configuration.barTintColor = .barColor
-        HandshakeService.configuration.controlTintColor = .tintColor
+//        let textField = UITextField.appearance()
+//        textField.keyboardAppearance = keyboardAppearance
+//
+//        let textView = UITextView.appearance()
+//        textView.keyboardAppearance = keyboardAppearance
+
+        HandshakeService.configuration.barTintColor = .bar
+        HandshakeService.configuration.controlTintColor = .tint
     }
 }

@@ -5,7 +5,7 @@ extension UIColor {
         return ThemeController.shared.current
     }
 
-    static var tintColor: UIColor {
+    static var tint: UIColor {
         return UIColor(displayP3Red: 75, green: 158, blue: 235)
     }
 
@@ -25,7 +25,7 @@ extension UIColor {
         }
     }
 
-    static var barColor: UIColor {
+    static var bar: UIColor {
         switch theme {
         case .dark: return UIColor(displayP3Red: 23, green: 34, blue: 56)
         case .light: return .white
@@ -60,11 +60,11 @@ extension UIColor {
         return backgroundSecondary
     }
 
-    static var favoriteColor: UIColor {
+    static var favorite: UIColor {
         return UIColor(displayP3Red: 244, green: 180, blue: 85)
     }
 
-    static var reblogColor: UIColor {
+    static var reblog: UIColor {
         return UIColor(displayP3Red: 89, green: 187, blue: 109)
     }
 

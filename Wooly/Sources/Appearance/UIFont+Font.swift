@@ -1,6 +1,21 @@
 import UIKit
 
 extension UIFont {
+    static var title1: UIFont {
+        let font = UIFont.systemFont(ofSize: 28, weight: .regular)
+        return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
+    }
+
+    static var title2: UIFont {
+        let font = UIFont.systemFont(ofSize: 22, weight: .regular)
+        return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
+    }
+
+    static var title3: UIFont {
+        let font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
+    }
+
     static var body: UIFont {
         let font = UIFont.systemFont(ofSize: 17, weight: .regular)
         return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
