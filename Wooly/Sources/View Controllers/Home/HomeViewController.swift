@@ -5,7 +5,7 @@ class HomeViewController: ViewController {
 
     private var timeline: [Status] = [] {
         didSet {
-            tableViewController.timeline = timeline + timeline + timeline
+            tableViewController.timeline = timeline
         }
     }
 
@@ -41,7 +41,7 @@ class HomeViewController: ViewController {
 
         service.home.addObserver(owner: self) { [weak self] resource, event in
             self?.updateTimeline(with: resource)
-        }
+        }.loadIfNeeded()
     }
 
     private func updateTimeline(with resource: Resource) {
