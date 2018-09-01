@@ -120,11 +120,12 @@ extension TimelineTableViewController: StatusViewDelegate {
         }
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
         alertController.addAction(UIAlertAction(title: "Boost", style: .default, handler: { [weak self] _ in
             self?.service.setReblog(reblog, status: status)
             didReblog(true)
         }))
-        alertController.addAction(UIAlertAction(title: "Boost with Comment", style: .default, handler: { _ in didReblog(false) }))
+
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
             didReblog(false)
         }))
