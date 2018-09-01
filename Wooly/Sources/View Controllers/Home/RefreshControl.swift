@@ -23,7 +23,7 @@ class RefreshControl: UIControl {
         }
     }
 
-    private static let height: CGFloat = 60
+    private static let height: CGFloat = 50
     private let haptics = UIImpactFeedbackGenerator()
     private let indicator = UIActivityIndicatorView(style: .white)
     private let arrow = UIImageView(image: #imageLiteral(resourceName: "Refresh Arrow"))

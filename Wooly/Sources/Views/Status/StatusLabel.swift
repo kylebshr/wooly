@@ -12,7 +12,9 @@ class StatusLabel: ActiveLabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        urlMaximumLength = 50
+        adjustsFontForContentSizeCategory = true
+
+        urlMaximumLength = 56
         delegate = self
         enabledTypes = [.mention, .hashtag, .url]
 
