@@ -49,6 +49,9 @@ class TimelineStatusCell: TableViewCell {
         if status.reblog != nil {
             annotationView.display(annotation: .reblog(status.account))
             annotationView.isHidden = false
+        } else if status.inReplyToAccountId != nil {
+            annotationView.display(annotation: .reply(status.account))
+            annotationView.isHidden = false
         } else {
             annotationView.isHidden = true
         }

@@ -44,5 +44,9 @@ extension StatusAnnotationView {
         static func reblog(_ account: Account) -> Annotation {
             return Annotation(image: #imageLiteral(resourceName: "Reblog Selected Small"), text: "\(account.displayName) Boosted")
         }
+
+        static func reply(_ account: Account) -> Annotation {
+            return Annotation(image: #imageLiteral(resourceName: "Reply Selected Small"), text: "\(account.displayName) Replied")
+        }
     }
 }
