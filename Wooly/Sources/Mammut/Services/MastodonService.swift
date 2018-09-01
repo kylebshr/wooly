@@ -57,7 +57,7 @@ public class MastodonService: Service {
         configureHeaders()
         configureTransformers()
 
-        SiestaLog.Category.enabled = [.network]
+        currentUser.load()
     }
 
     private func configureHeaders() {

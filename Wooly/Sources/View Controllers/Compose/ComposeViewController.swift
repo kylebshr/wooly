@@ -65,6 +65,19 @@ class ComposeViewController: ViewController {
     private func configurePlaceholder() {
         if let status = inReplyTo {
             textView.placeholder = "Replying to \(status.account.displayName)"
+
+            var cachedAcct = ""
+            if let cachedAccount: Account = service.currentUser.typedContent() {
+                cachedAcct = cachedAccount.acct
+            }
+
+            let mentions = status.mentions
+                .map { $0.acct }
+                .filter { $0 != cachedAcct }
+                .reduce("") { $0 + "@\($1) " }
+
+            let initialText = "@\(status.account.acct) \(mentions)"
+            textView.text = initialText
         } else {
             textView.placeholder = "What’s on your mind?"
         }

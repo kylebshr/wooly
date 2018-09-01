@@ -10,7 +10,10 @@ class TextView: UIView {
 
     var text: String {
         get { return textView.text }
-        set { textView.text = newValue }
+        set {
+            textView.text = newValue
+            placeholderLabel.isHidden = !newValue.isEmpty
+        }
     }
 
     var font: UIFont? {
@@ -92,8 +95,6 @@ extension TextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         delegate?.textViewDidChange(self)
         placeholderLabel.isHidden = !textView.text.isEmpty
-        UIView.animate(withDuration: 0.2) {
-            self.invalidateIntrinsicContentSize()
-        }
+        invalidateIntrinsicContentSize()
     }
 }
