@@ -25,7 +25,7 @@ class NavigationController: UINavigationController {
         let longpressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longpress))
 
         longpressGestureRecognizer.allowableMovement = 200
-        longpressGestureRecognizer.minimumPressDuration = 0.5
+        longpressGestureRecognizer.minimumPressDuration = 1
         navigationBar.addGestureRecognizer(longpressGestureRecognizer)
 
         if let cachedInteractionController = value(forKey: "_cachedInter" + "actionController") as? NSObject {

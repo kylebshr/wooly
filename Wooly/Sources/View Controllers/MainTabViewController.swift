@@ -19,7 +19,7 @@ class MainTabViewController: UITabBarController {
         let longpressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longpress))
 
         longpressGestureRecognizer.allowableMovement = 200
-        longpressGestureRecognizer.minimumPressDuration = 0.5
+        longpressGestureRecognizer.minimumPressDuration = 1
         tabBar.addGestureRecognizer(longpressGestureRecognizer)
     }
 
