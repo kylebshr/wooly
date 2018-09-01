@@ -2,11 +2,12 @@ import UIKit
 import PINRemoteImage
 
 class TimelineStatusCell: TableViewCell {
+    private let annotationView = StatusAnnotationView()
     private let avatarView = AvatarControl()
     private let metadataView = StatusMetadataView()
     private let actionView = StatusActionView()
     private let statusLabel = StatusLabel()
-    private let cardContainer = ContainerView()
+    private let mediaContainer = ContainerView()
 
     weak var delegate: StatusViewDelegate? {
         didSet {
@@ -18,41 +19,40 @@ class TimelineStatusCell: TableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        let contentStack = UIStackView(arrangedSubviews: [metadataView, statusLabel, cardContainer, actionView])
+        let contentStack = UIStackView(arrangedSubviews: [annotationView, metadataView, statusLabel, mediaContainer, actionView])
         contentStack.setCustomSpacing(.extraSmallSpacing, after: metadataView)
-        contentStack.setCustomSpacing(.standardVerticalEdge, after: cardContainer)
+        contentStack.setCustomSpacing(.standardVerticalEdge, after: mediaContainer)
         contentStack.spacing = .standardSpacing
         contentStack.axis = .vertical
 
         contentView.addSubview(avatarView)
         contentView.addSubview(contentStack)
 
-        avatarView.pinEdges([.left, .top], to: contentView, insets: .standardEdges)
+        avatarView.pinEdges(.left, to: contentView, insets: .standardEdges)
+        avatarView.topAnchor.pin(to: metadataView.topAnchor)
         avatarView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardVerticalEdge)
         avatarView.bottomAnchor.pin(to: contentView.bottomAnchor, constant: -.standardVerticalEdge, priority: .extraLow)
         avatarView.pinSize(to: 50)
 
         contentStack.leadingAnchor.pin(to: avatarView.trailingAnchor, constant: .standardSpacing)
-        contentStack.topAnchor.pin(to: avatarView.topAnchor)
-        contentStack.pinEdges([.right, .bottom], to: contentView, insets: .standardEdges)
+        contentStack.pinEdges([.top, .right, .bottom], to: contentView, insets: .standardEdges)
     }
 
     func display(status: Status) {
-        actionView.status = status
-        avatarView.url = status.account.avatar
-        statusLabel.status = status
-        metadataView.display(status: status)
+        let mainStatus = status.reblog ?? status
 
-        if let reblog = status.reblog {
-            let reblogView = ReblogCardControl()
-            reblogView.status = reblog
-            cardContainer.child = reblogView
-            cardContainer.isHidden = false
+        actionView.status = mainStatus
+        avatarView.url = mainStatus.account.avatar
+        statusLabel.status = mainStatus
+        metadataView.display(status: mainStatus)
+
+        if status.reblog != nil {
+            annotationView.display(annotation: .reblog(status.account))
+            annotationView.isHidden = false
         } else {
-            cardContainer.child = nil
-            cardContainer.isHidden = true
+            annotationView.isHidden = true
         }
 
-        statusLabel.isHidden = !cardContainer.isHidden
+        mediaContainer.isHidden = true
     }
 }
