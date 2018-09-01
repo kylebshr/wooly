@@ -15,8 +15,16 @@ class StatusMetadataView: UIView {
     private let timestampLabel = Label()
     private let interpunctView = InterpunctView()
 
+    var status: Status? {
+        didSet { if let status = status { display(status: status) } }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
+
+        Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
+            self?.updateTimestamp()
+        }
 
         addSubview(mainStack)
         mainStack.pinEdges([.left, .top, .bottom], to: self, insets: .init(top: 2, left: 0, bottom: 0, right: 0))
@@ -60,10 +68,16 @@ class StatusMetadataView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func display(status: Status) {
+    private func display(status: Status) {
         nameLabel.text = status.account.displayName
         handleLabel.text = status.account.username
-        timestampLabel.text = formatter.string(from: status.createdAt, to: Date())
+        updateTimestamp()
+    }
+
+    func updateTimestamp() {
+        if let status = status {
+            timestampLabel.text = formatter.string(from: status.createdAt, to: Date())
+        }
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

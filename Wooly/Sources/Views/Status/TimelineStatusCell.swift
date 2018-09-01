@@ -44,7 +44,7 @@ class TimelineStatusCell: TableViewCell {
         actionView.status = mainStatus
         avatarView.url = mainStatus.account.avatar
         statusLabel.status = mainStatus
-        metadataView.display(status: mainStatus)
+        metadataView.status = mainStatus
 
         if status.reblog != nil {
             annotationView.display(annotation: .reblog(status.account))
