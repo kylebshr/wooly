@@ -1,7 +1,7 @@
 import UIKit
 
 class ComposeViewController: ViewController {
-    private let tootButton = UIBarButtonItem(title: "Toot", style: .done, target: self, action: #selector(sendToot))
+    private let tootButton = UIBarButtonItem(title: "Post", style: .done, target: self, action: #selector(sendToot))
 
     private let avatarControl = AvatarControl()
     private let textView = TextView()
