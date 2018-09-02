@@ -40,8 +40,9 @@ class HomeViewController: ViewController {
         navigationItem.rightBarButtonItem = composeButton
 
         service.home.addObserver(owner: self) { [weak self] resource, event in
+            print(event)
             self?.updateTimeline(with: resource)
-        }.loadIfNeeded()
+        }.load()
     }
 
     private func updateTimeline(with resource: Resource) {

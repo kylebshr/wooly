@@ -17,9 +17,11 @@ public class MastodonService: Service {
         set {
             if let value = newValue {
                 authKeychain.value = StorableBox(value)
+            } else if newValue != authenticationToken {
+                wipeResources()
             }
+
             invalidateConfiguration()
-            wipeResources()
         }
     }
 
