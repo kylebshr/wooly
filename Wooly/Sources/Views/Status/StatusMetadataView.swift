@@ -70,7 +70,7 @@ class StatusMetadataView: UIView {
 
     private func display(status: Status) {
         nameLabel.text = status.account.displayName
-        handleLabel.text = status.account.username
+        handleLabel.text = "@\(status.account.username)"
         updateTimestamp()
     }
 
