@@ -45,7 +45,7 @@ class OnboardingViewController: ViewController, Authenticator {
         textField.bottomAnchor.pin(to: keyboardLayoutGuide.bottomAnchor, constant: -.standardVerticalEdge,
                                    priority: .medium)
         textField.widthAnchor.pin(to: stack.widthAnchor)
-        topSpace.heightAnchor.pin(to: bottomSpace.heightAnchor, multiplier: 0.6)
+        topSpace.heightAnchor.pin(to: bottomSpace.heightAnchor)
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

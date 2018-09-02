@@ -17,8 +17,8 @@ class TextField: UITextField {
         adjustsFontForContentSizeCategory = true
         clearButtonMode = .always
 
-        layer.cornerRadius = .standardSpacing
-        layer.borderWidth = 1.5
+        layer.cornerRadius = .standardVerticalEdge
+        layer.borderWidth = 1
 
         ThemeController.shared.add(self) { [weak self] _ in
             guard let this = self else { return }
