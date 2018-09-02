@@ -18,11 +18,8 @@ class StatusAnnotationView: UIView {
         label.font = .footnote
 
         ThemeController.shared.add(self) { [weak self] _ in
-            guard let this = self else { return }
-            this.imageView.tintColor = .textSecondary
-            UIView.transition(with: this.label, duration: 0, options: .transitionCrossDissolve, animations: {
-                this.label.textColor = .textSecondary
-            }, completion: nil)
+            self?.imageView.tintColor = .textSecondary
+            self?.label.textColor = .textSecondary
         }
     }
 

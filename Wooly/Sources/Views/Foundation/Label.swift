@@ -5,6 +5,15 @@ class Label: UILabel {
         didSet { setNeedsLayout() }
     }
 
+    override var textColor: UIColor! {
+        get { return super.textColor }
+        set {
+            UIView.transition(with: self, duration: 0, options: .transitionCrossDissolve, animations: {
+                super.textColor = newValue
+            }, completion: nil)
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 

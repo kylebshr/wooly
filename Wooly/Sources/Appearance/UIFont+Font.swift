@@ -2,7 +2,7 @@ import UIKit
 
 extension UIFont {
     static var largeTitle: UIFont {
-        let font = UIFont.systemFont(ofSize: 34, weight: .medium)
+        let font = UIFont.systemFont(ofSize: 32, weight: .heavy)
         return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
     }
 

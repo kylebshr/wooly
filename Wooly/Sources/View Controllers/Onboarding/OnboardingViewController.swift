@@ -5,10 +5,9 @@ private let website = URL(staticString: "https://wooly.social")
 private let redirectURI = "com.kylebashour.Wooly://oath2"
 
 class OnboardingViewController: ViewController, Authenticator {
-    private let titleLabel = Label()
+    private let welcomeView = WelcomeIntroView()
     private let textField = TextField()
     private let exampleLabel = Label()
-    private let iconView = UIImageView(image: #imageLiteral(resourceName: "In App Icon"))
 
     private var enteredInstance: Instance?
 
@@ -19,20 +18,14 @@ class OnboardingViewController: ViewController, Authenticator {
         view.addGestureRecognizer(dismissKeyboardTap)
         view.backgroundColor = .background
 
-        textField.placeholder = "mastodon.social"
+        textField.placeholder = "Enter an instance"
         textField.enablesReturnKeyAutomatically = true
         textField.autocapitalizationType = .none
         textField.keyboardType = .URL
         textField.returnKeyType = .go
         textField.delegate = self
 
-        titleLabel.text = "Welcome to Wooly!\n🛠🚧👷‍♂️"
-        titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .center
-        titleLabel.font = .title1
-        titleLabel.textColor = .text
-
-        exampleLabel.text = "Enter an instance to get started"
+        exampleLabel.text = "ex. mastodon.socia"
         exampleLabel.numberOfLines = 0
         exampleLabel.font = .footnote
         exampleLabel.textAlignment = .center
@@ -41,9 +34,8 @@ class OnboardingViewController: ViewController, Authenticator {
         let topSpace = UIView()
         let bottomSpace = UIView()
 
-        let stack = UIStackView(arrangedSubviews: [topSpace, iconView, titleLabel, bottomSpace, textField, exampleLabel])
+        let stack = UIStackView(arrangedSubviews: [topSpace, welcomeView, bottomSpace, textField, exampleLabel])
         stack.spacing = .standardVerticalEdge
-        stack.alignment = .center
         stack.axis = .vertical
 
         view.addSubview(stack)

@@ -18,6 +18,14 @@ class RootViewController: ViewController {
         }
     }
 
+    override var childForStatusBarStyle: UIViewController? {
+        return viewController
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return viewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
+    }
+
     // MARK: - Private methods
 
     private func updateViewController() {
@@ -26,9 +34,5 @@ class RootViewController: ViewController {
         } else {
             viewController = OnboardingViewController()
         }
-    }
-
-    override var childForStatusBarStyle: UIViewController? {
-        return viewController
     }
 }
