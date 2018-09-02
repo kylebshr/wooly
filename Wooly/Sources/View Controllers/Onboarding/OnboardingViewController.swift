@@ -8,6 +8,7 @@ class OnboardingViewController: ViewController, Authenticator {
     private let welcomeView = WelcomeIntroView()
     private let textField = TextField()
     private let exampleLabel = Label()
+    private let activityIndicator = UIActivityIndicatorView()
 
     private var enteredInstance: Instance?
 
@@ -37,7 +38,6 @@ class OnboardingViewController: ViewController, Authenticator {
         let stack = UIStackView(arrangedSubviews: [topSpace, welcomeView, bottomSpace, textField, exampleLabel])
         stack.spacing = .standardHorizontalEdge
         stack.axis = .vertical
-
         view.addSubview(stack)
         stack.pinEdges([.left, .right], to: view.safeAreaLayoutGuide, insets: .standardEdges)
         stack.topAnchor.pin(to: view.safeAreaLayoutGuide.topAnchor, priority: .defaultLow)
@@ -47,6 +47,12 @@ class OnboardingViewController: ViewController, Authenticator {
                                    priority: .medium)
         textField.widthAnchor.pin(to: stack.widthAnchor)
         topSpace.heightAnchor.pin(to: bottomSpace.heightAnchor)
+
+        view.addSubview(activityIndicator)
+        activityIndicator.centerXAnchor.pin(to: welcomeView.centerXAnchor)
+        activityIndicator.topAnchor.pin(to: welcomeView.bottomAnchor, constant: .standardHorizontalEdge)
+        activityIndicator.hidesWhenStopped = false
+        activityIndicator.alpha = 0
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -54,16 +60,18 @@ class OnboardingViewController: ViewController, Authenticator {
     }
 
     private func didEnter(instance: Instance) {
+        set(isLoading: true)
+
         enteredInstance = instance
         let app = App(clientName: appName, redirectURI: redirectURI, website: website)
+
         HandshakeService.authenticate(app: app, on: instance, from: self) { success in
-            guard success else {
-                return print("Failed to register app")
-            }
+            self.set(isLoading: false)
         }
     }
 
     func didAuthenticate(client: Client, with token: String?) {
+        set(isLoading: false)
         if let token = token, let enteredInstance = enteredInstance {
             let session = Session(instance: enteredInstance, client: client, refreshToken: token)
             SessionController.shared.logIn(with: session)
@@ -74,6 +82,15 @@ class OnboardingViewController: ViewController, Authenticator {
 
     @objc private func dismissKeyboard() {
         view.endEditing(true)
+    }
+
+    private func set(isLoading: Bool) {
+        isLoading ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+        UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
+            self.activityIndicator.alpha = isLoading ? 1 : 0
+            self.textField.alpha = isLoading ? 0 : 1
+            self.exampleLabel.alpha = isLoading ? 0 : 1
+        }.startAnimation()
     }
 }
 
