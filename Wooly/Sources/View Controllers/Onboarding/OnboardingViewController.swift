@@ -25,7 +25,7 @@ class OnboardingViewController: ViewController, Authenticator {
         textField.returnKeyType = .go
         textField.delegate = self
 
-        exampleLabel.text = "ex. mastodon.socia"
+        exampleLabel.text = "ex. mastodon.social"
         exampleLabel.numberOfLines = 0
         exampleLabel.font = .footnote
         exampleLabel.textAlignment = .center
