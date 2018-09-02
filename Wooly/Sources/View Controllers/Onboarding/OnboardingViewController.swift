@@ -35,14 +35,15 @@ class OnboardingViewController: ViewController, Authenticator {
         let bottomSpace = UIView()
 
         let stack = UIStackView(arrangedSubviews: [topSpace, welcomeView, bottomSpace, textField, exampleLabel])
-        stack.spacing = .standardVerticalEdge
+        stack.spacing = .standardHorizontalEdge
         stack.axis = .vertical
 
         view.addSubview(stack)
-        stack.pinEdges([.left, .right, .top], to: view.safeAreaLayoutGuide, insets: .standardEdges)
+        stack.pinEdges([.left, .right], to: view.safeAreaLayoutGuide, insets: .standardEdges)
+        stack.topAnchor.pin(to: view.safeAreaLayoutGuide.topAnchor, priority: .defaultLow)
         stack.bottomAnchor.pin(lessThan: view.safeAreaLayoutGuide.bottomAnchor,
-                               constant: -.standardVerticalEdge)
-        textField.bottomAnchor.pin(to: keyboardLayoutGuide.bottomAnchor, constant: -.standardVerticalEdge,
+                               constant: -.standardHorizontalEdge)
+        textField.bottomAnchor.pin(to: keyboardLayoutGuide.bottomAnchor, constant: -.standardHorizontalEdge,
                                    priority: .medium)
         textField.widthAnchor.pin(to: stack.widthAnchor)
         topSpace.heightAnchor.pin(to: bottomSpace.heightAnchor)
