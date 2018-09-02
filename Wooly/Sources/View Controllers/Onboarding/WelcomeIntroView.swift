@@ -16,16 +16,19 @@ class WelcomeIntroView: ContainerView {
 
         appNameLabel.text = "Wooly"
         appNameLabel.font = .largeTitle
+        appNameLabel.capHeightRelativeLayout = true
 
         instructionsLabel.text = "Browse Mastodon from a beautiful, native and (not yet) powerful app. Sign in to any instance to get started."
         instructionsLabel.numberOfLines = 0
         instructionsLabel.font = .body
 
-        let stack = StackView(arrangedSubviews: [iconImageView, welcomeLabel, appNameLabel, instructionsLabel])
+        let stackedViews = [iconImageView, welcomeLabel, appNameLabel, instructionsLabel]
+        let stack = StackView(arrangedSubviews: stackedViews)
+        stack.setCustomSpacing(0, after: welcomeLabel)
         stack.spacing = .standardSpacing
         stack.alignment = .leading
         stack.axis = .vertical
-        stack.setCustomSpacing(0, after: welcomeLabel)
+
         addSubview(stack)
         stack.pinEdges(to: self, insets: .standardEdges)
 

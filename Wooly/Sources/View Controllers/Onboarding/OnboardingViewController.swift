@@ -35,17 +35,18 @@ class OnboardingViewController: ViewController, Authenticator {
         let topSpace = UIView()
         let bottomSpace = UIView()
 
-        let stack = UIStackView(arrangedSubviews: [topSpace, welcomeView, bottomSpace, textField, exampleLabel])
+        let stackedViews = [topSpace, welcomeView, bottomSpace, textField, exampleLabel]
+        let stack = UIStackView(arrangedSubviews: stackedViews)
         stack.spacing = .largeSpacing
         stack.axis = .vertical
+
         view.addSubview(stack)
-        stack.pinEdges([.left, .right], to: view.safeAreaLayoutGuide, insets: .standardEdges)
         stack.topAnchor.pin(to: view.safeAreaLayoutGuide.topAnchor, priority: .defaultLow)
-        stack.bottomAnchor.pin(lessThan: view.safeAreaLayoutGuide.bottomAnchor,
-                               constant: -.largeSpacing)
-        textField.bottomAnchor.pin(to: keyboardLayoutGuide.bottomAnchor, constant: -.largeSpacing,
-                                   priority: .medium)
-        textField.widthAnchor.pin(to: stack.widthAnchor)
+        stack.pinEdges([.left, .right], to: view.safeAreaLayoutGuide, insets: .standardEdges)
+        stack.bottomAnchor.pin(lessThan: view.safeAreaLayoutGuide.bottomAnchor, constant: -.largeSpacing)
+
+        textField.bottomAnchor.pin(to: keyboardLayoutGuide.bottomAnchor, constant: -.largeSpacing, priority: .medium)
+        
         topSpace.heightAnchor.pin(to: bottomSpace.heightAnchor)
 
         view.addSubview(activityIndicator)
