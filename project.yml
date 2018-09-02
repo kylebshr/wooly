@@ -22,6 +22,8 @@ targets:
       - carthage: HTMLString
       - target: ActiveLabel
     settings:
+      VERSIONING_SYSTEM: Apple Generic
+      CURRENT_PROJECT_VERSION: 1
       ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
       TARGETED_DEVICE_FAMILY: 1
   WoolyTests:
