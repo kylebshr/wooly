@@ -35,8 +35,8 @@ extension UIView {
         animation.duration = 0.06
         animation.repeatCount = 3
         animation.autoreverses = true
-        animation.fromValue = CGPoint(x: frame.midX - 10, y: frame.midY)
-        animation.toValue = CGPoint(x: frame.midX + 10, y: frame.midY)
+        animation.fromValue = CGPoint(x: frame.midX - 6, y: frame.midY)
+        animation.toValue = CGPoint(x: frame.midX + 6, y: frame.midY)
         layer.add(animation, forKey: "position")
         UINotificationFeedbackGenerator().notificationOccurred(.error)
     }
