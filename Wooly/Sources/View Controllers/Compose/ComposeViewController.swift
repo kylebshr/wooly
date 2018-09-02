@@ -36,8 +36,8 @@ class ComposeViewController: ViewController {
 
         view.addSubview(textView)
         textView.centerYAnchor.pin(to: avatarControl.centerYAnchor, priority: .medium)
-        textView.topAnchor.pin(greaterThan: view.safeAreaLayoutGuide.topAnchor, constant: .standardVerticalEdge)
-        textView.trailingAnchor.pin(to: view.trailingAnchor, constant: -.standardHorizontalEdge)
+        textView.topAnchor.pin(greaterThan: view.safeAreaLayoutGuide.topAnchor, constant: .mediumSpacing)
+        textView.trailingAnchor.pin(to: view.trailingAnchor, constant: -.largeSpacing)
         textView.leadingAnchor.pin(to: avatarControl.trailingAnchor, constant: .standardSpacing)
         textView.delegate = self
         textView.font = .title3

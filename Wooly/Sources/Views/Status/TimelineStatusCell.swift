@@ -22,7 +22,7 @@ class TimelineStatusCell: TableViewCell {
         contentStack.setCustomSpacing(.extraSmallSpacing, after: metadataView)
         contentStack.setCustomSpacing(.standardSpacing, after: annotationView)
         contentStack.setCustomSpacing(.standardSpacing, after: statusLabel)
-        contentStack.add(spacing: .standardVerticalEdge, after: actionView)
+        contentStack.add(spacing: .mediumSpacing, after: actionView)
         contentStack.axis = .vertical
 
         contentView.addSubview(avatarView)
@@ -30,8 +30,8 @@ class TimelineStatusCell: TableViewCell {
 
         avatarView.pinEdges(.left, to: contentView, insets: .standardEdges)
         avatarView.topAnchor.pin(to: metadataView.topAnchor)
-        avatarView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.standardVerticalEdge)
-        avatarView.bottomAnchor.pin(to: contentView.bottomAnchor, constant: -.standardVerticalEdge, priority: .extraLow)
+        avatarView.bottomAnchor.pin(lessThan: contentView.bottomAnchor, constant: -.mediumSpacing)
+        avatarView.bottomAnchor.pin(to: contentView.bottomAnchor, constant: -.mediumSpacing, priority: .extraLow)
         avatarView.pinSize(to: 50)
 
         contentStack.leadingAnchor.pin(to: avatarView.trailingAnchor, constant: .standardSpacing)

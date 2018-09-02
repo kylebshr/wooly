@@ -17,7 +17,7 @@ class TextField: UITextField {
         adjustsFontForContentSizeCategory = true
         clearButtonMode = .always
 
-        layer.cornerRadius = .standardVerticalEdge
+        layer.cornerRadius = .mediumSpacing
         layer.borderWidth = 1
 
         ThemeController.shared.add(self) { [weak self] _ in
@@ -42,7 +42,7 @@ class TextField: UITextField {
     }
 
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: .init(all: .standardHorizontalEdge))
+        return bounds.inset(by: .init(all: .largeSpacing))
     }
 
     private func updatePlaceholder(with placeholder: String?) {

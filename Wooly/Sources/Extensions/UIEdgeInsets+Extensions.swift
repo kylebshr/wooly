@@ -10,10 +10,10 @@ extension UIEdgeInsets {
     }
 
     static let standardEdges = UIEdgeInsets(
-        top: .standardVerticalEdge,
-        left: .standardHorizontalEdge,
-        bottom: .standardVerticalEdge,
-        right: .standardHorizontalEdge
+        top: .mediumSpacing,
+        left: .largeSpacing,
+        bottom: .mediumSpacing,
+        right: .largeSpacing
     )
 
     static let standardSpacing = UIEdgeInsets(all: .standardSpacing)
