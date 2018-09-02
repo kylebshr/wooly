@@ -1,6 +1,11 @@
 import UIKit
 
 extension UIFont {
+    static var largeTitle: UIFont {
+        let font = UIFont.systemFont(ofSize: 34, weight: .medium)
+        return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
+    }
+
     static var title1: UIFont {
         let font = UIFont.systemFont(ofSize: 28, weight: .regular)
         return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)

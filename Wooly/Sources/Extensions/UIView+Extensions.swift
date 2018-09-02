@@ -29,4 +29,15 @@ extension UIView {
         let outsetY = max(0, (minimumDimension - bounds.height) / 2)
         return bounds.insetBy(dx: -outsetX, dy: -outsetY).contains(point)
     }
+
+    func shake() {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.06
+        animation.repeatCount = 3
+        animation.autoreverses = true
+        animation.fromValue = CGPoint(x: frame.midX - 10, y: frame.midY)
+        animation.toValue = CGPoint(x: frame.midX + 10, y: frame.midY)
+        layer.add(animation, forKey: "position")
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
+    }
 }

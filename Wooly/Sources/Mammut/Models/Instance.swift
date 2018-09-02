@@ -10,6 +10,10 @@ public struct Instance: Codable, Equatable {
 
     public init(name: String) throws {
         let host = URL(string: name)?.host ?? name
+        guard host.split(separator: ".").count > 1 else {
+            throw InstanceError.invalidName
+        }
+
         var components = URLComponents()
         components.host = host
         components.scheme = "https"
