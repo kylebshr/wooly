@@ -43,6 +43,11 @@ class ViewController: UIViewController {
         view.endEditing(true)
     }
 
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        didlayoutSubviews = true
+    }
+
     @objc func dismissAnimated() {
         dismiss(animated: true, completion: nil)
     }
@@ -55,6 +60,8 @@ class ViewController: UIViewController {
 
         let isShowing = sender.name == UIResponder.keyboardWillShowNotification
         keyboardLayoutGuideBottom.constant = isShowing ? -keyboardFrame.cgRectValue.height : 0
-        view.layoutIfNeeded()
+        if didlayoutSubviews {
+            view.layoutIfNeeded()
+        }
     }
 }
