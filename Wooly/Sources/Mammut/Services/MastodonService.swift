@@ -56,8 +56,6 @@ public class MastodonService: Service {
 
         configureHeaders()
         configureTransformers()
-
-        currentUser.load()
     }
 
     private func configureHeaders() {
