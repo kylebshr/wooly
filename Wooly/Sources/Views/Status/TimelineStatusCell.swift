@@ -7,7 +7,6 @@ class TimelineStatusCell: TableViewCell {
     private let metadataView = StatusMetadataView()
     private let actionView = StatusActionView()
     private let statusLabel = StatusLabel()
-    private let mediaContainer = ContainerView()
 
     weak var delegate: StatusViewDelegate? {
         didSet {
@@ -19,10 +18,11 @@ class TimelineStatusCell: TableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        let contentStack = UIStackView(arrangedSubviews: [annotationView, metadataView, statusLabel, mediaContainer, actionView])
+        let contentStack = StackView(arrangedSubviews: [annotationView, metadataView, statusLabel, actionView])
         contentStack.setCustomSpacing(.extraSmallSpacing, after: metadataView)
-        contentStack.setCustomSpacing(.standardVerticalEdge, after: mediaContainer)
-        contentStack.spacing = .standardSpacing
+        contentStack.setCustomSpacing(.standardSpacing, after: annotationView)
+        contentStack.setCustomSpacing(.standardSpacing, after: statusLabel)
+        contentStack.add(spacing: .standardVerticalEdge, after: actionView)
         contentStack.axis = .vertical
 
         contentView.addSubview(avatarView)
@@ -35,7 +35,8 @@ class TimelineStatusCell: TableViewCell {
         avatarView.pinSize(to: 50)
 
         contentStack.leadingAnchor.pin(to: avatarView.trailingAnchor, constant: .standardSpacing)
-        contentStack.pinEdges([.top, .right, .bottom], to: contentView, insets: .standardEdges)
+        contentStack.pinEdges([.top, .right], to: contentView, insets: .standardEdges)
+        contentStack.pinEdges(.bottom, to: contentView)
     }
 
     func display(status: Status) {
@@ -55,7 +56,5 @@ class TimelineStatusCell: TableViewCell {
         } else {
             annotationView.isHidden = true
         }
-
-        mediaContainer.isHidden = true
     }
 }
