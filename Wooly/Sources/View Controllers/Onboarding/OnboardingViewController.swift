@@ -17,7 +17,6 @@ class OnboardingViewController: ViewController, Authenticator {
 
         let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(dismissKeyboardTap)
-        view.backgroundColor = .background
 
         textField.placeholder = "Enter an instance"
         textField.enablesReturnKeyAutomatically = true
@@ -30,7 +29,6 @@ class OnboardingViewController: ViewController, Authenticator {
         exampleLabel.numberOfLines = 0
         exampleLabel.font = .footnote
         exampleLabel.textAlignment = .center
-        exampleLabel.textColor = .textSecondary
 
         let topSpace = UIView()
         let bottomSpace = UIView()
@@ -54,6 +52,11 @@ class OnboardingViewController: ViewController, Authenticator {
         activityIndicator.topAnchor.pin(to: welcomeView.bottomAnchor, constant: .largeSpacing)
         activityIndicator.hidesWhenStopped = false
         activityIndicator.alpha = 0
+
+        ThemeController.shared.add(self) { [weak self] _ in
+            self?.exampleLabel.textColor = .textSecondary
+            self?.view.backgroundColor = .background
+        }
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -92,6 +95,10 @@ class OnboardingViewController: ViewController, Authenticator {
             self.textField.alpha = isLoading ? 0 : 1
             self.exampleLabel.alpha = isLoading ? 0 : 1
         }.startAnimation()
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return Appearance.statusBarStyle
     }
 }
 

@@ -29,6 +29,13 @@ enum Appearance {
         }
     }
 
+    static var statusBarStyle: UIStatusBarStyle {
+        switch ThemeController.shared.current {
+        case .dark, .black: return .lightContent
+        case .light: return .default
+        }
+    }
+
     static func apply() {
         let onboardingNavigationBar = UINavigationBar.appearance(whenContainedInInstancesOf: [OnboardingViewController.self])
         onboardingNavigationBar.setBackgroundImage(UIImage(), for: .default)

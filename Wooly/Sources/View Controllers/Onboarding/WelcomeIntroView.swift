@@ -16,7 +16,6 @@ class WelcomeIntroView: ContainerView {
 
         appNameLabel.text = "Wooly"
         appNameLabel.font = .largeTitle
-        appNameLabel.capHeightRelativeLayout = true
 
         instructionsLabel.text = "Browse Mastodon from a beautiful, native and (not yet) powerful app. Sign in to any instance to get started."
         instructionsLabel.numberOfLines = 0
