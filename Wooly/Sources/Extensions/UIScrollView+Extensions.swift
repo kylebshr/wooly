@@ -7,4 +7,13 @@ extension UIScrollView {
         offset.y += adjustedContentInset.top
         return offset
     }
+
+    func scrollToTop() {
+        let partOne = "_scrollToTop"
+        let partTwo = "IfPossible:"
+        let selector = NSSelectorFromString(partOne + partTwo)
+        if responds(to: selector) {
+            perform(selector, with: false)
+        }
+    }
 }

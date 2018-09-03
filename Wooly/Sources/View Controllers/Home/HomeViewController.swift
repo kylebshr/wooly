@@ -61,8 +61,8 @@ class HomeViewController: ViewController {
     }
 }
 
-extension HomeViewController: TabBarTableViewController {
-    var tableView: UITableView {
+extension HomeViewController: ScrollViewController {
+    var scrollView: UIScrollView {
         return tableViewController.tableView
     }
 }
