@@ -10,22 +10,10 @@ class RootViewController: ViewController {
         }
     }
 
-    override init() {
-        super.init()
-
-        let viewController = ViewController()
-        viewController.view.backgroundColor = .background
-        let navigationController = NavigationController(rootViewController: viewController)
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [navigationController]
-
-        self.viewController = tabBarController
-        add(child: tabBarController)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        showPlaceholder()
         SessionController.shared.add(self) { [weak self] _ in
             self?.updateViewController()
         }
@@ -40,6 +28,15 @@ class RootViewController: ViewController {
     }
 
     // MARK: - Private methods
+
+    private func showPlaceholder() {
+        let viewController = ViewController()
+        viewController.view.backgroundColor = .background
+        let navigationController = NavigationController(rootViewController: viewController)
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [navigationController]
+        self.viewController = tabBarController
+    }
 
     private func updateViewController() {
         if let service = SessionController.shared.makeService() {
