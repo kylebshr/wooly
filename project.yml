@@ -21,7 +21,6 @@ targets:
       - carthage: PINCache
       - carthage: PINRemoteImage
       - carthage: HTMLString
-      - target: ActiveLabel
     settings:
       VERSIONING_SYSTEM: Apple Generic
       CURRENT_PROJECT_VERSION: 1
@@ -37,8 +36,3 @@ targets:
       - target: Wooly
     settings:
       TEST_HOST: $(BUILT_PRODUCTS_DIR)/Wooly.app/Wooly
-  ActiveLabel:
-    type: framework
-    platform: iOS
-    sources:
-      - path: ActiveLabel

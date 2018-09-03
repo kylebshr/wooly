@@ -20,8 +20,9 @@ end
 
 task :set_marketing_number do
     now = Time.new
-    major = now.strftime("%y")
-    minor = now.strftime("%V")
+    major = now.strftime("%V")
+    month = Time.new(now.year, now.month)
+    minor = (now - month).to_i
     build_number = "1.#{major}.#{minor}"
     puts "Updating marketing number to #{build_number}..."
     `agvtool new-marketing-version #{build_number}`

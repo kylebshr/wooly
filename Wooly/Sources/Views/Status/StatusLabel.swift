@@ -1,4 +1,3 @@
-import ActiveLabel
 import UIKit
 
 class StatusLabel: ActiveLabel {
