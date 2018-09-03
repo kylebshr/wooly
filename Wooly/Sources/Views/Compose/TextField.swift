@@ -10,6 +10,9 @@ class TextField: UITextField {
         didSet { updatePlaceholder(with: placeholder) }
     }
 
+    private let borderLayer = CAShapeLayer()
+    private let maskLayer = CAShapeLayer()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -17,11 +20,13 @@ class TextField: UITextField {
         adjustsFontForContentSizeCategory = true
         clearButtonMode = .always
 
-        layer.cornerRadius = .mediumSpacing
-        layer.borderWidth = .pixel
+        borderLayer.lineWidth = 1
+        borderLayer.fillColor = nil
+        layer.addSublayer(borderLayer)
 
         ThemeController.shared.add(self) { [weak self] _ in
             guard let this = self else { return }
+            this.borderLayer.strokeColor = UIColor.separator.cgColor
             this.layer.borderColor = UIColor.separator.cgColor
             this.backgroundColor = .backgroundSecondary
             this.tintColor = .tint
@@ -58,5 +63,16 @@ class TextField: UITextField {
         super.attributedPlaceholder = NSAttributedString(string: placeholder,attributes: [
             .foregroundColor: placeholderColor
         ])
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        let radii = CGSize(width: .mediumSpacing, height: .mediumSpacing)
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: .allCorners, cornerRadii: radii).cgPath
+
+        borderLayer.path = path
+        maskLayer.path = path
+        layer.mask = maskLayer
     }
 }
