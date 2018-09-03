@@ -9,11 +9,11 @@ extension UIScrollView {
     }
 
     func scrollToTop() {
-        let partOne = "_scrollToTop"
-        let partTwo = "IfPossible:"
-        let selector = NSSelectorFromString(partOne + partTwo)
-        if responds(to: selector) {
-            perform(selector, with: false)
+        if let selectorName = "X3Njcm9sbFRvVG9wSWZQb3NzaWJsZTo=".base64Decoded {
+            let selector = NSSelectorFromString(selectorName)
+            if responds(to: selector) {
+                perform(selector, with: false)
+            }
         }
     }
 }

@@ -23,7 +23,9 @@ class MainTabViewController: UITabBarController {
     }
 
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if let index = tabBar.items?.index(of: item), let child = customChildren[index] as? TabBarChild {
+        if let index = tabBar.items?.index(of: item),
+            let child = customChildren[index] as? UIViewController & TabBarChild,
+            child.view.window != nil {
             child.tabBarControllerDidSelectTab(self)
         }
     }

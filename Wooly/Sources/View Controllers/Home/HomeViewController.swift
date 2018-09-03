@@ -1,7 +1,7 @@
 import UIKit
 import Siesta
 
-class HomeViewController: ViewController {
+class HomeViewController: ViewController, TabBarChild {
 
     private var timeline: [Status] = [] {
         didSet {

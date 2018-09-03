@@ -2,6 +2,16 @@ import Foundation
 import HTMLString
 
 extension String {
+
+    var base64Decoded: String? {
+        if let decodedData = Data(base64Encoded: self),
+            let decodedString = String(data: decodedData, encoding: .utf8) {
+            return decodedString
+        } else {
+            return nil
+        }
+    }
+
     func removingHTML() -> String {
         let scanner = Scanner(string: self)
         scanner.charactersToBeSkipped = nil
