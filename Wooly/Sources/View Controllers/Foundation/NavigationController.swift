@@ -24,8 +24,10 @@ class NavigationController: UINavigationController {
 
         navigationBar.addGestureRecognizer(UILongPressGestureRecognizer.makeThemeChangingGesture())
 
-        if let cachedInteractionController = value(forKey: "_cachedInter" + "actionController") as? NSObject {
-            let selector = Selector("handleNaviga" + "tionTransition:")
+        if let controllerSelector = "X2NhY2hlZEludGVyYWN0aW9uQ29udHJvbGxlcg==".base64Decoded,
+            let cachedInteractionController = value(forKey: controllerSelector) as? NSObject,
+            let handleTransitionSelection = "aGFuZGxlTmF2aWdhdGlvblRyYW5zaXRpb246".base64Decoded {
+            let selector = Selector(handleTransitionSelection)
             if cachedInteractionController.responds(to: selector) {
                 fullScreenPanGestureRecognizer.addTarget(cachedInteractionController, action: selector)
                 view.addGestureRecognizer(fullScreenPanGestureRecognizer)
