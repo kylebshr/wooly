@@ -15,12 +15,7 @@ class MainTabViewController: UITabBarController {
         super.init(nibName: nil, bundle: nil)
 
         viewControllers = customChildren.map { NavigationController(rootViewController: $0) }
-
-        let longpressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longpress))
-
-        longpressGestureRecognizer.allowableMovement = 200
-        longpressGestureRecognizer.minimumPressDuration = 1
-        tabBar.addGestureRecognizer(longpressGestureRecognizer)
+        tabBar.addGestureRecognizer(UILongPressGestureRecognizer.makeThemeChangingGesture())
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -32,11 +27,4 @@ class MainTabViewController: UITabBarController {
             child.tabBarControllerDidSelectTab(self)
         }
     }
-
-    @objc private func longpress(_ gesture: UILongPressGestureRecognizer) {
-        if case .began = gesture.state {
-            ThemeController.shared.toggleTheme()
-        }
-    }
-
 }

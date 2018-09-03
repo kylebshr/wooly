@@ -22,11 +22,7 @@ class NavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let longpressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longpress))
-
-        longpressGestureRecognizer.allowableMovement = 200
-        longpressGestureRecognizer.minimumPressDuration = 1
-        navigationBar.addGestureRecognizer(longpressGestureRecognizer)
+        navigationBar.addGestureRecognizer(UILongPressGestureRecognizer.makeThemeChangingGesture())
 
         if let cachedInteractionController = value(forKey: "_cachedInter" + "actionController") as? NSObject {
             let selector = Selector("handleNaviga" + "tionTransition:")
@@ -34,12 +30,6 @@ class NavigationController: UINavigationController {
                 fullScreenPanGestureRecognizer.addTarget(cachedInteractionController, action: selector)
                 view.addGestureRecognizer(fullScreenPanGestureRecognizer)
             }
-        }
-    }
-
-    @objc private func longpress(_ gesture: UILongPressGestureRecognizer) {
-        if case .began = gesture.state {
-            ThemeController.shared.toggleTheme()
         }
     }
 }
