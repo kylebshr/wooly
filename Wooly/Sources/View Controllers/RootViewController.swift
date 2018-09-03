@@ -13,6 +13,8 @@ class RootViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
+
         SessionController.shared.add(self) { [weak self] _ in
             self?.updateViewController()
         }
