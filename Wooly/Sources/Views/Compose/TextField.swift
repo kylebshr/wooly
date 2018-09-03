@@ -18,7 +18,7 @@ class TextField: UITextField {
         clearButtonMode = .always
 
         layer.cornerRadius = .mediumSpacing
-        layer.borderWidth = 1
+        layer.borderWidth = .pixel
 
         ThemeController.shared.add(self) { [weak self] _ in
             guard let this = self else { return }
@@ -42,7 +42,7 @@ class TextField: UITextField {
     }
 
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: .init(all: .largeSpacing))
+        return bounds.inset(by: .standardEdges)
     }
 
     private func updatePlaceholder(with placeholder: String?) {

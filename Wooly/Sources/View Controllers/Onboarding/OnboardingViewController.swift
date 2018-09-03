@@ -59,6 +59,11 @@ class OnboardingViewController: ViewController, Authenticator {
         }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        exampleLabel.text = "ex. \(BeautifulWords.instance())"
+    }
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
