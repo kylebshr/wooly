@@ -29,9 +29,9 @@ end
 
 task :set_build_number do
     now = Time.new
-    today = Time.new(now.year, now.month, now.day)
+    today = Time.new(now.year, now.month, now.day, now.hour)
     sec_elapsed = (now - today).to_i
-    build_number = "#{now.year}.#{now.month}.#{now.day}.#{sec_elapsed}"
+    build_number = "#{now.year}.#{now.month}.#{now.day}.#{now.hour}.#{sec_elapsed}"
     puts "Updating build number to #{build_number}..."
     `agvtool new-version #{build_number}`
 end
