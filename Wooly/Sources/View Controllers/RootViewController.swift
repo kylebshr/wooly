@@ -10,10 +10,21 @@ class RootViewController: ViewController {
         }
     }
 
+    override init() {
+        super.init()
+
+        let viewController = ViewController()
+        viewController.view.backgroundColor = .background
+        let navigationController = NavigationController(rootViewController: viewController)
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [navigationController]
+
+        self.viewController = tabBarController
+        add(child: tabBarController)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        viewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
 
         SessionController.shared.add(self) { [weak self] _ in
             self?.updateViewController()

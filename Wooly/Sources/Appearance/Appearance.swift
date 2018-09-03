@@ -49,7 +49,7 @@ enum Appearance {
         loggedInNavigationBar.isTranslucent = isBarTranslucent
         loggedInNavigationBar.tintColor = .tint
 
-        let tabBar = UITabBar.appearance(whenContainedInInstancesOf: [MainTabViewController.self])
+        let tabBar = UITabBar.appearance()
         tabBar.barStyle = barStyle
         tabBar.barTintColor = .bar
         tabBar.unselectedItemTintColor = .textSecondary
