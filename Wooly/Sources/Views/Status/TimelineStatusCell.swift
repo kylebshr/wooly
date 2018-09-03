@@ -19,8 +19,8 @@ class TimelineStatusCell: TableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         let contentStack = StackView(arrangedSubviews: [annotationView, metadataView, statusLabel, actionView])
+        contentStack.setCustomSpacing(.smallSpacing, after: annotationView)
         contentStack.setCustomSpacing(.extraSmallSpacing, after: metadataView)
-        contentStack.setCustomSpacing(.standardSpacing, after: annotationView)
         contentStack.setCustomSpacing(.standardSpacing, after: statusLabel)
         contentStack.add(spacing: .mediumSpacing, after: actionView)
         contentStack.axis = .vertical

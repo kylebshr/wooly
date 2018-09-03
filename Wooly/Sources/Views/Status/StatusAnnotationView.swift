@@ -1,6 +1,6 @@
 import UIKit
 
-class StatusAnnotationView: UIView {
+class StatusAnnotationView: ContainerView {
     private let imageView = UIImageView()
     private let label = Label()
 
@@ -11,8 +11,7 @@ class StatusAnnotationView: UIView {
         addSubview(stack)
         stack.pinEdges([.top, .right, .bottom], to: self)
         stack.spacing = .standardSpacing
-
-        imageView.setHuggingAndCompression(to: .required)
+        stack.alignment = .center
 
         label.leadingAnchor.pin(to: leadingAnchor)
         label.font = .footnote

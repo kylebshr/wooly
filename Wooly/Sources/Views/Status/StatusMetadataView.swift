@@ -7,7 +7,7 @@ private let formatter: DateComponentsFormatter = {
     return formatter
 }()
 
-class StatusMetadataView: UIView {
+class StatusMetadataView: ContainerView {
     private let mainStack = StackView()
     private let detailStack = StackView()
     private let nameLabel = Label()
