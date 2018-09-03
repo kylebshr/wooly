@@ -2,6 +2,7 @@ name: Wooly
 options:
   bundleIdPrefix: com.kylebashour
 settings:
+  CODE_SIGN_IDENTITY: iPhone Developer
   DEVELOPMENT_TEAM: ZEAD23GG77
   IPHONEOS_DEPLOYMENT_TARGET: 11.3
   SWIFT_VERSION: 4.2
