@@ -1,8 +1,5 @@
 task default: %w[carthage generate]
 
-task :set_version => [:set_marketing_number, :set_build_number] do
-end
-
 task :generate do
     puts 'Generating project...'
     `xcodegen`
@@ -18,21 +15,14 @@ task :'carthage_update' do
     `carthage update --platform iOS --cache-builds`
 end
 
-task :set_marketing_number do
-    now = Time.new
-    major = now.strftime("%y")
-    year = Time.new(now.year)
-    minor = (now - year).to_i
-    build_number = "1.0.#{major}#{minor}"
-    puts "Updating marketing number to #{build_number}..."
-    `agvtool new-marketing-version #{build_number}`
+task :set_marketing_number, :marketing_number do |t, args|
+    marketing_number = args[:marketing_number]
+    puts "Updating marketing number to #{marketing_number}..."
+    `agvtool new-marketing-version #{marketing_number}`
 end
 
-task :set_build_number do
-    now = Time.new
-    today = Time.new(now.year, now.month, now.day, now.hour)
-    sec_elapsed = (now - today).to_i
-    build_number = "#{now.year}.#{now.month}.#{now.day}.#{now.hour}.#{sec_elapsed}"
+task :set_build_number, :build_number do |t, args|
+    build_number = args[:build_number]
     puts "Updating build number to #{build_number}..."
     `agvtool new-version #{build_number}`
 end
