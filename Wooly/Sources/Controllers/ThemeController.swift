@@ -51,8 +51,10 @@ class ThemeController: Observable<Theme> {
         let base = UserDefaults.standard.themeSettings.base
         UserDefaults.standard.themeSettings.base = ThemeSettings.Base(rawValue: (base.rawValue + 1) % 2)!
 
-        UIView.animate(withDuration: 0.4) {
+        guard let window = UIApplication.shared.delegate?.window as? UIWindow else { return }
+
+        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
             self.current = UserDefaults.standard.themeSettings.theme
-        }
+        }, completion: nil)
     }
 }

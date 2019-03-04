@@ -5,25 +5,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Properties
 
-    private let window = UIWindow()
-    
+    var window: UIWindow?
+
     // MARK: - UIApplicationDelegate
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        ThemeController.shared.add(self) { [weak self] _ in
+        let window = UIWindow()
+
+        ThemeController.shared.add(self) { [weak window] _ in
             Appearance.apply()
 
-            guard let this = self else { return }
+            guard let window = window else { return }
 
-            for view in this.window.subviews {
+            for view in window.subviews {
                 view.removeFromSuperview()
-                this.window.addSubview(view)
+                window.addSubview(view)
             }
         }
 
         window.rootViewController = RootViewController()
         window.makeKeyAndVisible()
+        self.window = window
         
         return true
     }
